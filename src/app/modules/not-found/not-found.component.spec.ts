@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 
-import { NotFoundComponent } from '@app/shared/components/not-found/not-found.component';
+import { NotFoundComponent } from './not-found.component';
 
 describe('NotFoundComponent', () => {
   let component: NotFoundComponent;
