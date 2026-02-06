@@ -5,8 +5,6 @@
 # Compiled output
 /dist
 /tmp
-/out-tsc
-/bazel-out
 
 # Node
 /node_modules
@@ -22,22 +20,10 @@ yarn-error.log
 .settings/
 *.sublime-workspace
 
-# Visual Studio Code
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.history/*
-
 # Miscellaneous
 /.angular/cache
-.sass-cache/
-/connect.lock
 /coverage
-/libpeerconnection.log
 testem.log
-/typings
 
 # System files
 .DS_Store

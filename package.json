@@ -1,21 +1,40 @@
 {
   "name": "rahul-angular-project",
+  "type": "module",
   "version": "0.0.0",
+  "engines": {
+    "node": "^20.20.0"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint && npm run lint:styles",
-    "lint:styles": "stylelint \"src/**/*.scss\"",
-    "lint:styles:fix": "stylelint \"src/**/*.scss\" --fix",
-    "prepare": "husky"
+    "lint": "ng lint && stylelint \"src/**/*.scss\" --fix"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "prettier --write"],
-    "*.ts": ["eslint --fix", "prettier --write"],
-    "*.css": ["prettier --write"]
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.html": [
+      "prettier --write"
+    ],
+    "*.scss": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.json": [
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -29,6 +48,7 @@
     "@angular/platform-browser": "^17.3.0",
     "@angular/platform-browser-dynamic": "^17.3.0",
     "@angular/router": "^17.3.0",
+    "@fontsource/roboto": "^5.2.9",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
