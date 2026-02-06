@@ -19,6 +19,7 @@ describe('NotificationService', () => {
       'MatSnackBarRef',
       ['afterDismissed']
     );
+    
 
     snackBarRef.afterDismissed.and.returnValue(
       of<MatSnackBarDismiss>({ dismissedByAction: false })
