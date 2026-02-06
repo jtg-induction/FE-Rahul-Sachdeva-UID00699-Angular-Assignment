@@ -1,21 +1,34 @@
-.not-found-container {
+@use '../../../../styles/abstracts' as *;
+
+.not-found {
   height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-}
+  padding: $spacing-lg;
+  background-color: $color-background;
 
-h1 {
-  font-size: 96px;
-  margin: 0;
-}
+  &__code {
+    font-size: rem(96);
+    margin: 0;
+    color: $color-primary;
+  }
 
-h2 {
-  margin: 8px 0;
-}
+  &__title {
+    margin: $spacing-sm 0;
+    font-size: $font-size-lg;
+    color: $color-text;
+  }
 
-p {
-  margin-bottom: 24px;
+  &__description {
+    margin-bottom: $spacing-lg;
+    color: $color-muted;
+    font-size: $font-size-md;
+  }
+
+  &__action {
+    min-width: 160px;
+  }
 }

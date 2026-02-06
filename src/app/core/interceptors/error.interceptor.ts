@@ -1,9 +1,9 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { catchError, retry, throwError } from 'rxjs';
-import { ErrorLoggingService } from '../services/error-logging.service';
-import { ERROR_MESSAGES } from '../../shared/constants/messages.constants';
-import { NotificationService } from '../services/notification.service';
+import { ErrorLoggingService } from '@app/core/services/error-logging.service';
+import { ERROR_MESSAGES } from '@shared/constants/messages.constants';
+import { NotificationService } from '@app/core/services/notification.service';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const notifier = inject(NotificationService);

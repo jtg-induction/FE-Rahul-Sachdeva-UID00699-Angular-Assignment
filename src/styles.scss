@@ -3,7 +3,6 @@
 @import '@fontsource/roboto/300.css';
 @import '@fontsource/roboto/400.css';
 @import '@fontsource/roboto/500.css';
-@use '@angular/material' as mat;
 @include mat.core;
 
 $app-primary: mat.define-palette(mat.$indigo-palette);
@@ -32,6 +31,3 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

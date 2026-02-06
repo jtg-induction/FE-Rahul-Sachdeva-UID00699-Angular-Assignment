@@ -4,7 +4,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { GlobalErrorHandler } from '@core/handlers/global-error.handler';
-import { authInterceptor } from '@core/interceptors/auth.interceptor';
 import { SharedModule } from '@shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,7 +13,7 @@ import { AppComponent } from './app.component';
   imports: [BrowserModule, AppRoutingModule, SharedModule],
   providers: [
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,
