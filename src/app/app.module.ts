@@ -11,7 +11,6 @@ import { SharedModule } from '@shared/shared.module';
 import { LayoutComponent } from './core/components/layout/layout.component';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 
-
 @NgModule({
   declarations: [AppComponent, LayoutComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule],
