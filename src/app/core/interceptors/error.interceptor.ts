@@ -1,16 +1,25 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, retry, throwError } from 'rxjs';
-import { ErrorLoggingService } from '@app/core/services/error-logging.service';
+import { ErrorLoggingService } from '@core/services/error-logging.service';
+import { NotificationService } from '@core/services/notification.service';
 import { ERROR_MESSAGES } from '@shared/constants/messages.constants';
-import { NotificationService } from '@app/core/services/notification.service';
+import { catchError, throwError } from 'rxjs';
 
+/**
+ * A functional interceptor that handles HTTP-level errors.
+ *
+ * @remarks
+ * This interceptor performs:
+ * Logs technical details via {@link ErrorLoggingService}.
+ *
+ * @param req - The outgoing {@link HttpRequest} object.
+ * @param next - The next {@link HttpHandlerFn} in the interceptor chain.
+ */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const notifier = inject(NotificationService);
   const logger = inject(ErrorLoggingService);
 
   return next(req).pipe(
-    retry({ count: 3, delay: 1000 }),
     catchError((error: HttpErrorResponse) => {
       let message = ERROR_MESSAGES.GENERIC;
 
@@ -26,7 +35,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         message = error.error.message;
       }
 
-      notifier.showError(message);
+      notifier.showError(error.message ? error.message : message);
 
       logger.logHttpError(error, req.url);
 

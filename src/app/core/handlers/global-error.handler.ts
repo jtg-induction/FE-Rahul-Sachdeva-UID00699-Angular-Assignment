@@ -1,7 +1,7 @@
-import { ErrorHandler, inject, Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorLoggingService } from '@app/core/services/error-logging.service';
-import { NotificationService } from '@app/core/services/notification.service';
+import { ErrorHandler, inject, Injectable } from '@angular/core';
+import { ErrorLoggingService } from '@core/services/error-logging.service';
+import { NotificationService } from '@core/services/notification.service';
 import { ERROR_MESSAGES } from '@shared/constants/messages.constants';
 
 @Injectable()
@@ -9,6 +9,17 @@ export class GlobalErrorHandler implements ErrorHandler {
   private notifier = inject(NotificationService);
   private logger = inject(ErrorLoggingService);
 
+  /**
+   * The core method used to handle when an error occurs.
+   *
+   * @param error - The error object thrown by the application.
+   *
+   * @returns void
+   *
+   * @example
+   * triggered using:
+   * throw new Error('Something went wrong!');
+   */
   handleError(error: unknown): void {
     let message = ERROR_MESSAGES.GENERIC;
 
