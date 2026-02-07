@@ -8,14 +8,20 @@ describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
   let router: jasmine.SpyObj<Router>;
+  let authService: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
     router = jasmine.createSpyObj<Router>('Router', ['navigate']);
+    authService = jasmine.createSpyObj<AuthService>('AuthService', [
+      'isAuthenticated',
+      'logout',
+    ]);
+    authService.isAuthenticated.and.returnValue(true);
 
     await TestBed.configureTestingModule({
       declarations: [NavbarComponent],
       providers: [
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthService, useValue: authService },
         { provide: Router, useValue: router },
       ],
     }).compileComponents();
