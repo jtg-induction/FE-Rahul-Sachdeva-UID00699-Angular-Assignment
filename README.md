@@ -7,6 +7,22 @@ The project is designed to be maintainable, extensible, and team-friendly.
 
 ---
 
+# <<<<<<< Updated upstream
+
+## ✨ Features
+
+- Login/Signup as a User
+- Get Articles List
+- Search, Filter Articles
+- Read Complete Articles
+- CRUD Operations on Articles
+
+---
+
+---
+
+> > > > > > > Stashed changes
+
 ## 🛠 Tech Stack
 
 - **Frontend Framework:** Angular 17
@@ -118,5 +134,11 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 ```
 
 ```
+<<<<<<< Updated upstream
 
+```
+
+```
+=======
+>>>>>>> Stashed changes
 ```
