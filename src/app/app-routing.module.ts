@@ -5,9 +5,6 @@ import { LayoutComponent } from './core/components/layout';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 
-import { authGuard } from './core/guards/auth.guard';
-import { guestGuard } from './core/guards/guest.guard';
-
 const routes: Routes = [
   {
     path: '',

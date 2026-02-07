@@ -3,7 +3,6 @@
 
 .article-card {
   @include flex-column($spacing-sm);
-
   padding: $spacing-lg;
   border-radius: $border-radius-md;
   border: 1px solid $color-border;
@@ -12,7 +11,6 @@
 
 .article-card__meta {
   @include flex-between;
-
   font-size: $font-size-sm;
   color: $color-muted;
 }
