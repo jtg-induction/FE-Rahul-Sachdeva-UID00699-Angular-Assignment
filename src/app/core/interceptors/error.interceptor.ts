@@ -24,7 +24,25 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
+<<<<<<< HEAD
       const message = resolveErrorMessage(error);
+=======
+      let message = ERROR_MESSAGES.GENERIC;
+
+      if (error.status === 0) {
+        message = ERROR_MESSAGES.NETWORK;
+      } else if (error.status === 401) {
+        message = ERROR_MESSAGES.UNAUTHORIZED;
+      } else if (error.status === 403) {
+        message = ERROR_MESSAGES.FORBIDDEN;
+      } else if (error.status === 404) {
+        message = ERROR_MESSAGES.NOT_FOUND;
+      } else if (error.error?.message) {
+        message = error.error.message;
+      }
+
+      notifier.showError(message);
+>>>>>>> 2d1c963 (Updated TS Docs and corrected Routes, updated styles)
 
       notifier.showError(message);
 
