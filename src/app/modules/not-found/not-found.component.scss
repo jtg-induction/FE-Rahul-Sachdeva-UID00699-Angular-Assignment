@@ -3,12 +3,11 @@
 
 .not-found {
   @include flex-center;
-
-  flex-direction: column;
   min-height: 100vh;
   padding: $spacing-lg;
   background-color: $color-background;
   text-align: center;
+  flex-direction: column;
 
   &__code {
     margin: 0;
