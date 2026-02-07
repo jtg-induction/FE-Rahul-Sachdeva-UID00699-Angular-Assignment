@@ -8,8 +8,15 @@ import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { NotificationService } from '@app/core/services/notification.service';
 import { AuthService } from '@modules/auth/services/auth.service';
+import { of } from 'rxjs';
 
 import { SignupComponent } from './signup.component';
+
+class AuthServiceMock {
+  register() {
+    return of(void 0);
+  }
+}
 
 describe('SignupComponent', () => {
   let component: SignupComponent;
