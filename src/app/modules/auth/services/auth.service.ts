@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
-  AuthResponse,
   LoginRequest,
+  LoginResponse,
   RegisterRequest,
 } from '@modules/auth/models/auth.models';
 import { environment } from 'environments/environment.development';
@@ -15,14 +15,17 @@ export class AuthService {
   private readonly baseUrl = environment.baseUrl;
   private readonly http = inject(HttpClient);
 
-  login(payload: LoginRequest): Observable<AuthResponse> {
+  login(payload: LoginRequest): Observable<LoginResponse> {
     return this.http
-      .post<AuthResponse>(`/users/login`, payload)
-      .pipe(tap((res) => localStorage.setItem('token', res.token)));
+      .post<LoginResponse>(`${environment.baseUrl}/users/login`, payload)
+      .pipe(tap((res) => localStorage.setItem('token', res.data.token)));
   }
 
   register(payload: RegisterRequest): Observable<void> {
-    return this.http.post<void>(`/users/register`, payload);
+    return this.http.post<void>(
+      `${environment.baseUrl}/users/register`,
+      payload
+    );
   }
 
   logout(): void {

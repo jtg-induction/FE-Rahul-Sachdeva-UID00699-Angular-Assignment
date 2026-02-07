@@ -13,6 +13,10 @@
     margin: 0;
     font-size: rem(96px);
     color: $color-primary;
+
+    @include media-down($breakpoint-sm) {
+      font-size: rem(64);
+    }
   }
 
   &__title {

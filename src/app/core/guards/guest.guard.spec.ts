@@ -4,8 +4,8 @@ import {
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
-import { guestGuard } from '@app/core/guards/guest.guard';
-import { AuthService } from '@app/modules/auth/services/auth.service';
+import { guestGuard } from '@core/guards/guest.guard';
+import { AuthService } from '@modules/auth/services/auth.service';
 
 describe('guestGuard', () => {
   let authService: jasmine.SpyObj<AuthService>;

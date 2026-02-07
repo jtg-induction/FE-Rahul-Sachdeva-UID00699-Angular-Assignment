@@ -15,6 +15,10 @@
             placeholder="Enter username"
           />
           <mat-icon matSuffix>person</mat-icon>
+
+          <mat-error *ngIf="username?.hasError('required')">
+            Username is required
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="login-card__field">
@@ -26,20 +30,25 @@
             placeholder="Enter password"
           />
           <mat-icon matSuffix>lock</mat-icon>
+
+          <mat-error *ngIf="password?.hasError('required')">
+            Password is required
+          </mat-error>
         </mat-form-field>
 
         <button
           mat-raised-button
           color="primary"
           type="submit"
+          [disabled]="form.invalid"
           class="login-card__button"
         >
           SUBMIT
         </button>
 
-        <a class="login-card__link" routerLink="/auth/signup"
-          >Don't have an Account? Sign Up.</a
-        >
+        <a class="login-card__link" routerLink="/auth/signup">
+          Don't have an Account? Sign Up.
+        </a>
       </form>
     </mat-card>
   </section>

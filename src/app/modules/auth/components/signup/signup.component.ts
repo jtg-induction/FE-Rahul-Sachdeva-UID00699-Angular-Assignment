@@ -8,10 +8,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NotificationService } from '@app/core/services/notification.service';
-import { RegisterRequest } from '@app/modules/auth/models/auth.models';
-import { AuthService } from '@app/modules/auth/services/auth.service';
-import { SUCCESS_MESSAGES } from '@app/shared/constants/messages.constants';
+import { NotificationService } from '@core/services/notification.service';
+import { RegisterRequest } from '@modules/auth/models/auth.models';
+import { AuthService } from '@modules/auth/services/auth.service';
+import { SUCCESS_MESSAGES } from '@shared/constants/messages.constants';
 
 @Component({
   selector: 'app-signup',
@@ -44,7 +44,15 @@ export class SignupComponent {
   form: FormGroup = this.fb.group(
     {
       username: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
+      email: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]{2,}$/
+          ),
+        ],
+      ],
       password: [
         '',
         [

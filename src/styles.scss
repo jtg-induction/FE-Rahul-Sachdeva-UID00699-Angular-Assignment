@@ -32,4 +32,8 @@ body {
 .snackbar-design {
   --mdc-snackbar-container-color: #3f51b5;
   --mdc-snackbar-supporting-text-color: white;
+
+  .mdc-button__label {
+    color: white !important;
+  }
 }
