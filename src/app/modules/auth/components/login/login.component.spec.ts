@@ -1,10 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { Router } from '@angular/router';
 import { NotificationService } from '@core/services/notification.service';
 import { AuthService } from '@modules/auth/services/auth.service';
@@ -27,31 +32,32 @@ describe('LoginComponent', () => {
       ['showSuccess']
     );
 
-    authService.login.and.returnValue(of({ 
-      success: true,
-  message: "test",
-  data: {
-    user: {
-      id: 1,
-      username: "hero",
-      email: "hero@gmail.com",
-      createdAt: "temp",
-      updatedAt: "temp",
-    };
-    token: "jwt-token",
-  },
-  timestamp: "here"
-     }));
+    authService.login.and.returnValue(
+      of({
+        success: true,
+        message: 'test',
+        data: {
+          user: {
+            id: 1,
+            username: 'hero',
+            email: 'hero@gmail.com',
+            createdAt: 'temp',
+            updatedAt: 'temp',
+          },
+          token: 'jwt-token',
+        },
+        timestamp: 'here',
+      })
+    );
 
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
         MatCardModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        MatButton,
-        MatIcon,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatIconModule,
       ],
       declarations: [LoginComponent],
       providers: [
@@ -65,16 +71,33 @@ describe('LoginComponent', () => {
     component = fixture.componentInstance;
   });
 
-  it('logs in successfully and navigates to home', () => {
+  it('logs in successfully and navigates to home', fakeAsync(() => {
     component.form.setValue({
       username: 'test',
       password: '123456',
     });
 
     component.submit();
+    tick();
 
-    expect(authService.login).toHaveBeenCalled();
+    expect(authService.login).toHaveBeenCalledWith({
+      username: 'test',
+      password: '123456',
+    });
     expect(notifier.showSuccess).toHaveBeenCalled();
     expect(router.navigate).toHaveBeenCalledWith(['/']);
-  });
+  }));
+
+  it('does not submit if form is invalid', fakeAsync(() => {
+    component.form.setValue({
+      username: '',
+      password: '',
+    });
+
+    component.submit();
+    tick();
+
+    expect(authService.login).not.toHaveBeenCalled();
+    expect(notifier.showSuccess).not.toHaveBeenCalled();
+  }));
 });

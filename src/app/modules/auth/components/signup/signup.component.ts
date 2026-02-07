@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from '@core/services/notification.service';
 import { RegisterRequest } from '@modules/auth/models/auth.models';
 import { AuthService } from '@modules/auth/services/auth.service';
-import { SUCCESS_MESSAGES } from '@shared/constants/messages.constants';
+import { SUCCESS_MESSAGES } from '@shared/constants/messages';
 import {
   VALIDATION_LIMITS,
   VALIDATION_PATTERNS,

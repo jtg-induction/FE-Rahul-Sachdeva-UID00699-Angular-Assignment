@@ -27,7 +27,7 @@ describe('AuthService', () => {
 
   it('logs in and stores token', () => {
     const payload: LoginRequest = {
-      email: 'test@test.com',
+      username: 'test@test.com',
       password: '123456',
     };
 

@@ -1,12 +1,27 @@
 export interface LoginRequest {
-  email: string;
+  username: string;
   password: string;
 }
 
 export interface RegisterRequest {
-  name: string;
+  username: string;
   email: string;
   password: string;
+}
+
+export interface UserData {
+  id: string;
+  username: string;
+  email: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface RegisterResponse {
+  success: boolean;
+  message: string;
+  data: UserData;
+  timestamp: string;
 }
 
 export interface LoginResponse {

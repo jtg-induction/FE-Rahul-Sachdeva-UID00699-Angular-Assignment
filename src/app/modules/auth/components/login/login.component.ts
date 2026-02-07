@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotificationService } from '@core/services/notification.service';
 import { LoginRequest } from '@modules/auth/models/auth.models';
 import { AuthService } from '@modules/auth/services/auth.service';
-import { SUCCESS_MESSAGES } from '@shared/constants/messages.constants';
+import { SUCCESS_MESSAGES } from '@shared/constants/messages';
 import { VALIDATION_LIMITS } from '@shared/constants/validation.constants';
 import { ValidatorService } from '@shared/services/validator.service';
 import { finalize } from 'rxjs';
@@ -34,12 +34,12 @@ export class LoginComponent {
     password: ['', [Validators.required]],
   });
 
-  get username() {
-    return this.form.get('username');
+  get username(): FormControl {
+    return this.form.get('username') as FormControl;
   }
 
-  get password() {
-    return this.form.get('password');
+  get password(): FormControl {
+    return this.form.get('password') as FormControl;
   }
 
   submit(): void {
