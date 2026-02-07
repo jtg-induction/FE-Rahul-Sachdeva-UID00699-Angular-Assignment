@@ -24,6 +24,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "stylePreprocessorOptions": {
+              "includePaths": ["src"]
+            },
             "outputPath": "dist/rahul-angular-project",
             "index": "src/index.html",
             "browser": "src/main.ts",
