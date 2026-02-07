@@ -11,7 +11,7 @@ import { TestBed } from '@angular/core/testing';
 import { ERROR_MESSAGES } from '@app/shared/constants';
 import { NotificationService } from '@core/services/notification.service';
 
-import { errorInterceptor } from '@app/core/interceptors/error.interceptor';
+import { errorInterceptor } from '@core/interceptors/error.interceptor';
 
 describe('ErrorInterceptor', () => {
   let http: HttpClient;

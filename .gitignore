@@ -1,6 +1,6 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-.vscode
+.vscode/
 
 # Compiled output
 /dist
@@ -10,6 +10,8 @@
 /node_modules
 
 
+environments/
+
 # Miscellaneous
 /.angular/cache
 sass-cache/
@@ -17,3 +19,5 @@ Thumbs.db
 
 # Local Netlify folder
 .netlify
+
+environments/
