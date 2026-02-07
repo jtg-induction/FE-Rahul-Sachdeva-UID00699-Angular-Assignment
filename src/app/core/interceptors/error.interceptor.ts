@@ -7,6 +7,16 @@ import { NotificationService } from '@core/services/notification.service';
 import { ERROR_MESSAGES } from '@shared/constants/messages';
 import { catchError, EMPTY } from 'rxjs';
 
+/**
+ * A functional interceptor that handles HTTP-level errors.
+ *
+ * @remarks
+ * This interceptor performs:
+ * Logs technical details via {@link ErrorLoggingService}.
+ *
+ * @param req - The outgoing {@link HttpRequest} object.
+ * @param next - The next {@link HttpHandlerFn} in the interceptor chain.
+ */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const notifier = inject(NotificationService);
   const authService = inject(AuthService);

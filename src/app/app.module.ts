@@ -5,10 +5,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { AppRoutingModule } from '@app/app-routing.module';
 import { AppComponent } from '@app/app.component';
 import { GlobalErrorHandler } from '@core/handlers/global-error.handler';
+import { errorInterceptor } from '@core/interceptors/error.interceptor';
 import { SharedModule } from '@shared/shared.module';
 import { LayoutComponent } from './core/components/layout/layout.component';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
-import { errorInterceptor } from './core/interceptors/error.interceptor';
+
 
 @NgModule({
   declarations: [AppComponent, LayoutComponent],

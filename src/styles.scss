@@ -31,3 +31,8 @@ body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
+
+.snackbar-design {
+  --mdc-snackbar-container-color: #3f51b5;
+  --mdc-snackbar-supporting-text-color: white;
+}
