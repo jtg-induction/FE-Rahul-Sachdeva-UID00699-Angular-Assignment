@@ -6,7 +6,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { Router } from '@angular/router';
-import { NotificationService } from '@app/core/services/notification.service';
+import { NotificationService } from '@core/services/notification.service';
 import { AuthService } from '@modules/auth/services/auth.service';
 
 import { SignupComponent } from './signup.component';
