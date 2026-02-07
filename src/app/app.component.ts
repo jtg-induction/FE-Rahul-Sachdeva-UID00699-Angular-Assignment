@@ -1,6 +1,4 @@
-import { Component, inject } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,14 +6,4 @@ import { filter } from 'rxjs';
 })
 export class AppComponent {
   title = 'Rahul-Angular-Project';
-  private router = inject(Router);
-  showNavbar = true;
-
-  constructor() {
-    this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => {
-        this.showNavbar = this.router.url.startsWith('/articles');
-      });
-  }
 }

@@ -1,0 +1,54 @@
+<div class="login-page">
+  <section class="login-page__form-section">
+    <mat-card class="login-card">
+      <mat-card-header class="login-card__header">
+        <mat-card-title class="login-card__title">Login</mat-card-title>
+      </mat-card-header>
+
+      <form [formGroup]="form" (ngSubmit)="submit()" class="login-card__form">
+        <mat-form-field appearance="outline" class="login-card__field">
+          <mat-label>Username</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="username"
+            placeholder="Enter username"
+          />
+          <mat-icon matSuffix>person</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="login-card__field">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            type="password"
+            formControlName="password"
+            placeholder="Enter password"
+          />
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          type="submit"
+          class="login-card__button"
+        >
+          SUBMIT
+        </button>
+
+        <a class="login-card__link" routerLink="/auth/signup"
+          >Don't have an Account? Sign Up.</a
+        >
+      </form>
+    </mat-card>
+  </section>
+
+  <aside class="login-page__visual-section">
+    <img
+      class="login-page__image"
+      src="assets/images/welcome-back.png"
+      alt="Welcome Back"
+    />
+  </aside>
+</div>

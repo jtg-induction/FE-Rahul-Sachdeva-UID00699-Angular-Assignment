@@ -5,6 +5,9 @@ import { LayoutComponent } from './core/components/layout';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 
+import { authGuard } from './core/guards/auth.guard';
+import { guestGuard } from './core/guards/guest.guard';
+
 const routes: Routes = [
   {
     path: '',
@@ -26,6 +29,19 @@ const routes: Routes = [
     canActivate: [guestGuard],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
+  },
+  {
+    path: 'auth',
+    canActivate: [guestGuard],
+    loadChildren: () =>
+      import('./modules/auth/auth.module').then((m) => m.AuthModule),
+  },
+  { path: '', redirectTo: 'articles', pathMatch: 'full' },
+  {
+    path: 'articles',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./modules/article/article.module').then((m) => m.ArticleModule),
   },
   {
     path: '**',
