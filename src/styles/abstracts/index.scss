@@ -1,3 +1,8 @@
-@forward 'variables';
+@forward 'constants/breakpoints';
+@forward 'constants/colors';
+@forward 'constants/fonts';
+@forward 'constants/radius';
+@forward 'constants/spacing';
+@forward 'constants/z-index';
 @forward 'mixins';
 @forward 'functions';

@@ -85,6 +85,7 @@ git clone https://github.com
 cd FE-Rahul-Sachdeva-UID00699-Angular-Assignment
 
 # Use NPM Required version
+nvm install 20.20.0
 nvm use 20.20.0
 
 # Install dependencies
@@ -114,4 +115,8 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
+
+```
+
 ```

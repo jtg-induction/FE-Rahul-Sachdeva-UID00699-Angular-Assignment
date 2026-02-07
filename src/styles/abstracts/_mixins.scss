@@ -10,8 +10,34 @@
   justify-content: space-between;
 }
 
+@mixin flex-column($gap: 0) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
 @mixin truncate {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+}
+
+@mixin media-up($breakpoint) {
+  @media (min-width: $breakpoint) {
+    @content;
+  }
+}
+
+@mixin media-down($breakpoint) {
+  @media (max-width: ($breakpoint-1)) {
+    @content;
+  }
+}
+
+@mixin media-between($min, $max) {
+  @media (min-width: $min) and (max-width: ($max-1)) {
+    @content;
+  }
 }

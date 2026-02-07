@@ -6,28 +6,24 @@
     "node": "20.20.0"
   },
   "scripts": {
-    "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint && stylelint \"src/**/*.scss\" --fix",
+    "lint:ts": "ng lint --fix",
+    "lint:scss": "stylelint \"src/**/*.scss\" --fix",
+    "lint": "npm run lint:ts && npm run lint:scss",
     "lint-staged": "npx lint-staged"
   },
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "prettier --write"
-    ],
     "*.ts": [
       "eslint --fix",
       "prettier --write"
     ],
-    "*.html": [
-      "prettier --write"
-    ],
     "*.scss": [
       "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.html": [
       "prettier --write"
     ],
     "*.json": [
