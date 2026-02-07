@@ -1,9 +1,9 @@
 {
   "name": "rahul-angular-project",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "engines": {
-    "node": "^20.20.0"
+    "node": "20.20.0"
   },
   "scripts": {
     "ng": "ng",
@@ -11,7 +11,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint && stylelint \"src/**/*.scss\" --fix"
+    "lint": "ng lint && stylelint \"src/**/*.scss\" --fix",
+    "lint-staged": "npx lint-staged"
   },
   "lint-staged": {
     "*.js": [
@@ -61,7 +62,9 @@
     "angular-eslint": "21.0.1",
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.5",
+    "eslint-plugin-simple-import-sort": "^12.1.1",
     "husky": "^9.1.7",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",

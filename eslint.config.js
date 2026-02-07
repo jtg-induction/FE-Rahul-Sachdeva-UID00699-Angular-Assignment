@@ -2,12 +2,20 @@
 import eslint from '@eslint/js';
 import angular from 'angular-eslint';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import { defineConfig } from 'eslint/config';
 import tseslint from 'typescript-eslint';
 
 export default defineConfig([
   {
     files: ['**/*.ts'],
+    settings: {
+      'import/resolver': {
+        typescript: {
+          project: './tsconfig.json',
+        },
+      },
+    },
     extends: [
       eslint.configs.recommended,
       tseslint.configs.recommended,
@@ -16,7 +24,19 @@ export default defineConfig([
       eslintPluginPrettierRecommended,
     ],
     processor: angular.processInlineTemplates,
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+    },
     rules: {
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          patterns: ['..*'],
+        },
+      ],
+
       'eol-last': ['error', 'always'],
       '@angular-eslint/directive-selector': [
         'error',

@@ -8,23 +8,9 @@
 
 # Node
 /node_modules
-npm-debug.log
-yarn-error.log
 
-# IDEs and editors
-.idea/
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
 
 # Miscellaneous
 /.angular/cache
-/coverage
-testem.log
-
-# System files
-.DS_Store
+sass-cache/
 Thumbs.db
