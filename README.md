@@ -9,7 +9,11 @@ The project is designed to be maintainable, extensible, and team-friendly.
 
 ## ✨ Features
 
-- Angular 17 with NgModule architecture
+- Login/Signup as a User
+- Get Articles List
+- Search, Filter Articles
+- Read Complete Articles
+- CRUD Operations on Articles
 - Lazy-loaded feature modules
 - Authentication (Login / Register)
 - Route guards (Auth & Guest)
@@ -17,9 +21,6 @@ The project is designed to be maintainable, extensible, and team-friendly.
 - Global error handler
 - Centralized notifications using Snackbar
 - Shared reusable components (Navbar, Not Found)
-- Clean folder structure
-- Environment-based configuration
-- Ready for backend integration
 
 ---
 
@@ -27,12 +28,9 @@ The project is designed to be maintainable, extensible, and team-friendly.
 
 - **Frontend Framework:** Angular 17
 - **Language:** TypeScript
-- **UI Library:** Angular Material
-- **State Handling:** Service-based (RxJS)
-- **Routing:** Angular Router (Lazy Loading)
-- **Forms:** Reactive Forms
+- **Styling:** SCSS
 - **Testing:** Jasmine & Karma
-- **Build Tool:** Angular CLI
+- **Build System:** Angular CLI (esbuild)
 
 ---
 
@@ -84,26 +82,33 @@ src/
 
 ## 🚀 Project Setup
 
-### Prerequisites
+Follow these steps to set up and run the project locally.
 
-- Node.js (20.20.0)
-- Angular CLI (v17+)
+### 1. Prerequisites
 
-* Install Angular CLI if not installed:
+Ensure you have the following installed:
 
-> npm install -g @angular/cli
+- **Node.js:** v20.10.0+
+- **Angular CLI:** v17.0.0+
 
-- Install Dependencies
+### 2. Clone and Install
 
-> npm install
+```bash
+# Clone the repository
+git clone https://github.com
 
-- Run the Application
+# Enter the project directory
+cd FE-Rahul-Sachdeva-UID00699-Angular-Assignment
 
-  > ng serve
+# Install dependencies
+npm install
 
-- Open your browser at:
+Run the Application
 
-> http://localhost:4200
+# Start the local development server
+ng serve
+
+Development Server: http://localhost:4200.
 
 📜 Available Scripts
 
@@ -122,3 +127,4 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```
