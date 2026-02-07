@@ -3,7 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { AuthResponse, LoginRequest } from '@modules/auth/models/auth.models';
+import { LoginRequest, LoginResponse } from '@modules/auth/models/auth.models';
+import { environment } from 'environments/environment';
 
 import { AuthService } from './auth.service';
 
@@ -30,8 +31,21 @@ describe('AuthService', () => {
       password: '123456',
     };
 
-    const response: AuthResponse = {
-      token: 'jwt-token',
+    const response: LoginResponse = {
+      success: true,
+      message: 'Login successful',
+      data: {
+        user: {
+          id: 2,
+          username: 'hero',
+          email: 'hero@gmail.com',
+          createdAt: '2026-02-05 15:58:06',
+          updatedAt: '2026-02-05 15:58:06',
+        },
+        token:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiaGVybyIsImlhdCI6MTc3MDcwOTY3NCwiZXhwIjoxNzcxMzE0NDc0LCJpc3MiOiJhcnRpY2xlLXNlcnZpY2UifQ.jS64V6kfcpECCRM8OoUcCcqgE_wmzlosvWNQugYLZYI',
+      },
+      timestamp: '2026-02-10T07:47:54.823Z',
     };
 
     service.login(payload).subscribe((res) => {
@@ -39,7 +53,7 @@ describe('AuthService', () => {
       expect(localStorage.getItem('token')).toBe('jwt-token');
     });
 
-    const req = httpMock.expectOne('/users/login');
+    const req = httpMock.expectOne(`${environment.baseUrl}/users/login`);
     req.flush(response);
   });
 
