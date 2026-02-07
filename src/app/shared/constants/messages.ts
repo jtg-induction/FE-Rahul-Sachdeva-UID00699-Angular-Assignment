@@ -1,4 +1,6 @@
 export const ERROR_MESSAGES = {
+  BAD_REQUEST: 'Bad Request. Provide valid inputs',
+  GENERIC: 'Something Went Wrong. Please try Again.',
   NETWORK: 'Network error. Please check your internet.',
   VALIDATION_ISSUE: 'Validation Failed. Please Enter Valid Credentials',
   UNAUTHORIZED: 'Session Expired. Please Login Again.',
@@ -6,13 +8,11 @@ export const ERROR_MESSAGES = {
   NOT_FOUND: 'Requested Resource not Found',
   TOO_MANY_REQUESTS: 'Rate Limit Exceeded. Too Many Requests',
   ALREADY_EXISTS: 'Already Exists. Try Different Credentials',
-  GENERIC: 'Something Went Wrong. Please try Again.',
 };
 
 export const SUCCESS_MESSAGES = {
-  SAVED: 'Data saved Successfully.',
-  UPDATED: 'Data updated Successfully.',
-  DELETED: 'Data deleted Successfully.',
+  LOGIN: 'Logged in Successfully',
+  REGISTER: 'Account created successfully',
 };
 
 export const STATUS_ERROR_MAP: Record<number, string> = {
