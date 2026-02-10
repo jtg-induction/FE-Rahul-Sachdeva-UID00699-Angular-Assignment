@@ -15,7 +15,7 @@
     color: $color-primary;
 
     @include media-down($breakpoint-sm) {
-      font-size: rem(64);
+      font-size: rem(64px);
     }
   }
 
