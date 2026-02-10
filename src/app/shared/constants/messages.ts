@@ -3,7 +3,7 @@ export const ERROR_MESSAGES = {
   GENERIC: 'Something Went Wrong. Please try Again.',
   NETWORK: 'Network error. Please check your internet.',
   VALIDATION_ISSUE: 'Validation Failed. Please Enter Valid Credentials',
-  UNAUTHORIZED: 'Session Expired. Please Login Again.',
+  UNAUTHORIZED: 'Invalid User Credentials.',
   FORBIDDEN: 'You do not have permission to perform this action.',
   NOT_FOUND: 'Requested Resource not Found',
   TOO_MANY_REQUESTS: 'Rate Limit Exceeded. Too Many Requests',

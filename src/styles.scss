@@ -1,4 +1,3 @@
-@use 'styles/main';
 @use '@angular/material' as mat;
 @import '@fontsource/roboto/300.css';
 @import '@fontsource/roboto/400.css';
@@ -25,15 +24,9 @@ $app-theme: mat.define-light-theme(
 html,
 body {
   height: 100%;
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-.snackbar-design {
-  --mdc-snackbar-container-color: #3f51b5;
-  --mdc-snackbar-supporting-text-color: white;
-
-  .mdc-button__label {
-    color: white !important;
-  }
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
