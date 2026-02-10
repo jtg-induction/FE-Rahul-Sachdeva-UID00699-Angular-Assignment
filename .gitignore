@@ -1,0 +1,16 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+.vscode
+
+# Compiled output
+/dist
+/tmp
+
+# Node
+/node_modules
+
+
+# Miscellaneous
+/.angular/cache
+sass-cache/
+Thumbs.db

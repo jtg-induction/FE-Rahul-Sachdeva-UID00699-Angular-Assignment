@@ -1,0 +1,25 @@
+@use '../abstracts' as *;
+@use '../constants/' as *;
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-md;
+  color: $color-text;
+  background-color: $color-background;
+}
+
+h1 {
+  font-size: rem(32px);
+}
+
+h2 {
+  font-size: rem(24px);
+}
+
+h3 {
+  font-size: rem(20px);
+}
+
+p {
+  margin: 0 0 $spacing-md;
+}
