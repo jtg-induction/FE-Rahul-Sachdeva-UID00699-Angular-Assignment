@@ -1,4 +1,5 @@
-@use 'styles/abstracts' as *;
+@use 'abstracts' as *;
+@use 'constants' as *;
 
 .signup-page {
   display: flex;
@@ -47,7 +48,7 @@
 }
 
 .signup-card__title {
-  font-size: rem(32);
+  font-size: rem(32px);
   font-weight: 700;
   color: $color-text;
 }
