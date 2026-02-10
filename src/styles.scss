@@ -1,5 +1,5 @@
-@use 'styles/main';
 @use '@angular/material' as mat;
+@use 'styles/main';
 @import '@fontsource/roboto/300.css';
 @import '@fontsource/roboto/400.css';
 @import '@fontsource/roboto/500.css';
@@ -30,9 +30,4 @@ body {
 body {
   margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
-
-.snackbar-design {
-  --mdc-snackbar-container-color: #3f51b5;
-  --mdc-snackbar-supporting-text-color: white;
 }

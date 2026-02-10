@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSnackBarConfig } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +13,7 @@ export class NotificationService {
    * @param message - The error message or HTTP error description to display.
    */
   showError(message: string): void {
-    this.openOnce(message);
+    this.openOnce(message, true);
   }
 
   /**
@@ -22,7 +21,7 @@ export class NotificationService {
    * @param message - The success message to display.
    */
   showSuccess(message: string): void {
-    this.openOnce(message);
+    this.openOnce(message, false);
   }
 
   /**
@@ -32,11 +31,15 @@ export class NotificationService {
    * @param message - The content to be displayed in the snackbar.
    * @private
    */
-  private openOnce(message: string): void {
+  private openOnce(message: string, isError: boolean): void {
     if (this.isOpen) return;
     this.isOpen = true;
     const config = new MatSnackBarConfig();
-    config.panelClass = ['snackbar-design'];
+    if (isError) {
+      config.panelClass = ['snackbar-design-error'];
+    } else {
+      config.panelClass = ['snackbar-design-success'];
+    }
     config.duration = 5000;
     config.horizontalPosition = 'right';
     config.verticalPosition = 'bottom';

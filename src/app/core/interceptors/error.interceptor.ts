@@ -23,20 +23,31 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       let message = ERROR_MESSAGES.GENERIC;
 
-      if (error.status === 0) {
+      if (error.error && typeof error.error === 'string') {
+        message = error.error;
+      } else if (error.error && Array.isArray(error.error)) {
+        message = error.error[0];
+      } else if (error.status === 0) {
         message = ERROR_MESSAGES.NETWORK;
+      } else if (error.status === 400) {
+        message = ERROR_MESSAGES.VALIDATION_ISSUE;
       } else if (error.status === 401) {
         message = ERROR_MESSAGES.UNAUTHORIZED;
       } else if (error.status === 403) {
         message = ERROR_MESSAGES.FORBIDDEN;
       } else if (error.status === 404) {
         message = ERROR_MESSAGES.NOT_FOUND;
-      } else if (error.error?.message) {
-        message = error.error.message;
+      } else if (error.status === 409) {
+        message = ERROR_MESSAGES.ALREADY_EXISTS;
+      } else if (error.status === 429) {
+        message = ERROR_MESSAGES.TOO_MANY_REQUESTS;
+      } else if (error.status >= 500) {
+        message = ERROR_MESSAGES.GENERIC;
+      } else if (error.message) {
+        message = error.message;
       }
 
-      notifier.showError(error.message ? error.message : message);
-
+      notifier.showError(message);
       logger.logHttpError(error, req.url);
 
       return throwError(() => error);
