@@ -24,20 +24,8 @@
   -webkit-box-orient: vertical;
 }
 
-@mixin media-up($breakpoint) {
-  @media (min-width: $breakpoint) {
-    @content;
-  }
-}
-
 @mixin media-down($breakpoint) {
   @media (max-width: ($breakpoint-1)) {
-    @content;
-  }
-}
-
-@mixin media-between($min, $max) {
-  @media (min-width: $min) and (max-width: ($max-1)) {
     @content;
   }
 }
