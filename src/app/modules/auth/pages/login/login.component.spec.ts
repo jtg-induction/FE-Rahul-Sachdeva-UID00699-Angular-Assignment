@@ -27,7 +27,23 @@ describe('LoginComponent', () => {
       ['showSuccess']
     );
 
-    authService.login.and.returnValue(of({ token: 'jwt-token' }));
+    authService.login.and.returnValue(
+      of({
+        success: true,
+        message: 'test',
+        data: {
+          user: {
+            id: 1,
+            username: 'test',
+            email: 'test@test.com',
+            createdAt: 'temp',
+            updatedAt: 'temp',
+          },
+          token: 'jwt-token',
+        },
+        timestamp: 'temp',
+      })
+    );
 
     await TestBed.configureTestingModule({
       imports: [

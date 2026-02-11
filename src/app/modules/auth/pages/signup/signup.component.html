@@ -3,13 +3,14 @@
     <img
       class="signup-page__image"
       src="assets/images/welcome.jpg"
-      alt="Welcome Back"
+      alt="Welcome"
     />
   </aside>
+
   <section class="signup-page__form-section">
     <mat-card class="signup-card">
       <mat-card-header class="signup-card__header">
-        <mat-card-title class="signup-card__title">signup</mat-card-title>
+        <mat-card-title class="signup-card__title">Signup</mat-card-title>
       </mat-card-header>
 
       <form [formGroup]="form" (ngSubmit)="submit()" class="signup-card__form">
@@ -22,9 +23,24 @@
             placeholder="Enter username"
           />
           <mat-icon matSuffix>person</mat-icon>
-          <mat-error *ngIf="form.get('username')?.hasError('required')"
-            >Username is required</mat-error
+
+          <mat-error
+            *ngIf="
+              form.get('username')?.touched && form.get('username')?.errors
+            "
           >
+            <span *ngIf="form.get('username')?.hasError('required')">
+              Required
+            </span>
+            <span *ngIf="form.get('username')?.hasError('minlength')">
+              Min
+              {{ form.get('username')?.getError('minlength')?.requiredLength }}
+              chars
+            </span>
+            <span *ngIf="form.get('username')?.hasError('alphaNumeric')">
+              Alphanumeric only
+            </span>
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="signup-card__field">
@@ -33,15 +49,20 @@
             matInput
             type="text"
             formControlName="email"
-            placeholder="Enter Email"
+            placeholder="Enter email"
           />
           <mat-icon matSuffix>email</mat-icon>
-          <mat-error *ngIf="form.get('email')?.hasError('pattern')"
-            >Invalid email address</mat-error
+
+          <mat-error
+            *ngIf="form.get('email')?.touched && form.get('email')?.errors"
           >
-          <mat-error *ngIf="form.get('email')?.hasError('required')"
-            >Email is required</mat-error
-          >
+            <span *ngIf="form.get('email')?.hasError('required')">
+              Required
+            </span>
+            <span *ngIf="form.get('email')?.hasError('pattern')">
+              Invalid email
+            </span>
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="signup-card__field">
@@ -53,20 +74,18 @@
             placeholder="Enter password"
           />
           <mat-icon matSuffix>lock</mat-icon>
-          <mat-error *ngIf="form.get('password')?.hasError('required')"
-            >Password is required</mat-error
-          >
 
-          <mat-error *ngIf="form.get('password')?.hasError('minlength')">
-            Minimum 6 characters required
-          </mat-error>
           <mat-error
             *ngIf="
-              !form.get('password')?.hasError('minlength') &&
-              form.get('password')?.hasError('pattern')
+              form.get('password')?.touched && form.get('password')?.errors
             "
           >
-            Must contain at least one letter and one number
+            <span *ngIf="form.get('password')?.hasError('required')">
+              Required
+            </span>
+            <span *ngIf="form.get('password')?.hasError('pattern')">
+              min 8 chars, 2 numbers & 2 special chars
+            </span>
           </mat-error>
         </mat-form-field>
 
@@ -79,13 +98,21 @@
             placeholder="Confirm password"
           />
           <mat-icon matSuffix>lock</mat-icon>
-          <mat-error *ngIf="form.get('confirmPassword')?.hasError('required')"
-            >Confirm Password is required</mat-error
-          >
+
           <mat-error
-            *ngIf="form.get('confirmPassword')?.hasError('passwordMismatch')"
+            *ngIf="
+              form.get('confirmPassword')?.touched &&
+              form.get('confirmPassword')?.errors
+            "
           >
-            Passwords do not match
+            <span *ngIf="form.get('confirmPassword')?.hasError('required')">
+              Required
+            </span>
+            <span
+              *ngIf="form.get('confirmPassword')?.hasError('passwordMismatch')"
+            >
+              Passwords must match
+            </span>
           </mat-error>
         </mat-form-field>
 
@@ -93,14 +120,16 @@
           mat-raised-button
           color="primary"
           type="submit"
-          [disabled]="form.invalid"
+          [disabled]="form.invalid || loading"
           class="signup-card__button"
         >
-          SUBMIT
+          <ng-container *ngIf="!loading">SUBMIT</ng-container>
+          <ng-container *ngIf="loading"> LOADING </ng-container>
         </button>
-        <a class="signup-card__link" routerLink="/auth/login"
-          >Already have an Account? Login.</a
-        >
+
+        <a class="signup-card__link" routerLink="/auth/login">
+          Already have an Account? Login.
+        </a>
       </form>
     </mat-card>
   </section>

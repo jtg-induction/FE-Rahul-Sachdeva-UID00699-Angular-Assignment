@@ -6,8 +6,7 @@
       "@app/*": ["app/*"],
       "@shared/*": ["app/shared/*"],
       "@core/*": ["app/core/*"],
-      "@modules/*": ["app/modules/*"],
-      "@styles/*": ["styles/*"]
+      "@modules/*": ["app/modules/*"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

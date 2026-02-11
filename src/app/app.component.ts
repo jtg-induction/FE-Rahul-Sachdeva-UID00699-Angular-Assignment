@@ -15,7 +15,7 @@ export class AppComponent {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
       .subscribe(() => {
-        this.showNavbar = !this.router.url.startsWith('/auth');
+        this.showNavbar = this.router.url.startsWith('/articles');
       });
   }
 }

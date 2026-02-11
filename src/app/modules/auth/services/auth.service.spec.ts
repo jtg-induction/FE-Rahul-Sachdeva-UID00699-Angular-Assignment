@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { LoginRequest, LoginResponse } from '@modules/auth/models/auth.models';
-import { environment } from 'environments/environment';
+import { environment } from 'environments/environment.development';
 
 import { AuthService } from './auth.service';
 
@@ -42,14 +42,13 @@ describe('AuthService', () => {
           createdAt: '2026-02-05 15:58:06',
           updatedAt: '2026-02-05 15:58:06',
         },
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiaGVybyIsImlhdCI6MTc3MDcwOTY3NCwiZXhwIjoxNzcxMzE0NDc0LCJpc3MiOiJhcnRpY2xlLXNlcnZpY2UifQ.jS64V6kfcpECCRM8OoUcCcqgE_wmzlosvWNQugYLZYI',
+        token: 'jwt-token',
       },
       timestamp: '2026-02-10T07:47:54.823Z',
     };
 
     service.login(payload).subscribe((res) => {
-      expect(res.token).toBe('jwt-token');
+      expect(res.data.token).toBe('jwt-token');
       expect(localStorage.getItem('token')).toBe('jwt-token');
     });
 
