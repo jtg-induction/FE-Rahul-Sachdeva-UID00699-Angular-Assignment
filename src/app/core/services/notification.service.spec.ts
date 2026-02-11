@@ -5,8 +5,9 @@ import {
   MatSnackBarRef,
   SimpleSnackBar,
 } from '@angular/material/snack-bar';
-import { NotificationService } from '@core/services/notification.service';
 import { of } from 'rxjs';
+
+import { NotificationService } from './notification.service';
 
 describe('NotificationService', () => {
   let service: NotificationService;

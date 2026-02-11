@@ -1,19 +1,9 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { STATUS_ERROR_MAP } from '@app/shared/constants';
 import { NotificationService } from '@core/services/notification.service';
-import { ERROR_MESSAGES } from '@shared/constants/messages.constants';
+import { ERROR_MESSAGES } from '@shared/constants/messages';
 import { catchError, throwError } from 'rxjs';
-
-const STATUS_ERROR_MAP: Record<number, string> = {
-  0: ERROR_MESSAGES.NETWORK,
-  400: ERROR_MESSAGES.VALIDATION_ISSUE,
-  401: ERROR_MESSAGES.UNAUTHORIZED,
-  403: ERROR_MESSAGES.FORBIDDEN,
-  404: ERROR_MESSAGES.NOT_FOUND,
-  409: ERROR_MESSAGES.ALREADY_EXISTS,
-  429: ERROR_MESSAGES.TOO_MANY_REQUESTS,
-  500: ERROR_MESSAGES.GENERIC,
-};
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const notifier = inject(NotificationService);
@@ -31,14 +21,18 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 };
 
 function resolveErrorMessage(error: HttpErrorResponse): string {
-  if (typeof error.error === 'string') {
-    return error.error;
-  } else if (Array.isArray(error.error) && error.error.length > 0) {
-    return error.error.join(', ');
-  } else if (STATUS_ERROR_MAP[error.status]) {
-    return STATUS_ERROR_MAP[error.status];
-  } else if (error.message) {
-    return error.message;
+  const errorResponse = error.error;
+  if (typeof errorResponse.error === 'string') {
+    return errorResponse.error;
+  } else if (
+    Array.isArray(errorResponse.error) &&
+    errorResponse.error.length > 0
+  ) {
+    return errorResponse.error.join(', ');
+  } else if (STATUS_ERROR_MAP[errorResponse.status]) {
+    return STATUS_ERROR_MAP[errorResponse.status];
+  } else if (errorResponse.message) {
+    return errorResponse.message;
   }
 
   return ERROR_MESSAGES.GENERIC;

@@ -1,9 +1,14 @@
 import { inject, Injectable, OnDestroy } from '@angular/core';
-import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
-import { AppNotification } from '@core/models/notificaiton.model';
+import {
+  MatSnackBar,
+  MatSnackBarConfig,
+  MatSnackBarDismiss,
+} from '@angular/material/snack-bar';
+import {
+  AppNotification,
+  NotificationType,
+} from '@core/models/notificaiton.model';
 import { concatMap, Observable, Subject, takeUntil } from 'rxjs';
-
-import { DEFAULT_SNACKBAR_CONFIG } from './notification.config';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +18,12 @@ export class NotificationService implements OnDestroy {
 
   private destroy$ = new Subject<void>();
   private notificationQueue$ = new Subject<AppNotification>();
+
+  DEFAULT_SNACKBAR_CONFIG: MatSnackBarConfig = {
+    duration: 5000,
+    horizontalPosition: 'right',
+    verticalPosition: 'bottom',
+  };
 
   constructor() {
     this.notificationQueue$
@@ -30,7 +41,7 @@ export class NotificationService implements OnDestroy {
   showError(message: string): void {
     this.enqueue({
       message,
-      type: 'error',
+      type: NotificationType.Error,
     });
   }
 
@@ -41,7 +52,7 @@ export class NotificationService implements OnDestroy {
   showSuccess(message: string): void {
     this.enqueue({
       message,
-      type: 'success',
+      type: NotificationType.Success,
     });
   }
 
@@ -71,7 +82,7 @@ export class NotificationService implements OnDestroy {
         : 'snackbar-design-success';
 
     const ref = this.snackBar.open(notification.message, 'Close', {
-      ...DEFAULT_SNACKBAR_CONFIG,
+      ...this.DEFAULT_SNACKBAR_CONFIG,
       ...notification.config,
       panelClass: [panelClass],
     });

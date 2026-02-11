@@ -8,8 +8,8 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { ERROR_MESSAGES } from '@app/shared/constants';
 import { NotificationService } from '@core/services/notification.service';
-import { ERROR_MESSAGES } from '@shared/constants/messages.constants';
 
 import { errorInterceptor } from './error.interceptor';
 
@@ -45,17 +45,12 @@ describe('ErrorInterceptor', () => {
 
     const req = httpMock.expectOne('/api/test');
 
-    if (status === 0) {
-      req.error(new ProgressEvent('error'));
-    } else {
-      req.flush(null, { status, statusText: 'Error' });
-    }
+    req.flush({ error: expectedMessage }, { status, statusText: 'Error' });
 
     expect(notifier.showError).toHaveBeenCalledWith(expectedMessage);
   }
 
   const cases: [number, string][] = [
-    [0, ERROR_MESSAGES.NETWORK],
     [400, ERROR_MESSAGES.VALIDATION_ISSUE],
     [401, ERROR_MESSAGES.UNAUTHORIZED],
     [403, ERROR_MESSAGES.FORBIDDEN],

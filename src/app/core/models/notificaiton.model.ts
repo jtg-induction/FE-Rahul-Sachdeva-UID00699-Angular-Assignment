@@ -1,6 +1,9 @@
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
 
-export type NotificationType = 'success' | 'error';
+export enum NotificationType {
+  Success = 'success',
+  Error = 'error',
+}
 
 export interface AppNotification {
   message: string;
