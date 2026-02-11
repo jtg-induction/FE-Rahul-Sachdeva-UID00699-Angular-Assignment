@@ -5,6 +5,9 @@ import { NotificationService } from '@core/services/notification.service';
 import { LoginRequest } from '@modules/auth/models/auth.models';
 import { AuthService } from '@modules/auth/services/auth.service';
 import { SUCCESS_MESSAGES } from '@shared/constants/messages.constants';
+import { VALIDATION_LIMITS } from '@shared/constants/validation.constants';
+import { ValidatorService } from '@shared/services/validator.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +19,19 @@ export class LoginComponent {
   private notifier = inject(NotificationService);
   private authService = inject(AuthService);
   private router = inject(Router);
+  private validatorService = inject(ValidatorService);
+  loading = false;
 
   form = this.fb.group({
-    username: ['', Validators.required],
-    password: ['', Validators.required],
+    username: [
+      '',
+      [
+        Validators.required,
+        Validators.minLength(VALIDATION_LIMITS.USERNAME_MIN_LENGTH),
+        this.validatorService.alphaNumeric(),
+      ],
+    ],
+    password: ['', [Validators.required]],
   });
 
   get username() {
@@ -35,9 +47,14 @@ export class LoginComponent {
 
     const payload = this.form.value as LoginRequest;
 
-    this.authService.login(payload).subscribe(() => {
-      this.notifier.showSuccess(SUCCESS_MESSAGES.LOGIN);
-      this.router.navigate(['/']);
-    });
+    this.loading = true;
+
+    this.authService
+      .login(payload)
+      .pipe(finalize(() => (this.loading = false)))
+      .subscribe(() => {
+        this.notifier.showSuccess(SUCCESS_MESSAGES.LOGIN);
+        this.router.navigate(['/']);
+      });
   }
 }

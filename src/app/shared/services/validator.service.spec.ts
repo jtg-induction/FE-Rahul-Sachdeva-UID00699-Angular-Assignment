@@ -3,7 +3,7 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import {
   VALIDATION_ERRORS,
   VALIDATION_PATTERNS,
-} from '@app/shared/constants/validation';
+} from '@shared/constants/validation';
 
 @Injectable({
   providedIn: 'root',
