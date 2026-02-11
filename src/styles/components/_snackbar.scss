@@ -1,14 +1,12 @@
 .mat-mdc-snack-bar-container {
   --mdc-snackbar-container-color: #fff;
   --mdc-snackbar-supporting-text-color: white;
+  --mat-mdc-snack-bar-button-color: #fff;
 
-  /* stylelint-disable
-  selector-class-pattern */
-  &.mdc-button__label {
-    color: white !important;
+  .mdc-button__label {
+    color: white;
   }
-  /* stylelint-enable
-  selector-class-pattern */
+
   &.snackbar-design-error {
     --mdc-snackbar-container-color: red;
   }

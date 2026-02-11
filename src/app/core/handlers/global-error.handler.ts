@@ -1,13 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, inject, Injectable } from '@angular/core';
-import { ErrorLoggingService } from '@core/services/error-logging.service';
 import { NotificationService } from '@core/services/notification.service';
 import { ERROR_MESSAGES } from '@shared/constants/messages.constants';
 
 @Injectable()
 export class GlobalErrorHandler implements ErrorHandler {
   private notifier = inject(NotificationService);
-  private logger = inject(ErrorLoggingService);
 
   /**
    * The core method used to handle when an error occurs.
@@ -29,6 +27,7 @@ export class GlobalErrorHandler implements ErrorHandler {
       } else {
         message = `HTTP Error: ${error.status}`;
       }
+      console.error(message);
     } else if (error instanceof Error) {
       message = error.message;
       console.error('Global Error:', error);
@@ -37,7 +36,5 @@ export class GlobalErrorHandler implements ErrorHandler {
     }
 
     this.notifier.showError(message);
-
-    this.logger.logError(error, 'GlobalErrorHandler');
   }
 }

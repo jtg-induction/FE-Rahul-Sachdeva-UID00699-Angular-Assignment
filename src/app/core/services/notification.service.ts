@@ -1,19 +1,37 @@
-import { inject, Injectable } from '@angular/core';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { inject, Injectable, OnDestroy } from '@angular/core';
+import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
+import { AppNotification } from '@core/models/notificaiton.model';
+import { concatMap, Observable, Subject, takeUntil } from 'rxjs';
+
+import { DEFAULT_SNACKBAR_CONFIG } from './notification.config';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationService {
+export class NotificationService implements OnDestroy {
   private snackBar = inject(MatSnackBar);
-  private isOpen = false;
+
+  private destroy$ = new Subject<void>();
+  private notificationQueue$ = new Subject<AppNotification>();
+
+  constructor() {
+    this.notificationQueue$
+      .pipe(
+        concatMap((notification) => this.open(notification)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe();
+  }
 
   /**
    * Displays an error message using a snackbar notification.
    * @param message - The error message or HTTP error description to display.
    */
   showError(message: string): void {
-    this.openOnce(message, true);
+    this.enqueue({
+      message,
+      type: 'error',
+    });
   }
 
   /**
@@ -21,34 +39,48 @@ export class NotificationService {
    * @param message - The success message to display.
    */
   showSuccess(message: string): void {
-    this.openOnce(message, false);
+    this.enqueue({
+      message,
+      type: 'success',
+    });
   }
 
   /**
-   * Opens a single snackbar instance at a time to prevent UI stacking.
-   * Configures the snackbar to appear at the top-right for 5 seconds.
+   * Adds a notification to the queue for sequential display.
+   * Ensures that multiple triggers are handled gracefully without overlapping.
    *
-   * @param message - The content to be displayed in the snackbar.
+   * @param notification - The notification object containing message, type, and optional config.
    * @private
    */
-  private openOnce(message: string, isError: boolean): void {
-    if (this.isOpen) return;
-    this.isOpen = true;
-    const config = new MatSnackBarConfig();
-    if (isError) {
-      config.panelClass = ['snackbar-design-error'];
-    } else {
-      config.panelClass = ['snackbar-design-success'];
-    }
-    config.duration = 5000;
-    config.horizontalPosition = 'right';
-    config.verticalPosition = 'bottom';
+  private enqueue(notification: AppNotification): void {
+    this.notificationQueue$.next(notification);
+  }
 
-    this.snackBar
-      .open(message, 'Close', config)
-      .afterDismissed()
-      .subscribe(() => {
-        this.isOpen = false;
-      });
+  /**
+   * Triggers the MatSnackBar to display a specific notification.
+   * Maps the notification type to the appropriate global CSS panel class.
+   *
+   * @param notification - The notification data to be rendered.
+   * @returns An Observable that emits when the snackbar has been dismissed.
+   * @private
+   */
+  private open(notification: AppNotification): Observable<MatSnackBarDismiss> {
+    const panelClass =
+      notification.type === 'error'
+        ? 'snackbar-design-error'
+        : 'snackbar-design-success';
+
+    const ref = this.snackBar.open(notification.message, 'Close', {
+      ...DEFAULT_SNACKBAR_CONFIG,
+      ...notification.config,
+      panelClass: [panelClass],
+    });
+
+    return ref.afterDismissed();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

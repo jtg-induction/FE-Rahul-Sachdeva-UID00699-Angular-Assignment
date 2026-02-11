@@ -1,56 +1,45 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ErrorLoggingService } from '@core/services/error-logging.service';
 import { NotificationService } from '@core/services/notification.service';
 import { ERROR_MESSAGES } from '@shared/constants/messages.constants';
 import { catchError, throwError } from 'rxjs';
 
-/**
- * A functional interceptor that handles HTTP-level errors.
- *
- * @remarks
- * This interceptor performs:
- * Logs technical details via {@link ErrorLoggingService}.
- *
- * @param req - The outgoing {@link HttpRequest} object.
- * @param next - The next {@link HttpHandlerFn} in the interceptor chain.
- */
+const STATUS_ERROR_MAP: Record<number, string> = {
+  0: ERROR_MESSAGES.NETWORK,
+  400: ERROR_MESSAGES.VALIDATION_ISSUE,
+  401: ERROR_MESSAGES.UNAUTHORIZED,
+  403: ERROR_MESSAGES.FORBIDDEN,
+  404: ERROR_MESSAGES.NOT_FOUND,
+  409: ERROR_MESSAGES.ALREADY_EXISTS,
+  429: ERROR_MESSAGES.TOO_MANY_REQUESTS,
+  500: ERROR_MESSAGES.GENERIC,
+};
+
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const notifier = inject(NotificationService);
-  const logger = inject(ErrorLoggingService);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      let message = ERROR_MESSAGES.GENERIC;
+      const message = resolveErrorMessage(error);
 
-      if (error.error && typeof error.error === 'string') {
-        message = error.error;
-      } else if (error.error && Array.isArray(error.error)) {
-        message = error.error[0];
-      } else if (error.status === 0) {
-        message = ERROR_MESSAGES.NETWORK;
-      } else if (error.status === 400) {
-        message = ERROR_MESSAGES.VALIDATION_ISSUE;
-      } else if (error.status === 401) {
-        message = ERROR_MESSAGES.UNAUTHORIZED;
-      } else if (error.status === 403) {
-        message = ERROR_MESSAGES.FORBIDDEN;
-      } else if (error.status === 404) {
-        message = ERROR_MESSAGES.NOT_FOUND;
-      } else if (error.status === 409) {
-        message = ERROR_MESSAGES.ALREADY_EXISTS;
-      } else if (error.status === 429) {
-        message = ERROR_MESSAGES.TOO_MANY_REQUESTS;
-      } else if (error.status >= 500) {
-        message = ERROR_MESSAGES.GENERIC;
-      } else if (error.message) {
-        message = error.message;
-      }
-
+      console.log(message);
       notifier.showError(message);
-      logger.logHttpError(error, req.url);
 
       return throwError(() => error);
     })
   );
 };
+
+function resolveErrorMessage(error: HttpErrorResponse): string {
+  if (typeof error.error === 'string') {
+    return error.error;
+  } else if (Array.isArray(error.error) && error.error.length > 0) {
+    return error.error.join(', ');
+  } else if (STATUS_ERROR_MAP[error.status]) {
+    return STATUS_ERROR_MAP[error.status];
+  } else if (error.message) {
+    return error.message;
+  }
+
+  return ERROR_MESSAGES.GENERIC;
+}
