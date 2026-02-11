@@ -57,8 +57,8 @@ describe('SignupComponent', () => {
     component.form.setValue({
       username: 'rahul',
       email: 'rahul@gmail.com',
-      password: 'abcd1234',
-      confirmPassword: 'abcd1234',
+      password: 'abcd1234!@#$',
+      confirmPassword: 'abcd1234!@#$',
     });
 
     component.submit();

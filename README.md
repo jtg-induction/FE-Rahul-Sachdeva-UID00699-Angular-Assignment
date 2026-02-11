@@ -24,32 +24,49 @@ The project is designed to be maintainable, extensible, and team-friendly.
 src/
 ├── app/
 │   ├── core/
-│   │   ├── errors/
+│   │   ├── components/
 │   │   ├── guards/
+│   │   ├── handlers/
 │   │   ├── interceptors/
+│   │   ├── models/
 │   │   └── services/
 │   │
 │   ├── modules/
 │   │   ├── auth/
-│   │   │   ├── components/
+│   │   │   ├── models/
+|   |   |   |   └── auth.models
+│   │   │   ├── pages/
+|   |   |   |   |── login/
+|   |   |   |   └── signup/
 │   │   │   ├── services/
+|   |   |   |   └── auth.service
 │   │   │   ├── auth-routing.module.ts
 │   │   │   └── auth.module.ts
 │   │   │
-│   │   └── article/
-│   │       ├── pages/
-│   │       │   └── dashboard/
-│   │       ├── article-routing.module.ts
-│   │       └── article.module.ts
-│   │
+│   │   |── article/
+│   │   |   ├── models/
+|   |   |   |   └── article.models
+│   │   |   ├── services/
+|   |   |   |   └── article.service
+│   │   |   ├── components/
+|   |   |   |   └── article-card/
+│   │   |   ├── pages/
+│   │   |   │   |── dashboard/
+│   │   |   │   └── article-details/
+│   │   |   ├── article-routing.module.ts
+│   │   |   └── article.module.ts
+│   │   └── not-found/
+|   |
 │   ├── shared/
 │   │   ├── components/
-│   │   │   ├── navbar/
-│   │   │   └── not-found/
+│   │   │   └── navbar/
 │   │   ├── constants/
-│   │   ├── directives/
+│   │   │   |── messages
+│   │   │   |── validation
+│   │   │   └── index
 │   │   ├── pipes/
 │   │   ├── services/
+│   │   │   └── validator.service
 │   │   └── shared.module.ts
 │   │
 │   ├── app-routing.module.ts
@@ -59,6 +76,12 @@ src/
 ├── environments/
 ├── index.html
 ├── main.ts
+├── styles
+│   ├── abstracts/
+│   ├── base/
+│   ├── components/
+│   ├── constants/
+│   └── _main.scss
 └── styles.scss
 ```
 
