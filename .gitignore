@@ -14,5 +14,3 @@ environments/
 /.angular/cache
 sass-cache/
 Thumbs.db
-
-environments/
