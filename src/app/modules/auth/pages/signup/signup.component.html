@@ -37,6 +37,11 @@
               {{ form.get('username')?.getError('minlength')?.requiredLength }}
               chars
             </span>
+            <span *ngIf="form.get('username')?.hasError('maxlength')">
+              Max
+              {{ form.get('username')?.getError('maxlength')?.requiredLength }}
+              chars
+            </span>
             <span *ngIf="form.get('username')?.hasError('alphaNumeric')">
               Alphanumeric only
             </span>
