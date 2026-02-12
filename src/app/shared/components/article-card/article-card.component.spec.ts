@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Article } from '@modules/article/models/article.model';
 
 import { ArticleCardComponent } from './article-card.component';
@@ -30,6 +31,7 @@ describe('ArticleCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       declarations: [ArticleCardComponent, MockFormatDatePipe],
     }).compileComponents();
 

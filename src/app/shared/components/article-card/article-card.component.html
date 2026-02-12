@@ -7,10 +7,9 @@
     </span>
   </div>
 
-  <h3 class="article-card__title">
+  <h3 class="article-card__title" [routerLink]="['/articles', article.id]">
     {{ article.title }}
   </h3>
-
   <div class="article-card__content">
     <div class="article-card__text">
       <p class="article-card__description">

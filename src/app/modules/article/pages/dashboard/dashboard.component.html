@@ -1,8 +1,20 @@
 <section class="dashboard">
-  <div class="dashboard__grid">
-    <app-article-card
-      *ngFor="let article of articles"
-      [article]="article"
-    ></app-article-card>
+  <div class="dashboard__loading" *ngIf="isLoading">
+    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
   </div>
+
+  <div class="dashboard__grid" *ngIf="!isLoading">
+    <app-article-card *ngFor="let article of articles" [article]="article">
+    </app-article-card>
+  </div>
+
+  <mat-paginator
+    *ngIf="!isLoading"
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageIndex]="currentPage"
+    [pageSizeOptions]="[5, 10, 20]"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
 </section>
