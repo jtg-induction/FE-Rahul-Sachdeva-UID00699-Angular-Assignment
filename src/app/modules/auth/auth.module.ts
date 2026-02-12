@@ -6,6 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AuthRoutingModule } from '@modules/auth/auth-routing.module';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -18,6 +19,7 @@ import { SignupComponent } from './pages/signup/signup.component';
     AuthRoutingModule,
     MatCardModule,
     MatFormFieldModule,
+    MatProgressSpinnerModule,
     MatIconModule,
     MatInputModule,
     MatButtonModule,
