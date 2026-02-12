@@ -18,9 +18,12 @@ describe('SignupComponent', () => {
   let router: jasmine.SpyObj<Router>;
   let notifier: jasmine.SpyObj<NotificationService>;
   let authService: jasmine.SpyObj<AuthService>;
-  
+
   beforeEach(async () => {
-    authService = jasmine.createSpyObj<AuthService>('AuthService', ['login', 'register']);
+    authService = jasmine.createSpyObj<AuthService>('AuthService', [
+      'login',
+      'register',
+    ]);
     router = jasmine.createSpyObj<Router>('Router', ['navigate']);
     notifier = jasmine.createSpyObj<NotificationService>(
       'NotificationService',
@@ -48,15 +51,15 @@ describe('SignupComponent', () => {
     authService.register.and.returnValue(
       of({
         success: true,
-        message: "registered",
+        message: 'registered',
         data: {
-          id: "1",
-          username: "ready",
-          email: "temp@temp.com",
-          createdAt: "temp",
-          updatedAt: "temp",
+          id: '1',
+          username: 'ready',
+          email: 'temp@temp.com',
+          createdAt: 'temp',
+          updatedAt: 'temp',
         },
-        timestamp: "temp",
+        timestamp: 'temp',
       })
     );
 

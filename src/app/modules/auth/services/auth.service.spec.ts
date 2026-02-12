@@ -66,7 +66,10 @@ describe('AuthService', () => {
 
   it('returns authentication status', () => {
     expect(service.isAuthenticated()).toBeFalse();
-    localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiaGVybyIsImlhdCI6MTc3MDg3Njc4MiwiZXhwIjoxNzcxNDgxNTgyLCJpc3MiOiJhcnRpY2xlLXNlcnZpY2UifQ.mwhotYXlfmLY6riRWUNxqKpjLpTmF9rEvb-h2h5em7E');
+    localStorage.setItem(
+      'token',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiaGVybyIsImlhdCI6MTc3MDg3Njc4MiwiZXhwIjoxNzcxNDgxNTgyLCJpc3MiOiJhcnRpY2xlLXNlcnZpY2UifQ.mwhotYXlfmLY6riRWUNxqKpjLpTmF9rEvb-h2h5em7E'
+    );
     expect(service.isAuthenticated()).toBeTrue();
   });
 });

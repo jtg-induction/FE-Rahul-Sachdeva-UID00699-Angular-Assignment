@@ -25,7 +25,6 @@ export interface LoginResponse {
   timestamp: string;
 }
 
-
 export interface UserData {
   id: string;
   username: string;

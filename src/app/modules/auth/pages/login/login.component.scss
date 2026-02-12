@@ -15,18 +15,16 @@ input[type=password]::-ms-clear
 }
 
 .login-page__form-section {
+  @include flex-center;
+  
   flex: 0 0 40%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background-color: $color-background;
 }
 
 .login-page__visual-section {
+  @include flex-center;
+
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: linear-gradient(
     135deg,
     $color-primary 0%,
@@ -60,9 +58,7 @@ input[type=password]::-ms-clear
 }
 
 .login-card__form {
-  display: flex;
-  flex-direction: column;
-  gap: $spacing-md;
+  @include flex-column($spacing-md);
 }
 
 .login-card__field {

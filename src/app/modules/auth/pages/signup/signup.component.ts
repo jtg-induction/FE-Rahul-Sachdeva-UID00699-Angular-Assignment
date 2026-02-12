@@ -60,19 +60,17 @@ export class SignupComponent {
     if (this.form.invalid) return;
 
     const payload = this.form.value as RegisterRequest;
-    
+
     this.loading = true;
 
-    this.authService
-      .register(payload)
-      .subscribe(() => {
-        this.authService
-          .login(payload)
-          .pipe(finalize(() => (this.loading = false)))
-          .subscribe(() => {
-            this.notifier.showSuccess(SUCCESS_MESSAGES.REGISTER);
-            this.router.navigate(['/']);
-          });
-      });
+    this.authService.register(payload).subscribe(() => {
+      this.authService
+        .login(payload)
+        .pipe(finalize(() => (this.loading = false)))
+        .subscribe(() => {
+          this.notifier.showSuccess(SUCCESS_MESSAGES.REGISTER);
+          this.router.navigate(['/']);
+        });
+    });
   }
 }

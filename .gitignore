@@ -6,10 +6,8 @@
 /dist
 /tmp
 
-# Node
+# Node & environment
 /node_modules
-
-
 environments/
 
 # Miscellaneous
