@@ -27,13 +27,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
-  { path: '', redirectTo: 'articles', pathMatch: 'full' },
-  {
-    path: 'articles',
-    canActivate: [authGuard],
-    loadChildren: () =>
-      import('./modules/article/article.module').then((m) => m.ArticleModule),
-  },
   {
     path: '**',
     loadChildren: () =>

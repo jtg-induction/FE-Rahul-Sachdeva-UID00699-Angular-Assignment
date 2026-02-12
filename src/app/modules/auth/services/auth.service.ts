@@ -35,7 +35,7 @@ export class AuthService {
 
   register(payload: RegisterRequest): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(
-      `${environment.baseUrl}/users/register`,
+      `${this.baseUrl}/users/register`,
       payload
     );
   }

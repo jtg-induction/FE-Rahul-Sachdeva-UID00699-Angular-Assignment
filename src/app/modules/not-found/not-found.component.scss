@@ -3,6 +3,7 @@
 
 .not-found {
   @include flex-center;
+  
   min-height: 100vh;
   padding: $spacing-lg;
   background-color: $color-background;
