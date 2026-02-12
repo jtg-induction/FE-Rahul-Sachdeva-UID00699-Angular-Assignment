@@ -3,6 +3,8 @@ import {
   MatSnackBar,
   MatSnackBarConfig,
   MatSnackBarDismiss,
+  MatSnackBarRef,
+  TextOnlySnackBar,
 } from '@angular/material/snack-bar';
 import {
   AppNotification,
@@ -15,9 +17,9 @@ import { concatMap, Observable, Subject, takeUntil } from 'rxjs';
 })
 export class NotificationService implements OnDestroy {
   private snackBar = inject(MatSnackBar);
-
   private destroy$ = new Subject<void>();
   private notificationQueue$ = new Subject<AppNotification>();
+  private ref: MatSnackBarRef<TextOnlySnackBar> | null = null;
 
   DEFAULT_SNACKBAR_CONFIG: MatSnackBarConfig = {
     duration: 5000,
@@ -64,6 +66,7 @@ export class NotificationService implements OnDestroy {
    * @private
    */
   private enqueue(notification: AppNotification): void {
+    this.ref?._dismissAfter(1);
     this.notificationQueue$.next(notification);
   }
 
@@ -81,13 +84,13 @@ export class NotificationService implements OnDestroy {
         ? 'snackbar-design-error'
         : 'snackbar-design-success';
 
-    const ref = this.snackBar.open(notification.message, 'Close', {
+    this.ref = this.snackBar.open(notification.message, 'Close', {
       ...this.DEFAULT_SNACKBAR_CONFIG,
       ...notification.config,
       panelClass: [panelClass],
     });
 
-    return ref.afterDismissed();
+    return this.ref.afterDismissed();
   }
 
   ngOnDestroy(): void {
