@@ -37,6 +37,11 @@
               {{ form.get('username')?.getError('minlength')?.requiredLength }}
               chars
             </span>
+            <span *ngIf="form.get('username')?.hasError('maxlength')">
+              Max
+              {{ form.get('username')?.getError('maxlength')?.requiredLength }}
+              chars
+            </span>
             <span *ngIf="form.get('username')?.hasError('alphaNumeric')">
               Alphanumeric only
             </span>
@@ -69,11 +74,20 @@
           <mat-label>Password</mat-label>
           <input
             matInput
-            type="password"
+            [type]="hide ? 'password' : 'text'"
             formControlName="password"
             placeholder="Enter password"
           />
-          <mat-icon matSuffix>lock</mat-icon>
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
 
           <mat-error
             *ngIf="
@@ -93,11 +107,20 @@
           <mat-label>Confirm Password</mat-label>
           <input
             matInput
-            type="password"
+            [type]="hide2 ? 'password' : 'text'"
             formControlName="confirmPassword"
-            placeholder="Confirm password"
+            placeholder="Confirm Password"
           />
-          <mat-icon matSuffix>lock</mat-icon>
+          <button
+            type="button"
+            mat-icon-button
+            matSuffix
+            (click)="hide2 = !hide2"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide2 ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
 
           <mat-error
             *ngIf="
@@ -124,7 +147,12 @@
           class="signup-card__button"
         >
           <ng-container *ngIf="!loading">SUBMIT</ng-container>
-          <ng-container *ngIf="loading"> LOADING </ng-container>
+          <ng-container *ngIf="loading">
+            <mat-progress-spinner
+              mode="indeterminate"
+              diameter="30"
+            ></mat-progress-spinner>
+          </ng-container>
         </button>
 
         <a class="signup-card__link" routerLink="/auth/login">

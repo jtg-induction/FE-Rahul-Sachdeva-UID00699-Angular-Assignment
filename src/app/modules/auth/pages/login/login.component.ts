@@ -21,6 +21,7 @@ export class LoginComponent {
   private router = inject(Router);
   private validatorService = inject(ValidatorService);
   loading = false;
+  hide = true;
 
   form = this.fb.group({
     username: [

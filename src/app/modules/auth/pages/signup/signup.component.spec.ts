@@ -12,23 +12,55 @@ import { of } from 'rxjs';
 
 import { SignupComponent } from './signup.component';
 
-class AuthServiceMock {
-  register() {
-    return of(void 0);
-  }
-}
-
 describe('SignupComponent', () => {
   let component: SignupComponent;
   let fixture: ComponentFixture<SignupComponent>;
   let router: jasmine.SpyObj<Router>;
   let notifier: jasmine.SpyObj<NotificationService>;
+  let authService: jasmine.SpyObj<AuthService>;
 
   beforeEach(async () => {
+    authService = jasmine.createSpyObj<AuthService>('AuthService', [
+      'login',
+      'register',
+    ]);
     router = jasmine.createSpyObj<Router>('Router', ['navigate']);
     notifier = jasmine.createSpyObj<NotificationService>(
       'NotificationService',
       ['showSuccess']
+    );
+
+    authService.login.and.returnValue(
+      of({
+        success: true,
+        message: 'test',
+        data: {
+          user: {
+            id: 1,
+            username: 'test',
+            email: 'test@test.com',
+            createdAt: 'temp',
+            updatedAt: 'temp',
+          },
+          token: 'jwt-token',
+        },
+        timestamp: 'temp',
+      })
+    );
+
+    authService.register.and.returnValue(
+      of({
+        success: true,
+        message: 'registered',
+        data: {
+          id: '1',
+          username: 'ready',
+          email: 'temp@temp.com',
+          createdAt: 'temp',
+          updatedAt: 'temp',
+        },
+        timestamp: 'temp',
+      })
     );
 
     await TestBed.configureTestingModule({
@@ -43,7 +75,7 @@ describe('SignupComponent', () => {
       ],
       declarations: [SignupComponent],
       providers: [
-        { provide: AuthService, useClass: AuthServiceMock },
+        { provide: AuthService, useValue: authService },
         { provide: Router, useValue: router },
         { provide: NotificationService, useValue: notifier },
       ],
@@ -64,6 +96,6 @@ describe('SignupComponent', () => {
     component.submit();
 
     expect(notifier.showSuccess).toHaveBeenCalled();
-    expect(router.navigate).toHaveBeenCalledWith(['/auth/login']);
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
   });
 });

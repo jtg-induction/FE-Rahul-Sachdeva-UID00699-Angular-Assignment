@@ -1,6 +1,11 @@
 @use 'abstracts' as *;
 @use 'constants' as *;
 
+input[type='password']::-ms-reveal,
+input[type='password']::-ms-clear {
+  display: none;
+}
+
 .signup-page {
   display: flex;
   max-height: 100vh;

@@ -24,6 +24,8 @@ export class SignupComponent {
   private notifier = inject(NotificationService);
   private validatorService = inject(ValidatorService);
   loading = false;
+  hide = true;
+  hide2 = true;
 
   form: FormGroup = this.fb.group(
     {
@@ -32,6 +34,7 @@ export class SignupComponent {
         [
           Validators.required,
           Validators.minLength(VALIDATION_LIMITS.USERNAME_MIN_LENGTH),
+          Validators.maxLength(VALIDATION_LIMITS.USERNAME_MAX_LENGTH),
           this.validatorService.alphaNumeric(),
         ],
       ],
@@ -57,14 +60,17 @@ export class SignupComponent {
     if (this.form.invalid) return;
 
     const payload = this.form.value as RegisterRequest;
+
     this.loading = true;
 
-    this.authService
-      .register(payload)
-      .pipe(finalize(() => (this.loading = false)))
-      .subscribe(() => {
-        this.notifier.showSuccess(SUCCESS_MESSAGES.REGISTER);
-        this.router.navigate(['/auth/login']);
-      });
+    this.authService.register(payload).subscribe(() => {
+      this.authService
+        .login(payload)
+        .pipe(finalize(() => (this.loading = false)))
+        .subscribe(() => {
+          this.notifier.showSuccess(SUCCESS_MESSAGES.REGISTER);
+          this.router.navigate(['/']);
+        });
+    });
   }
 }
