@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { STATUS_ERROR_MAP } from '@app/shared/constants';
 import { NotificationService } from '@core/services/notification.service';
 import { ERROR_MESSAGES } from '@shared/constants/messages';
-import { catchError, throwError } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const notifier = inject(NotificationService);
@@ -12,10 +12,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
     catchError((error: HttpErrorResponse) => {
       const message = resolveErrorMessage(error);
 
-      console.log(message);
       notifier.showError(message);
 
-      return throwError(() => error);
+      return EMPTY;
     })
   );
 };
