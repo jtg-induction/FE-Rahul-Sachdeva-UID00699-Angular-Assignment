@@ -9,8 +9,12 @@ import { Router } from '@angular/router';
 })
 export class NotFoundComponent {
   private router = inject(Router);
+  private http = inject(HttpClient);
 
   goHome(): void {
+    this.http.get('/images/dog.jpg', {responseType: 'arraybuffer'}).subscribe((buffer) => {
+  console.log('The image is ' + buffer.byteLength + ' bytes large');
+});
     this.router.navigate(['/']);
   }
 }
