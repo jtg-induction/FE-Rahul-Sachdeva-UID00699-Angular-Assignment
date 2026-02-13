@@ -1,17 +1,30 @@
+@use 'abstracts' as *;
 @use 'constants' as *;
 
 .dashboard {
   padding: $spacing-lg;
 
+  &__loading {
+    display: flex;
+    justify-content: center;
+    padding: $spacing-xl;
+  }
+
   &__grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: $spacing-lg;
-  }
-}
+    grid-template-columns: repeat(3, 1fr);
 
-@media (max-width: $breakpoint-sm) {
-  .dashboard__grid {
-    grid-template-columns: 1fr;
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  mat-paginator {
+    margin-top: $spacing-lg;
   }
 }

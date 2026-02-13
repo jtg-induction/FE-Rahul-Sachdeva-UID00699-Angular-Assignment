@@ -28,32 +28,6 @@ const routes: Routes = [
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'auth',
-    canActivate: [guestGuard],
-    loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule),
-  },
-  { path: '', redirectTo: 'articles', pathMatch: 'full' },
-  {
-    path: 'articles',
-    canActivate: [authGuard],
-    loadChildren: () =>
-      import('./modules/article/article.module').then((m) => m.ArticleModule),
-  },
-  {
-    path: 'auth',
-    canActivate: [guestGuard],
-    loadChildren: () =>
-      import('./modules/auth/auth.module').then((m) => m.AuthModule),
-  },
-  { path: '', redirectTo: 'articles', pathMatch: 'full' },
-  {
-    path: 'articles',
-    canActivate: [authGuard],
-    loadChildren: () =>
-      import('./modules/article/article.module').then((m) => m.ArticleModule),
-  },
-  {
     path: '**',
     loadChildren: () =>
       import('./modules/not-found/not-found.module').then(

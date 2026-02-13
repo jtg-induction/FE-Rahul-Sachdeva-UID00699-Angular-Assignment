@@ -1,0 +1,41 @@
+<section class="article-detail">
+  <div *ngIf="loading" class="article-detail__loading">Loading article...</div>
+
+  <div *ngIf="error" class="article-detail__error">
+    Article not found.
+    <button mat-button color="primary" (click)="goBack()">Go Back</button>
+  </div>
+
+  <article *ngIf="!loading && article" class="article-detail__card">
+    <div class="article-detail__meta">
+      <span>By {{ article.author }}</span>
+      <span>{{ article.createdAt | formatDate }}</span>
+    </div>
+
+    <h1 class="article-detail__title">
+      {{ article.title }}
+    </h1>
+
+    <div class="article-detail__image-wrapper">
+      <img
+        [src]="article.image || fallbackImage"
+        (error)="onImageError($event)"
+        alt="Article image"
+      />
+    </div>
+
+    <p class="article-detail__description">
+      {{ article.description }}
+    </p>
+
+    <div class="article-detail__tags">
+      <span class="article-detail__tag" *ngFor="let tag of article.tags">
+        {{ tag }}
+      </span>
+    </div>
+
+    <button mat-stroked-button color="primary" (click)="goBack()">
+      Back to Dashboard
+    </button>
+  </article>
+</section>

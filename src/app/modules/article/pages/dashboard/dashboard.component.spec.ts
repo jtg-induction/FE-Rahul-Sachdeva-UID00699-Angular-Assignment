@@ -1,59 +1,72 @@
-import { Component, Input } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Article } from '@modules/article/models/article.model';
 import { ArticleService } from '@modules/article/services/article.service';
 import { of } from 'rxjs';
 
 import { DashboardComponent } from './dashboard.component';
 
-@Component({
-  selector: 'app-article-card',
-  template: '',
-})
-class MockArticleCardComponent {
-  @Input() article!: Article;
-}
-
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
   let articleService: jasmine.SpyObj<ArticleService>;
+  let router: jasmine.SpyObj<Router>;
 
-  const mockArticles: Article[] = [
-    {
-      id: '1',
-      title: 'Test 1',
-      shortDescription: 'Short 1',
-      description: 'Desc 1',
-      author: 'Author',
-      image: '',
-      tags: ['tag1'],
-      createdAt: '2026-01-01',
-      updatedAt: '2026-01-01',
-    },
-    {
-      id: '2',
-      title: 'Test 2',
-      shortDescription: 'Short 2',
-      description: 'Desc 2',
-      author: 'Author',
-      image: '',
-      tags: ['tag2'],
-      createdAt: '2026-01-01',
-      updatedAt: '2026-01-01',
-    },
-  ];
+  const mockArticle: Article = {
+    id: '1',
+    title: 'Test',
+    shortDescription: 'Short',
+    description: 'Full',
+    author: 'Rahul',
+    createdAt: '2026-02-11',
+    updatedAt: '2026-02-11',
+    tags: ['tag1'],
+    image: '',
+  };
 
   beforeEach(async () => {
-    articleService = jasmine.createSpyObj<ArticleService>('ArticleService', [
-      'getAll',
-    ]);
+    articleService = jasmine.createSpyObj('ArticleService', ['getAll']);
+    router = jasmine.createSpyObj('Router', ['navigate']);
 
-    articleService.getAll.and.returnValue(of(mockArticles));
+    articleService.getAll.and.returnValue(
+      of({
+        success: true,
+        message: 'Success',
+        data: {
+          data: [mockArticle],
+          totalItems: 1,
+          totalPages: 1,
+          currentPage: 1,
+          pageSize: 10,
+        },
+        timestamp: new Date().toISOString(),
+      })
+    );
+
+    const activatedRouteMock = {
+      queryParams: of({ page: 1, size: 10 }),
+      snapshot: {
+        queryParams: { page: 1, size: 10 },
+      },
+    };
 
     await TestBed.configureTestingModule({
-      declarations: [DashboardComponent, MockArticleCardComponent],
-      providers: [{ provide: ArticleService, useValue: articleService }],
+      imports: [
+        MatPaginatorModule,
+        MatProgressSpinnerModule,
+        NoopAnimationsModule,
+      ],
+      declarations: [DashboardComponent],
+      providers: [
+        { provide: ArticleService, useValue: articleService },
+        { provide: ActivatedRoute, useValue: activatedRouteMock },
+        { provide: Router, useValue: router },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);
@@ -67,12 +80,16 @@ describe('DashboardComponent', () => {
 
   it('should load articles on init', () => {
     expect(articleService.getAll).toHaveBeenCalled();
-    expect(component.articles.length).toBe(2);
+    expect(component.articles.length).toBe(1);
   });
 
-  it('should render article cards', () => {
-    const compiled = fixture.nativeElement as HTMLElement;
-    const cards = compiled.querySelectorAll('app-article-card');
-    expect(cards.length).toBe(2);
+  it('should update query params on page change', () => {
+    component.onPageChange({
+      pageIndex: 1,
+      pageSize: 5,
+      length: 10,
+    } as any);
+
+    expect(router.navigate).toHaveBeenCalled();
   });
 });

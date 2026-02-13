@@ -1,0 +1,62 @@
+@use 'abstracts' as *;
+@use 'constants' as *;
+
+.article-detail {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: $spacing-xl;
+
+  &__meta {
+    display: flex;
+    justify-content: space-between;
+    color: $color-muted;
+    font-size: $font-size-sm;
+  }
+
+  &__title {
+    margin: $spacing-md 0;
+    font-size: $font-size-xl;
+    color: $color-text;
+  }
+
+  &__image-wrapper {
+    margin: $spacing-lg 0;
+    @include flex-center;
+  }
+
+  &__image {
+    max-width: 100%;
+    height: auto;
+    border-radius: $border-radius-md;
+    object-fit: cover;
+    display: block;
+  }
+
+  &__content {
+    margin-top: $spacing-md;
+    line-height: 1.8;
+    color: $color-text;
+  }
+
+  &__tags {
+    margin-top: $spacing-lg;
+    display: flex;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+  }
+
+  &__tag {
+    padding: $spacing-xs $spacing-sm;
+    background: $color-background;
+    border-radius: $border-radius-sm;
+    font-size: $font-size-xs;
+  }
+
+  &__state {
+    height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+}
