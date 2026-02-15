@@ -21,68 +21,137 @@ The project is designed to be maintainable, extensible, and team-friendly.
 ## 📁 Project Structure
 
 ```
-src/
-├── app/
-│   ├── core/
-│   │   ├── components/
-│   │   ├── guards/
-│   │   ├── handlers/
-│   │   ├── interceptors/
-│   │   ├── models/
-│   │   └── services/
-│   │
-│   ├── modules/
-│   │   ├── auth/
-│   │   │   ├── models/
-|   |   |   |   └── auth.models
-│   │   │   ├── pages/
-|   |   |   |   |── login/
-|   |   |   |   └── signup/
-│   │   │   ├── services/
-|   |   |   |   └── auth.service
-│   │   │   ├── auth-routing.module.ts
-│   │   │   └── auth.module.ts
-│   │   │
-│   │   |── article/
-│   │   |   ├── models/
-|   |   |   |   └── article.models
-│   │   |   ├── services/
-|   |   |   |   └── article.service
-│   │   |   ├── components/
-|   |   |   |   └── article-card/
-│   │   |   ├── pages/
-│   │   |   │   |── dashboard/
-│   │   |   │   └── article-details/
-│   │   |   ├── article-routing.module.ts
-│   │   |   └── article.module.ts
-│   │   └── not-found/
-|   |
-│   ├── shared/
-│   │   ├── components/
-│   │   │   └── navbar/
-│   │   ├── constants/
-│   │   │   |── messages
-│   │   │   |── validation
-│   │   │   └── index
-│   │   ├── pipes/
-│   │   ├── services/
-│   │   │   └── validator.service
-│   │   └── shared.module.ts
-│   │
-│   ├── app-routing.module.ts
-│   ├── app.component.ts
-│   └── app.module.ts │
-├── assets/
-├── environments/
-├── index.html
-├── main.ts
-├── styles
-│   ├── abstracts/
-│   ├── base/
-│   ├── components/
-│   ├── constants/
-│   └── _main.scss
-└── styles.scss
+Rahul Angular Project
+├── .angular/
+├── .github/
+├── .husky/
+├── .vscode/
+├── dist/
+├── node_modules/
+├── src/
+|   ├── app/
+|   │   ├── core/
+|   │   │   ├── components/
+|   │   │   │   ├── layout/
+|   │   │   │   └── snackbar/
+|   │   │   ├── guards/
+|   │   │   │   ├── auth.guard.ts
+|   │   │   │   └── guest.guard.ts
+|   │   │   ├── handlers/
+|   │   │   │   └── global-error.handler.ts
+|   │   │   ├── interceptors/
+|   │   │   │   ├── auth.interceptor.ts
+|   │   │   │   └── error.interceptor.ts
+|   │   │   ├── models/
+|   │   │   │   └── notification.model.ts
+|   │   │   └── services/
+|   │   │       └── notification.service.ts
+|   │   │
+|   │   ├── modules/
+|   │   │   ├── auth/
+|   │   │   │   ├── models/
+|   │   │   │   │   ├── auth-user.model.ts
+|   │   │   │   │   └── auth.model.ts
+|   │   │   │   ├── pages/
+|   │   │   │   │   ├── login/
+|   │   │   │   │   │   └── login.component.*
+|   │   │   │   │   └── signup/
+|   │   │   │   │       └── signup.component.*
+|   │   │   │   ├── services/
+|   │   │   │   │   └── auth.service.ts
+|   │   │   │   ├── auth-routing.module.ts
+|   │   │   │   └── auth.module.ts
+|   │   │   │
+|   │   │   ├── article/
+|   │   │   │   ├── models/
+|   │   │   │   │   ├── article.model.ts
+|   │   │   │   │   └── pagination.model.ts
+|   │   │   │   ├── services/
+|   │   │   │   │   └── article.service.ts
+|   │   │   │   ├── pages/
+|   │   │   │   │   ├── dashboard/
+|   │   │   │   │   │   └── dashboard.component.*
+|   │   │   │   │   └── article-detail/
+|   │   │   │   │       └── article-detail.component.*
+|   │   │   │   ├── article-routing.module.ts
+|   │   │   │   └── article.module.ts
+|   │   │   │
+|   │   │   └── not-found/
+|   │   │
+|   │   ├── shared/
+|   │   │   ├── components/
+|   │   │   │   ├── article-card/
+|   │   │   │   ├── loading/
+|   │   │   │   ├── navbar/
+|   │   │   │   └── no-content/
+|   │   │   ├── constants/
+|   │   │   │   ├── messages.ts
+|   │   │   │   ├── validation.ts
+|   │   │   │   └── index.ts
+|   │   │   ├── models/
+|   │   │   │   ├── api-response.model.ts
+|   │   │   │   ├── api-paginated-data.model.ts
+|   │   │   │   └── api-paginated-response.model.ts
+|   │   │   ├── pipes/
+|   │   │   │   ├── format-date.pipe.ts
+|   │   │   │   └── slice-tags.pipe.ts
+|   │   │   ├── services/
+|   │   │   │   └── validator.service.ts
+|   │   │   ├── utils/
+|   │   │   │   └── validation.utils.ts
+|   │   │   └── shared.module.ts
+|   │   │
+|   │   ├── app-routing.module.ts
+|   │   ├── app.component.ts
+|   │   └── app.module.ts
+|   │
+|   ├── assets/
+|   │   └── images/
+|   │
+|   ├── environments/
+|   │   ├── environment.ts
+|   │   └── environment.development.ts
+|   │
+|   ├── styles/
+|   │   ├── abstracts/
+|   │   │   ├── _functions.scss
+|   │   │   └── _mixins.scss
+|   │   ├── base/
+|   │   │   ├── _reset.scss
+|   │   │   └── _typography.scss
+|   │   ├── components/
+|   │   │   └── _snackbar.scss
+|   │   ├── constants/
+|   │   │   ├── _colors.scss
+|   │   │   ├── _spacing.scss
+|   │   │   ├── _radius.scss
+|   │   │   ├── _breakpoints.scss
+|   │   │   ├── _fonts.scss
+|   │   │   └── _z-index.scss
+|   │   └── _main.scss
+|   │
+|   ├── index.html
+|   ├── main.ts
+|   └── styles.scss
+├── .browserslistrc
+├── .editorconfig
+├── .gitignore
+├── .npmrc
+├── .nvmrc
+├── .prettierignore
+├── .prettierrc.json
+├── .stylelintrc.json
+│
+├── angular.json
+├── eslint.config.js
+├── package.json
+├── package-lock.json
+├── README.md
+│
+├── tsconfig.json
+├── tsconfig.app.json
+└── tsconfig.spec.json
+
 ```
 
 # Rahul Angular Project

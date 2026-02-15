@@ -5,7 +5,7 @@ import { AuthService } from '@app/modules/auth/services/auth.service';
 import { STATUS_ERROR_MAP } from '@app/shared/constants';
 import { NotificationService } from '@core/services/notification.service';
 import { ERROR_MESSAGES } from '@shared/constants/messages';
-import { catchError, EMPTY } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 
 /**
  * A functional interceptor that handles HTTP-level errors.
@@ -32,7 +32,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         authService.logout();
         router.navigate(['/auth/login']);
       }
-      return EMPTY;
+
+      return throwError(() => error);
     })
   );
 };

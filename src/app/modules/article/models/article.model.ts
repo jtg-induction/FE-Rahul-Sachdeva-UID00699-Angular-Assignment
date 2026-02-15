@@ -9,16 +9,3 @@ export interface Article {
   image?: string;
   tags: string[];
 }
-
-export interface ArticleListResponse {
-  success: boolean;
-  message: string;
-  data: {
-    data: Article[];
-    totalItems: number;
-    totalPages: number;
-    currentPage: number;
-    pageSize: number;
-  };
-  timestamp: string;
-}

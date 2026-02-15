@@ -24,27 +24,8 @@
           />
           <mat-icon matSuffix>person</mat-icon>
 
-          <mat-error
-            *ngIf="
-              form.get('username')?.touched && form.get('username')?.errors
-            "
-          >
-            <span *ngIf="form.get('username')?.hasError('required')">
-              Required
-            </span>
-            <span *ngIf="form.get('username')?.hasError('minlength')">
-              Min
-              {{ form.get('username')?.getError('minlength')?.requiredLength }}
-              chars
-            </span>
-            <span *ngIf="form.get('username')?.hasError('maxlength')">
-              Max
-              {{ form.get('username')?.getError('maxlength')?.requiredLength }}
-              chars
-            </span>
-            <span *ngIf="form.get('username')?.hasError('alphaNumeric')">
-              Alphanumeric only
-            </span>
+          <mat-error *ngIf="usernameError">
+            {{ usernameError }}
           </mat-error>
         </mat-form-field>
 
@@ -58,15 +39,8 @@
           />
           <mat-icon matSuffix>email</mat-icon>
 
-          <mat-error
-            *ngIf="form.get('email')?.touched && form.get('email')?.errors"
-          >
-            <span *ngIf="form.get('email')?.hasError('required')">
-              Required
-            </span>
-            <span *ngIf="form.get('email')?.hasError('pattern')">
-              Invalid email
-            </span>
+          <mat-error *ngIf="emailError">
+            {{ emailError }}
           </mat-error>
         </mat-form-field>
 
@@ -89,17 +63,8 @@
             <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
 
-          <mat-error
-            *ngIf="
-              form.get('password')?.touched && form.get('password')?.errors
-            "
-          >
-            <span *ngIf="form.get('password')?.hasError('required')">
-              Required
-            </span>
-            <span *ngIf="form.get('password')?.hasError('pattern')">
-              min 8 chars, 2 numbers & 2 special chars
-            </span>
+          <mat-error *ngIf="passwordError">
+            {{ passwordError }}
           </mat-error>
         </mat-form-field>
 
@@ -122,20 +87,8 @@
             <mat-icon>{{ hide2 ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
 
-          <mat-error
-            *ngIf="
-              form.get('confirmPassword')?.touched &&
-              form.get('confirmPassword')?.errors
-            "
-          >
-            <span *ngIf="form.get('confirmPassword')?.hasError('required')">
-              Required
-            </span>
-            <span
-              *ngIf="form.get('confirmPassword')?.hasError('passwordMismatch')"
-            >
-              Passwords must match
-            </span>
+          <mat-error *ngIf="confirmPasswordError">
+            {{ confirmPasswordError }}
           </mat-error>
         </mat-form-field>
 

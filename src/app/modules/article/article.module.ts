@@ -9,16 +9,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { SharedModule } from '@app/shared/shared.module';
 import { ArticleRoutingModule } from '@modules/article/article-routing.module';
 import { DashboardComponent } from '@modules/article/pages/dashboard/dashboard.component';
-import { ArticleCardComponent } from '@shared/components/article-card/article-card.component';
 
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-    ArticleCardComponent,
-    ArticleDetailComponent,
-  ],
+  declarations: [DashboardComponent, ArticleDetailComponent],
   imports: [
     CommonModule,
     ArticleRoutingModule,

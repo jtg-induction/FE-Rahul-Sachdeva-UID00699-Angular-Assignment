@@ -5,8 +5,7 @@
   padding: $spacing-lg;
 
   &__loading {
-    display: flex;
-    justify-content: center;
+    @include flex-center;
     padding: $spacing-xl;
   }
 
@@ -15,12 +14,12 @@
     gap: $spacing-lg;
     grid-template-columns: repeat(3, 1fr);
 
-    @media (max-width: 1200px) {
+    @include media-down($breakpoint-lg) {
       grid-template-columns: repeat(2, 1fr);
     }
 
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
+    @include media-down($breakpoint-sm) {
+      grid-template-columns: repeat(1, 1fr);
     }
   }
 

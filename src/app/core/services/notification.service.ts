@@ -9,7 +9,7 @@ import {
 import {
   AppNotification,
   NotificationType,
-} from '@core/models/notificaiton.model';
+} from '@app/core/models/notification.model';
 import { concatMap, Observable, Subject, takeUntil } from 'rxjs';
 
 @Injectable({
@@ -27,6 +27,10 @@ export class NotificationService implements OnDestroy {
     verticalPosition: 'bottom',
   };
 
+  /**
+   * Initializes the notification queue listener.
+   * Uses concatMap to ensure notifications wait for the previous one to dismiss.
+   */
   constructor() {
     this.notificationQueue$
       .pipe(
@@ -93,6 +97,9 @@ export class NotificationService implements OnDestroy {
     return this.ref.afterDismissed();
   }
 
+  /**
+   * Cleans up subscriptions and completes subjects when the service is destroyed.
+   */
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

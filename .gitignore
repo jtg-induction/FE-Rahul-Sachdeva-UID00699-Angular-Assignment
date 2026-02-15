@@ -5,12 +5,11 @@
 # Compiled output
 /dist
 /tmp
+/coverage
 
 # Node & environment
 /node_modules
-environments/
 
 # Miscellaneous
-/.angular/cache
+/.angular
 sass-cache/
-Thumbs.db

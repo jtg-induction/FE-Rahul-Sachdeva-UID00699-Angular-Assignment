@@ -9,7 +9,7 @@ import { Article } from '@modules/article/models/article.model';
 export class ArticleCardComponent {
   @Input({ required: true }) article!: Article;
 
-  readonly fallbackImage = 'assets/images/article-placeholder-image.png';
+  readonly fallbackImage = 'assets/images/article-placeholder-image.webp';
 
   onImageError(event: Event): void {
     const img = event.target as HTMLImageElement;

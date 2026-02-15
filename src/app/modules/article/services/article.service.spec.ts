@@ -3,10 +3,9 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  Article,
-  ArticleListResponse,
-} from '@modules/article/models/article.model';
+import { Article } from '@modules/article/models/article.model';
+import { ApiPaginatedResponse } from '@shared/models/api-paginated-response.model';
+import { ApiResponse } from '@shared/models/api-response.model';
 import { environment } from 'environments/environment';
 
 import { ArticleService } from './article.service';
@@ -22,8 +21,8 @@ describe('ArticleService', () => {
       shortDescription: 'Short',
       description: 'Full description',
       author: 'Rahul',
-      createdAt: '2026-02-10 06:15:12',
-      updatedAt: '2026-02-10 06:15:12',
+      createdAt: '2026-02-10',
+      updatedAt: '2026-02-10',
       image: '',
       tags: ['tag1', 'tag2'],
     },
@@ -32,6 +31,7 @@ describe('ArticleService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
+      providers: [ArticleService],
     });
 
     service = TestBed.inject(ArticleService);
@@ -42,10 +42,11 @@ describe('ArticleService', () => {
     httpMock.verify();
   });
 
-  it('should fetch all articles with pagination params', () => {
-    const mockResponse: ArticleListResponse = {
+  it('should fetch paginated articles', () => {
+    const mockResponse: ApiPaginatedResponse<Article> = {
       success: true,
-      message: 'Articles retrieved successfully',
+      message: 'Success',
+      timestamp: new Date().toISOString(),
       data: {
         data: mockArticles,
         totalItems: 1,
@@ -53,42 +54,41 @@ describe('ArticleService', () => {
         currentPage: 1,
         pageSize: 10,
       },
-      timestamp: new Date().toISOString(),
     };
 
     service.getAll(1, 10).subscribe((res) => {
       expect(res.data.data.length).toBe(1);
+      expect(res.data.totalItems).toBe(1);
     });
 
     const req = httpMock.expectOne(
-      (request) =>
-        request.url === `${environment.baseUrl}/articles` &&
-        request.params.get('page') === '1' &&
-        request.params.get('pageSize') === '10'
+      (r) => r.url === `${environment.baseUrl}/articles`
     );
 
     expect(req.request.method).toBe('GET');
+    expect(req.request.params.get('page')).toBe('1');
+    expect(req.request.params.get('pageSize')).toBe('10');
 
     req.flush(mockResponse);
   });
 
   it('should fetch article by id', () => {
-    const mockSingleResponse = {
+    const mockResponse: ApiResponse<Article> = {
       success: true,
       message: 'Success',
-      data: mockArticles[0],
       timestamp: new Date().toISOString(),
+      data: mockArticles[0],
     };
 
-    service.getById('1').subscribe((article) => {
-      expect(article.title).toBe('Test Article');
+    service.getById('1').subscribe((res) => {
+      expect(res.data.title).toBe('Test Article');
     });
 
     const req = httpMock.expectOne(`${environment.baseUrl}/articles/1`);
 
     expect(req.request.method).toBe('GET');
 
-    req.flush(mockSingleResponse);
+    req.flush(mockResponse);
   });
 
   it('should propagate http errors', () => {

@@ -1,9 +1,15 @@
 <section class="article-detail">
-  <div *ngIf="loading" class="article-detail__loading">Loading article...</div>
+  <div *ngIf="loading" class="article-detail__state">
+    <app-loading></app-loading>
+  </div>
 
-  <div *ngIf="error" class="article-detail__error">
-    Article not found.
-    <button mat-button color="primary" (click)="goBack()">Go Back</button>
+  <div *ngIf="!loading && error" class="article-detail__state">
+    <app-no-content
+      title="Article Not Found"
+      message="The requested article doesn't exist"
+      buttonText="Go to all Articles"
+      redirectTo="/"
+    ></app-no-content>
   </div>
 
   <article *ngIf="!loading && article" class="article-detail__card">
@@ -16,8 +22,9 @@
       {{ article.title }}
     </h1>
 
-    <div class="article-detail__image-wrapper">
+    <div class="article-detail__image-container">
       <img
+        class="article-detail__image"
         [src]="article.image || fallbackImage"
         (error)="onImageError($event)"
         alt="Article image"

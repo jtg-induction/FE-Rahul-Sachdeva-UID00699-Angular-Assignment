@@ -3,7 +3,7 @@
 
 .navbar {
   @include flex-between;
-  
+
   padding: $spacing-sm $spacing-lg;
   background-color: $color-primary;
   color: $color-on-primary;
@@ -24,7 +24,6 @@
   &__links {
     color: $color-on-primary;
     text-decoration: none;
-    margin-right: $spacing-md;
     cursor: pointer;
     white-space: nowrap;
 

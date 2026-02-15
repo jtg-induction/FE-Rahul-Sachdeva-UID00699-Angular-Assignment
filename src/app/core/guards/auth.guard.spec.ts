@@ -3,12 +3,13 @@ import {
   ActivatedRouteSnapshot,
   Router,
   RouterStateSnapshot,
+  UrlTree,
 } from '@angular/router';
 import { AuthService } from '@modules/auth/services/auth.service';
 
 import { authGuard } from './auth.guard';
 
-describe('AuthGuard', () => {
+describe('authGuard', () => {
   let authService: jasmine.SpyObj<AuthService>;
   let router: jasmine.SpyObj<Router>;
   let mockRoute: ActivatedRouteSnapshot;
@@ -18,10 +19,12 @@ describe('AuthGuard', () => {
     authService = jasmine.createSpyObj<AuthService>('AuthService', [
       'isAuthenticated',
     ]);
-    router = jasmine.createSpyObj<Router>('Router', ['navigate']);
+
+    router = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
 
     mockRoute = {} as ActivatedRouteSnapshot;
     mockState = { url: '/protected' } as RouterStateSnapshot;
+
     TestBed.configureTestingModule({
       providers: [
         { provide: AuthService, useValue: authService },
@@ -30,7 +33,7 @@ describe('AuthGuard', () => {
     });
   });
 
-  it('allows access when authenticated', () => {
+  it('should allow access when authenticated', () => {
     authService.isAuthenticated.and.returnValue(true);
 
     const result = TestBed.runInInjectionContext(() =>
@@ -40,14 +43,17 @@ describe('AuthGuard', () => {
     expect(result).toBeTrue();
   });
 
-  it('redirects to login when not authenticated', () => {
+  it('should return UrlTree when not authenticated', () => {
+    const mockTree = {} as UrlTree;
+
     authService.isAuthenticated.and.returnValue(false);
+    router.createUrlTree.and.returnValue(mockTree);
 
     const result = TestBed.runInInjectionContext(() =>
       authGuard(mockRoute, mockState)
     );
 
-    expect(result).toBeFalse();
-    expect(router.navigate).toHaveBeenCalledWith(['/auth/login']);
+    expect(router.createUrlTree).toHaveBeenCalledWith(['/auth/login']);
+    expect(result).toBe(mockTree);
   });
 });

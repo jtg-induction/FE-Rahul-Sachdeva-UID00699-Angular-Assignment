@@ -3,7 +3,10 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { LoginRequest, LoginResponse } from '@modules/auth/models/auth.models';
+import {
+  LoginRequest,
+  LoginResponse,
+} from '@app/modules/auth/models/auth.model';
 import { environment } from 'environments/environment.development';
 
 import { AuthService } from './auth.service';
@@ -36,7 +39,7 @@ describe('AuthService', () => {
       message: 'Login successful',
       data: {
         user: {
-          id: 2,
+          id: '2',
           username: 'hero',
           email: 'hero@gmail.com',
           createdAt: '2026-02-05 15:58:06',

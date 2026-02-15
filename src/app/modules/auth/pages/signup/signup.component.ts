@@ -1,28 +1,35 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
+  LoginResponse,
+  RegisterRequest,
+} from '@modules/auth/models/auth.model';
+import { AuthService } from '@modules/auth/services/auth.service';
+import {
   VALIDATION_LIMITS,
   VALIDATION_PATTERNS,
-} from '@app/shared/constants/validation';
-import { NotificationService } from '@core/services/notification.service';
-import { RegisterRequest } from '@modules/auth/models/auth.models';
-import { AuthService } from '@modules/auth/services/auth.service';
-import { SUCCESS_MESSAGES } from '@shared/constants/messages';
+} from '@shared/constants/validation';
 import { ValidatorService } from '@shared/services/validator.service';
-import { finalize } from 'rxjs';
+import {
+  getConfirmPasswordErrorMessage,
+  getEmailErrorMessage,
+  getPasswordErrorMessage,
+  getUsernameErrorMessage,
+} from '@shared/utils/validation.utils';
+import { finalize, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
-export class SignupComponent {
+export class SignupComponent implements OnInit {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
-  private notifier = inject(NotificationService);
   private validatorService = inject(ValidatorService);
+
   loading = false;
   hide = true;
   hide2 = true;
@@ -56,21 +63,50 @@ export class SignupComponent {
     }
   );
 
+  ngOnInit(): void {
+    this.form.get('password')?.valueChanges.subscribe(() => {
+      this.hide = true;
+    });
+
+    this.form.get('confirmPassword')?.valueChanges.subscribe(() => {
+      this.hide2 = true;
+    });
+  }
+
+  get usernameError(): string | null {
+    return getUsernameErrorMessage(this.form.get('username'));
+  }
+
+  get emailError(): string | null {
+    return getEmailErrorMessage(this.form.get('email'));
+  }
+
+  get passwordError(): string | null {
+    return getPasswordErrorMessage(this.form.get('password'));
+  }
+
+  get confirmPasswordError(): string | null {
+    return getConfirmPasswordErrorMessage(this.form.get('confirmPassword'));
+  }
+
   submit(): void {
     if (this.form.invalid) return;
 
-    const payload = this.form.value as RegisterRequest;
+    const payload: RegisterRequest = this.form.value as RegisterRequest;
 
     this.loading = true;
 
-    this.authService.register(payload).subscribe(() => {
-      this.authService
-        .login(payload)
-        .pipe(finalize(() => (this.loading = false)))
-        .subscribe(() => {
-          this.notifier.showSuccess(SUCCESS_MESSAGES.REGISTER);
+    this.authService
+      .register(payload)
+      .pipe(
+        switchMap(() => this.authService.login(payload)),
+        finalize(() => (this.loading = false))
+      )
+      .subscribe({
+        next: (response: LoginResponse) => {
+          localStorage.setItem('token', response.data.token);
           this.router.navigate(['/']);
-        });
-    });
+        },
+      });
   }
 }

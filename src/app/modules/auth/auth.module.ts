@@ -7,6 +7,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SharedModule } from '@app/shared/shared.module';
 import { AuthRoutingModule } from '@modules/auth/auth-routing.module';
 
 import { LoginComponent } from './pages/login/login.component';
@@ -23,6 +24,7 @@ import { SignupComponent } from './pages/signup/signup.component';
     MatIconModule,
     MatInputModule,
     MatButtonModule,
+    SharedModule,
   ],
 })
 export class AuthModule {}

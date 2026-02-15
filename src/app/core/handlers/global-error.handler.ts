@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ErrorHandler, inject, Injectable } from '@angular/core';
 import { NotificationService } from '@core/services/notification.service';
 import { ERROR_MESSAGES } from '@shared/constants';
@@ -20,7 +21,9 @@ export class GlobalErrorHandler implements ErrorHandler {
   handleError(error: unknown): void {
     let message = ERROR_MESSAGES.GENERIC;
 
-    if (error instanceof Error) {
+    if (error instanceof HttpErrorResponse) {
+      return;
+    } else if (error instanceof Error) {
       message = error.message;
       console.error('Global Error:', error);
     } else {

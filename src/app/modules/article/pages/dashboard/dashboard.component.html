@@ -1,20 +1,30 @@
 <section class="dashboard">
   <div class="dashboard__loading" *ngIf="isLoading">
-    <mat-progress-spinner mode="indeterminate"></mat-progress-spinner>
+    <app-loading></app-loading>
   </div>
 
-  <div class="dashboard__grid" *ngIf="!isLoading">
-    <app-article-card *ngFor="let article of articles" [article]="article">
-    </app-article-card>
+  <div *ngIf="!isLoading && articles.length === 0">
+    <app-no-content
+      title="No Articles Found"
+      message="No articles available for this page."
+      buttonText="Go Home"
+      redirectTo="/"
+    ></app-no-content>
+  </div>
+
+  <div class="dashboard__grid" *ngIf="!isLoading && articles.length > 0">
+    <app-article-card
+      *ngFor="let article of articles"
+      [article]="article"
+    ></app-article-card>
   </div>
 
   <mat-paginator
-    *ngIf="!isLoading"
+    *ngIf="!isLoading && articles.length > 0"
     [length]="totalItems"
     [pageSize]="pageSize"
     [pageIndex]="currentPage"
     [pageSizeOptions]="[5, 10, 20]"
     (page)="onPageChange($event)"
-  >
-  </mat-paginator>
+  ></mat-paginator>
 </section>

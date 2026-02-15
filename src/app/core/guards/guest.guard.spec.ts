@@ -3,9 +3,11 @@ import {
   ActivatedRouteSnapshot,
   Router,
   RouterStateSnapshot,
+  UrlTree,
 } from '@angular/router';
-import { guestGuard } from '@core/guards/guest.guard';
 import { AuthService } from '@modules/auth/services/auth.service';
+
+import { guestGuard } from './guest.guard';
 
 describe('guestGuard', () => {
   let authService: jasmine.SpyObj<AuthService>;
@@ -17,10 +19,11 @@ describe('guestGuard', () => {
     authService = jasmine.createSpyObj<AuthService>('AuthService', [
       'isAuthenticated',
     ]);
-    router = jasmine.createSpyObj<Router>('Router', ['navigate']);
+
+    router = jasmine.createSpyObj<Router>('Router', ['createUrlTree']);
 
     mockRoute = {} as ActivatedRouteSnapshot;
-    mockState = { url: '/protected' } as RouterStateSnapshot;
+    mockState = { url: '/auth/login' } as RouterStateSnapshot;
 
     TestBed.configureTestingModule({
       providers: [
@@ -30,7 +33,7 @@ describe('guestGuard', () => {
     });
   });
 
-  it('allow access for guest', () => {
+  it('should allow access for guest', () => {
     authService.isAuthenticated.and.returnValue(false);
 
     const result = TestBed.runInInjectionContext(() =>
@@ -40,14 +43,17 @@ describe('guestGuard', () => {
     expect(result).toBeTrue();
   });
 
-  it('redirect authorized users to dashboard', () => {
+  it('should return UrlTree for authenticated user', () => {
+    const mockTree = {} as UrlTree;
+
     authService.isAuthenticated.and.returnValue(true);
+    router.createUrlTree.and.returnValue(mockTree);
 
     const result = TestBed.runInInjectionContext(() =>
       guestGuard(mockRoute, mockState)
     );
 
-    expect(result).toBeFalse();
-    expect(router.navigate).toHaveBeenCalledWith(['/']);
+    expect(router.createUrlTree).toHaveBeenCalledWith(['/']);
+    expect(result).toBe(mockTree);
   });
 });

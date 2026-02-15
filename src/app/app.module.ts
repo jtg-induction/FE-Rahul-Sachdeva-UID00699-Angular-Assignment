@@ -1,7 +1,6 @@
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { AppComponent } from '@app/app.component';
 import { AppRoutingModule } from '@app/app-routing.module';
@@ -10,11 +9,11 @@ import { errorInterceptor } from '@core/interceptors/error.interceptor';
 import { SharedModule } from '@shared/shared.module';
 
 import { LayoutComponent } from './core/components/layout/layout.component';
+import { SnackbarComponent } from './core/components/snackbar/snackbar.component';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
 
-
 @NgModule({
-  declarations: [AppComponent, LayoutComponent],
+  declarations: [AppComponent, LayoutComponent, SnackbarComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule],
   providers: [
     provideAnimationsAsync(),

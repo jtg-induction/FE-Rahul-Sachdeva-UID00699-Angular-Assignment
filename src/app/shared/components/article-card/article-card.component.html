@@ -1,35 +1,35 @@
-<article class="article-card">
-  <div class="article-card__meta">
-    <span class="article-card__author"> By {{ article.author }} </span>
-
-    <span class="article-card__date">
-      {{ article.createdAt | formatDate }}
-    </span>
+<article class="article-card" [routerLink]="['/articles', article.id]">
+  <div class="article-card__header">
+    <div class="article-card__meta">
+      <span class="article-card__author">By {{ article.author }}</span>
+      <span class="article-card__date">{{
+        article.createdAt | formatDate
+      }}</span>
+    </div>
+    <h3 class="article-card__title">{{ article.title }}</h3>
   </div>
 
-  <h3 class="article-card__title" [routerLink]="['/articles', article.id]">
-    {{ article.title }}
-  </h3>
   <div class="article-card__content">
-    <div class="article-card__text">
+    <div class="article-card__body">
       <p class="article-card__description">
         {{ article.shortDescription }}
       </p>
 
-      <div class="article-card__tags">
-        <span
-          class="article-card__tag"
-          *ngFor="let tag of article.tags | slice: 0 : 4"
-        >
-          {{ tag }}
-        </span>
-
-        <span
-          class="article-card__tag article-card__tag--more"
-          *ngIf="article.tags.length > 4"
-        >
-          +{{ article.tags.length - 4 }} more
-        </span>
+      <div class="article-card__footer">
+        <div class="article-card__tags">
+          <span
+            class="article-card__tag"
+            *ngFor="let tag of article.tags | slice: 0 : 3"
+          >
+            {{ tag }}
+          </span>
+          <span
+            class="article-card__tag article-card__tag--more"
+            *ngIf="article.tags.length > 3"
+          >
+            +{{ article.tags.length - 3 }}
+          </span>
+        </div>
       </div>
     </div>
 
@@ -38,7 +38,7 @@
         class="article-card__image"
         [src]="article.image || fallbackImage"
         (error)="onImageError($event)"
-        alt="Article image"
+        alt="Article thumbnail"
       />
     </div>
   </div>

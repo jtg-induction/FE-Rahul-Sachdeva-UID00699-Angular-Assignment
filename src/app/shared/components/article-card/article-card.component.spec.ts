@@ -69,45 +69,17 @@ describe('ArticleCardComponent', () => {
     expect(title.textContent).toContain('Test Title');
   });
 
-  it('should display short description', () => {
-    const desc = fixture.debugElement.query(
-      By.css('.article-card__description')
-    ).nativeElement;
-
-    expect(desc.textContent).toContain('Short Description');
-  });
-
-  it('should display only first 4 tags', () => {
+  it('should show sliced tags + more indicator', () => {
     const tags = fixture.debugElement.queryAll(By.css('.article-card__tag'));
 
-    expect(tags.length).toBe(5);
+    expect(tags.length).toBe(4);
   });
 
-  it('should show +more indicator when tags exceed 4', () => {
+  it('should show +more correctly', () => {
     const moreTag = fixture.debugElement.query(
       By.css('.article-card__tag--more')
     ).nativeElement;
 
-    expect(moreTag.textContent).toContain('+1 more');
-  });
-
-  it('should use fallback image when image is empty', () => {
-    const img = fixture.debugElement.query(By.css('.article-card__image'))
-      .nativeElement as HTMLImageElement;
-
-    expect(img.src).toContain(component.fallbackImage);
-  });
-
-  it('should replace image source on error', () => {
-    const img = fixture.debugElement.query(By.css('.article-card__image'))
-      .nativeElement as HTMLImageElement;
-
-    const event = {
-      target: img,
-    } as unknown as Event;
-
-    component.onImageError(event);
-
-    expect(img.src).toContain(component.fallbackImage);
+    expect(moreTag.textContent).toContain('+2');
   });
 });

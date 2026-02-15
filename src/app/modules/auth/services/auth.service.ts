@@ -5,7 +5,7 @@ import {
   LoginResponse,
   RegisterRequest,
   RegisterResponse,
-} from '@modules/auth/models/auth.models';
+} from '@modules/auth/models/auth.model';
 import { environment } from 'environments/environment.development';
 import { Observable, tap } from 'rxjs';
 

@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { LayoutComponent } from './core/components/layout';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
+import { NoContentComponent } from './shared/components/no-content';
 
 const routes: Routes = [
   {
@@ -29,10 +30,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    loadChildren: () =>
-      import('./modules/not-found/not-found.module').then(
-        (m) => m.NotFoundModule
-      ),
+    component: NoContentComponent,
   },
 ];
 

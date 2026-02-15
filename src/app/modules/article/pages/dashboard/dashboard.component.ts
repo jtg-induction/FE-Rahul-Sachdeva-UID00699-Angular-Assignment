@@ -1,50 +1,66 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  Article,
-  ArticleListResponse,
-} from '@modules/article/models/article.model';
+import { Article } from '@modules/article/models/article.model';
 import { ArticleService } from '@modules/article/services/article.service';
+import { ApiPaginatedResponse } from '@shared/models/api-paginated-response.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   private articleService = inject(ArticleService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
 
+  private destroy$ = new Subject<void>();
+
   articles: Article[] = [];
-  isLoading = true;
+  isLoading = false;
 
   totalItems = 0;
   pageSize = 10;
   currentPage = 0;
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params) => {
-      this.currentPage = +params['page'] - 1 || 0;
-      this.pageSize = +params['size'] || 10;
-      this.loadArticles();
-    });
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        const page = +params['page'] || 1;
+        const size = +params['size'] || 10;
+
+        if (page <= 0 || size <= 0) {
+          this.articles = [];
+          return;
+        }
+
+        this.currentPage = page - 1;
+        this.pageSize = size;
+
+        this.loadArticles();
+      });
   }
 
   loadArticles(): void {
     this.isLoading = true;
 
-    this.articleService.getAll(this.currentPage + 1, this.pageSize).subscribe({
-      next: (res: ArticleListResponse) => {
-        this.articles = res.data.data;
-        this.totalItems = res.data.totalItems;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
+    this.articleService
+      .getAll(this.currentPage + 1, this.pageSize)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: ApiPaginatedResponse<Article>) => {
+          this.articles = res.data.data;
+          this.totalItems = res.data.totalItems;
+          this.isLoading = false;
+        },
+        error: () => {
+          this.articles = [];
+          this.isLoading = false;
+        },
+      });
   }
 
   onPageChange(event: PageEvent): void {
@@ -56,5 +72,10 @@ export class DashboardComponent implements OnInit {
       },
       queryParamsHandling: 'merge',
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
