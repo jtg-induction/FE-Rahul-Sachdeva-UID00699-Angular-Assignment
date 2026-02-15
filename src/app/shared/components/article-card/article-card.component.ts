@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { IMAGES } from '@app/shared/constants';
 import { Article } from '@modules/article/models/article.model';
 
 @Component({
@@ -9,10 +10,11 @@ import { Article } from '@modules/article/models/article.model';
 export class ArticleCardComponent {
   @Input({ required: true }) article!: Article;
 
-  readonly fallbackImage = 'assets/images/article-placeholder-image.webp';
+  readonly fallbackImage = IMAGES.ARTICLE.PLACEHOLDER;
 
   onImageError(event: Event): void {
-    const img = event.target as HTMLImageElement;
-    img.src = this.fallbackImage;
+    if (event.target instanceof HTMLImageElement) {
+      event.target.src = this.fallbackImage;
+    }
   }
 }

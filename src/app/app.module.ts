@@ -11,13 +11,16 @@ import { SharedModule } from '@shared/shared.module';
 import { LayoutComponent } from './core/components/layout/layout.component';
 import { SnackbarComponent } from './core/components/snackbar/snackbar.component';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { baseUrlInterceptor } from './core/interceptors/base-url.interceptor';
 
 @NgModule({
   declarations: [AppComponent, LayoutComponent, SnackbarComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule],
   providers: [
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
+    provideHttpClient(
+      withInterceptors([baseUrlInterceptor, authInterceptor, errorInterceptor])
+    ),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,

@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 import { Article } from '@modules/article/models/article.model';
 import { ApiPaginatedResponse } from '@shared/models/api-paginated-response.model';
 import { ApiResponse } from '@shared/models/api-response.model';
-import { environment } from 'environments/environment';
+import { environment } from '@environments/environment';
 
 import { ArticleService } from './article.service';
 

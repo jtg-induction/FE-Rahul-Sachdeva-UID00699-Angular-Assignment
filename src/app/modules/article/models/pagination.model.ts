@@ -1,4 +1,6 @@
-export interface PaginationCriteria {
-  pageIndex: number;
+export interface PaginationState {
+  totalItems: number;
+  totalPages: number;
   pageSize: number;
+  pageIndex: number;
 }

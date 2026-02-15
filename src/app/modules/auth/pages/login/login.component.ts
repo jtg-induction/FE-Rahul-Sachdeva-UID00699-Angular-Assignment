@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IMAGES } from '@app/shared/constants';
 import { LoginRequest } from '@app/modules/auth/models/auth.model';
 import { VALIDATION_LIMITS } from '@app/shared/constants/validation';
 import { NotificationService } from '@core/services/notification.service';
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private validatorService = inject(ValidatorService);
-
+  welcomeBackImage = IMAGES.AUTH.WELCOME_BACK;
   loading = false;
   hide = true;
 

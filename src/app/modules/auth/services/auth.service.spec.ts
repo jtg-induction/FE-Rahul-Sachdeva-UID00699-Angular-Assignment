@@ -3,11 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  LoginRequest,
-  LoginResponse,
-} from '@app/modules/auth/models/auth.model';
-import { environment } from 'environments/environment.development';
+import { environment } from '@environments/environment.development';
+import { LoginRequest, LoginResponse } from '@modules/auth/models/auth.model';
 
 import { AuthService } from './auth.service';
 

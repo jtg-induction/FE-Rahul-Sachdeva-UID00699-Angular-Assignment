@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { IMAGES } from '@app/shared/constants';
 import {
   LoginResponse,
   RegisterRequest,
@@ -29,7 +30,7 @@ export class SignupComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private validatorService = inject(ValidatorService);
-
+  welcomeImage = IMAGES.AUTH.WELCOME;
   loading = false;
   hide = true;
   hide2 = true;

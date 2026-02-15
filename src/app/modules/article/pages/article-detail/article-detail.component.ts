@@ -1,5 +1,6 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IMAGES } from '@app/shared/constants';
 import { Article } from '@modules/article/models/article.model';
 import { ArticleService } from '@modules/article/services/article.service';
 import { ApiResponse } from '@shared/models/api-response.model';
@@ -20,8 +21,7 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
   article?: Article;
   loading = false;
   error = false;
-
-  fallbackImage = 'assets/images/article-placeholder-image.webp';
+  fallbackImage = IMAGES.ARTICLE.PLACEHOLDER;
 
   ngOnInit(): void {
     this.initialize();
@@ -68,7 +68,9 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
   }
 
   onImageError(event: Event): void {
-    (event.target as HTMLImageElement).src = this.fallbackImage;
+    if (event.target instanceof HTMLImageElement) {
+      event.target.src = this.fallbackImage;
+    }
   }
 
   goBack(): void {
