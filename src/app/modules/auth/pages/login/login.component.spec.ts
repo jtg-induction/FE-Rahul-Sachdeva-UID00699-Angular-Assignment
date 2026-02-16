@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { AuthService } from '@modules/auth/services/auth.service';
 import { of } from 'rxjs';
 
@@ -15,11 +16,10 @@ describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
   let authService: jasmine.SpyObj<AuthService>;
-  let router: jasmine.SpyObj<Router>;
+  let router: Router;
 
   beforeEach(async () => {
     authService = jasmine.createSpyObj<AuthService>('AuthService', ['login']);
-    router = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
     authService.login.and.returnValue(
       of({
@@ -47,16 +47,18 @@ describe('LoginComponent', () => {
         MatIconModule,
         MatInputModule,
         NoopAnimationsModule,
+        RouterTestingModule,
       ],
       declarations: [LoginComponent],
-      providers: [
-        { provide: AuthService, useValue: authService },
-        { provide: Router, useValue: router },
-      ],
+      providers: [{ provide: AuthService, useValue: authService }],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LoginComponent);
     component = fixture.componentInstance;
+    router = TestBed.inject(Router);
+
+    spyOn(router, 'navigate');
+
     fixture.detectChanges();
   });
 

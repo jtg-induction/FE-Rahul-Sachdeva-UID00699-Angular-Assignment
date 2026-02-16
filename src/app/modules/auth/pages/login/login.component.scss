@@ -15,7 +15,7 @@ input[type='password']::-ms-clear {
 
 .login-page__form-section {
   @include flex-center;
-  
+
   flex: 0 0 40%;
   background-color: $color-background;
 }
@@ -51,7 +51,7 @@ input[type='password']::-ms-clear {
 }
 
 .login-card__title {
-  font-size: rem(32px);
+  font-size: $font-size-xxl;
   font-weight: 700;
   color: $color-text;
 }

@@ -4,6 +4,6 @@ export const IMAGES = {
     WELCOME_BACK: 'assets/images/welcome-back.webp',
   },
   ARTICLE: {
-    PLACEHOLDER: 'assets/images/article-placeholder-image.webp',
+    PLACEHOLDER: 'article-webp',
   },
 };

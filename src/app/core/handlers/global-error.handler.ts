@@ -19,15 +19,12 @@ export class GlobalErrorHandler implements ErrorHandler {
    * throw new Error('Something went wrong!');
    */
   handleError(error: unknown): void {
-    let message = ERROR_MESSAGES.GENERIC;
+    const message = ERROR_MESSAGES.GENERIC;
 
     if (error instanceof HttpErrorResponse) {
       return;
-    } else if (error instanceof Error) {
-      message = error.message;
-      console.error('Global Error:', error);
     } else {
-      console.error('Unknown error:', error);
+      console.error('Global Error:', error);
     }
 
     this.notifier.showError(message);

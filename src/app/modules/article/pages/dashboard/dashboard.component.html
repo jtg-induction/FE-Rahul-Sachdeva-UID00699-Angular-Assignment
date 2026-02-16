@@ -1,25 +1,28 @@
-<section class="dashboard">
-  <div class="dashboard__loading" *ngIf="isLoading">
-    <app-loading></app-loading>
-  </div>
-
-  <div *ngIf="!isLoading && articles.length === 0">
+<main class="dashboard">
+  <section *ngIf="!isLoading && articles.length === 0">
     <app-no-content
       title="No Articles Found"
       message="No articles available for this page."
       buttonText="Go Home"
       redirectTo="/"
     ></app-no-content>
-  </div>
+  </section>
 
-  <div class="dashboard__grid" *ngIf="!isLoading && articles.length > 0">
+  <section
+    class="dashboard__grid"
+    *ngIf="!isLoading && articles.length > 0"
+    aria-label="Articles List"
+  >
     <app-article-card
       *ngFor="let article of articles"
       [article]="article"
     ></app-article-card>
-  </div>
+  </section>
 
-  <div class="dashboard__paginator">
+  <section
+    class="dashboard__paginator"
+    *ngIf="!isLoading && articles.length > 0"
+  >
     <mat-paginator
       [length]="pagination.totalItems"
       [pageSize]="pagination.pageSize"
@@ -28,5 +31,5 @@
       (page)="onPageChange($event)"
     >
     </mat-paginator>
-  </div>
-</section>
+  </section>
+</main>

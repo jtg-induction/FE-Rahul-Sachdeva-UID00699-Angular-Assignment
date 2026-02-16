@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
+import { APP_ROUTES } from '@app/shared/constants';
 import { AuthService } from '@modules/auth/services/auth.service';
 
 import { NavbarComponent } from './navbar.component';
@@ -36,6 +37,10 @@ describe('NavbarComponent', () => {
 
   it('should logout and navigate to login', () => {
     component.logout();
-    expect(router.navigate).toHaveBeenCalledWith(['/auth/login']);
+    expect(router.navigate).toHaveBeenCalledWith([
+      '/',
+      APP_ROUTES.AUTH.BASE,
+      APP_ROUTES.AUTH.LOGIN,
+    ]);
   });
 });

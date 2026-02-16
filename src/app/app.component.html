@@ -1,2 +1,2 @@
-<ng-container *ngIf="loadingRouteConfig"><app-loading /></ng-container>
 <router-outlet />
+<app-loading *ngIf="isLoading$ | async"></app-loading>

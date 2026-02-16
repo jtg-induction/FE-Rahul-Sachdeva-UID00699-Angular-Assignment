@@ -1,48 +1,59 @@
-<section class="article-detail">
-  <div *ngIf="loading" class="article-detail__state">
+<main class="article-detail">
+  <section *ngIf="loading" class="article-detail__state">
     <app-loading></app-loading>
-  </div>
+  </section>
 
-  <div *ngIf="!loading && error" class="article-detail__state">
+  <section *ngIf="!loading && error" class="article-detail__state">
     <app-no-content
       title="Article Not Found"
       message="The requested article doesn't exist"
       buttonText="Go to all Articles"
       redirectTo="/"
     ></app-no-content>
-  </div>
+  </section>
 
   <article *ngIf="!loading && article" class="article-detail__card">
-    <div class="article-detail__meta">
-      <span>By {{ article.author }}</span>
-      <span>{{ article.createdAt | formatDate }}</span>
-    </div>
+    <header>
+      <div class="article-detail__meta">
+        <span>By {{ article.author }}</span>
+        <span>{{ article.createdAt | date: 'mediumDate' }}</span>
+      </div>
 
-    <h1 class="article-detail__title">
-      {{ article.title }}
-    </h1>
+      <h1 class="article-detail__title">
+        {{ article.title }}
+      </h1>
+    </header>
 
-    <div class="article-detail__image-container">
+    <figure class="article-detail__image-container">
       <img
         class="article-detail__image"
         [src]="article.image || fallbackImage"
         (error)="onImageError($event)"
-        alt="Article image"
+        [alt]="article.title"
+        loading="lazy"
+        decoding="async"
       />
-    </div>
+    </figure>
 
-    <p class="article-detail__description">
-      {{ article.description }}
-    </p>
+    <section class="article-detail__description">
+      <p>{{ article.description }}</p>
+    </section>
 
-    <div class="article-detail__tags">
+    <section class="article-detail__tags" aria-label="Article Tags">
       <span class="article-detail__tag" *ngFor="let tag of article.tags">
         {{ tag }}
       </span>
-    </div>
+    </section>
 
-    <button mat-stroked-button color="primary" (click)="goBack()">
-      Back to Dashboard
-    </button>
+    <footer>
+      <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="goBack()"
+      >
+        Back to Dashboard
+      </button>
+    </footer>
   </article>
-</section>
+</main>

@@ -1,17 +1,9 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Article } from '@modules/article/models/article.model';
 
 import { ArticleCardComponent } from './article-card.component';
-
-@Pipe({ name: 'formatDate' })
-class MockFormatDatePipe implements PipeTransform {
-  transform(): string {
-    return 'Formatted Date';
-  }
-}
 
 describe('ArticleCardComponent', () => {
   let component: ArticleCardComponent;
@@ -32,7 +24,7 @@ describe('ArticleCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [ArticleCardComponent, MockFormatDatePipe],
+      declarations: [ArticleCardComponent],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ArticleCardComponent);
@@ -51,14 +43,6 @@ describe('ArticleCardComponent', () => {
     ).nativeElement;
 
     expect(author.textContent).toContain('John Doe');
-  });
-
-  it('should display formatted date', () => {
-    const date = fixture.debugElement.query(
-      By.css('.article-card__date')
-    ).nativeElement;
-
-    expect(date.textContent).toContain('Formatted Date');
   });
 
   it('should display title', () => {

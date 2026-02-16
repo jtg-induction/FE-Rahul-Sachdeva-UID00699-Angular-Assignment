@@ -3,7 +3,6 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { environment } from '@environments/environment.development';
 import { LoginRequest, LoginResponse } from '@modules/auth/models/auth.model';
 
 import { AuthService } from './auth.service';
@@ -28,7 +27,7 @@ describe('AuthService', () => {
   it('logs in and stores token', () => {
     const payload: LoginRequest = {
       username: 'test@test.com',
-      password: '123456',
+      password: '123456@@11',
     };
 
     const response: LoginResponse = {
@@ -52,7 +51,7 @@ describe('AuthService', () => {
       expect(localStorage.getItem('token')).toBe('jwt-token');
     });
 
-    const req = httpMock.expectOne(`${environment.baseUrl}/users/login`);
+    const req = httpMock.expectOne(`/users/login`);
     req.flush(response);
   });
 

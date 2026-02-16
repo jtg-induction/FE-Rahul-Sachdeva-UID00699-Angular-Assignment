@@ -1,3 +1,4 @@
+export * from './app-routes';
 export * from './images';
 export * from './messages';
 export * from './pagination';

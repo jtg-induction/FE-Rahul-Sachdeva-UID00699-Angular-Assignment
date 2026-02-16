@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IMAGES } from '@app/shared/constants';
 import { Article } from '@modules/article/models/article.model';
 import { ArticleService } from '@modules/article/services/article.service';
-import { ApiResponse } from '@shared/models/api-response.model';
-import { Subject, takeUntil } from 'rxjs';
+import { EMPTY, finalize, Subject, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-article-detail',
@@ -12,61 +11,72 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './article-detail.component.scss',
 })
 export class ArticleDetailComponent implements OnInit, OnDestroy {
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-  private articleService = inject(ArticleService);
-
-  private destroy$ = new Subject<void>();
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly articleService = inject(ArticleService);
+  private readonly destroy$ = new Subject<void>();
 
   article?: Article;
   loading = false;
   error = false;
-  fallbackImage = IMAGES.ARTICLE.PLACEHOLDER;
+  readonly fallbackImage = IMAGES.ARTICLE.PLACEHOLDER;
 
   ngOnInit(): void {
-    this.initialize();
+    this.initializeArticleStream();
   }
 
-  private initialize(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-
-    if (!id) {
-      this.handleNotFound();
-      return;
-    }
-
-    this.fetchArticle(id);
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  private fetchArticle(id: string): void {
-    this.loading = true;
-    this.error = false;
+  /**
+   * Subscribes to route params and fetches article.
+   */
+  private initializeArticleStream(): void {
+    this.route.paramMap
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((params) => {
+          const id = params.get('id');
 
-    this.articleService
-      .getById(id)
-      .pipe(takeUntil(this.destroy$))
+          if (!id) {
+            this.handleNotFound();
+            return EMPTY;
+          }
+
+          this.loading = true;
+          this.error = false;
+
+          return this.articleService
+            .fetchArticleById(id)
+            .pipe(finalize(() => (this.loading = false)));
+        })
+      )
       .subscribe({
-        next: (response: ApiResponse<Article>) => {
-          if (!response?.data) {
+        next: (article) => {
+          if (!article) {
             this.handleNotFound();
             return;
           }
 
-          this.article = response.data;
-          this.loading = false;
+          this.article = article;
         },
-        error: () => {
-          this.handleNotFound();
-        },
+        error: () => this.handleNotFound(),
       });
   }
 
+  /**
+   * Handles not found state.
+   */
   private handleNotFound(): void {
     this.article = undefined;
-    this.loading = false;
     this.error = true;
   }
 
+  /**
+   * Replaces broken image with fallback.
+   */
   onImageError(event: Event): void {
     if (event.target instanceof HTMLImageElement) {
       event.target.src = this.fallbackImage;
@@ -75,10 +85,5 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
 
   goBack(): void {
     this.router.navigate(['/']);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

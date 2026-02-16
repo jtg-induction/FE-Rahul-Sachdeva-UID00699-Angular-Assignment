@@ -8,19 +8,15 @@ import { GlobalErrorHandler } from '@core/handlers/global-error.handler';
 import { errorInterceptor } from '@core/interceptors/error.interceptor';
 import { SharedModule } from '@shared/shared.module';
 
-import { LayoutComponent } from './core/components/layout/layout.component';
-import { SnackbarComponent } from './core/components/snackbar/snackbar.component';
+import { LayoutComponent } from './core/components/layout';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
-import { baseUrlInterceptor } from './core/interceptors/base-url.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, LayoutComponent, SnackbarComponent],
+  declarations: [AppComponent, LayoutComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule],
   providers: [
     provideAnimationsAsync(),
-    provideHttpClient(
-      withInterceptors([baseUrlInterceptor, authInterceptor, errorInterceptor])
-    ),
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,

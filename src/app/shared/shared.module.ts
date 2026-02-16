@@ -3,17 +3,15 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterModule } from '@angular/router';
+import { NavbarComponent } from '@core/components/navbar';
 
 import { ArticleCardComponent } from './components/article-card';
-import { LoadingComponent } from './components/loading/loading.component';
-import { NavbarComponent } from './components/navbar';
-import { NoContentComponent } from './components/no-content/no-content.component';
-import { FormatDatePipe } from './pipes/format-date.pipe';
+import { LoadingComponent } from './components/loading';
+import { NoContentComponent } from './components/no-content';
 
 @NgModule({
   declarations: [
     NavbarComponent,
-    FormatDatePipe,
     LoadingComponent,
     ArticleCardComponent,
     NoContentComponent,
@@ -26,7 +24,6 @@ import { FormatDatePipe } from './pipes/format-date.pipe';
   ],
   exports: [
     NavbarComponent,
-    FormatDatePipe,
     RouterModule,
     LoadingComponent,
     NoContentComponent,

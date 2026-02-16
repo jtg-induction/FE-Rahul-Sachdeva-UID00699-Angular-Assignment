@@ -1,4 +1,4 @@
-<div class="login-page">
+<main class="login-page">
   <section class="login-page__form-section">
     <mat-card class="login-card">
       <mat-card-header class="login-card__header">
@@ -13,6 +13,7 @@
             type="text"
             formControlName="username"
             placeholder="Enter username"
+            autocomplete="username"
           />
           <mat-icon matSuffix>person</mat-icon>
 
@@ -28,14 +29,15 @@
             [type]="hide ? 'password' : 'text'"
             formControlName="password"
             placeholder="Enter password"
+            autocomplete="current-password"
           />
           <button
             type="button"
             mat-icon-button
             matSuffix
             (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide"
+            [attr.aria-label]="hide ? 'Show password' : 'Hide password'"
+            [attr.aria-pressed]="!hide"
           >
             <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
@@ -52,16 +54,13 @@
           [disabled]="form.invalid || loading"
           class="login-card__button"
         >
-          <ng-container *ngIf="!loading">SUBMIT</ng-container>
-          <ng-container *ngIf="loading">
-            <mat-progress-spinner
-              mode="indeterminate"
-              diameter="30"
-            ></mat-progress-spinner>
-          </ng-container>
+          SUBMIT
         </button>
 
-        <a class="login-card__link" routerLink="/auth/signup">
+        <a
+          class="login-card__link"
+          [routerLink]="['/', routes.AUTH.BASE, routes.AUTH.SIGNUP]"
+        >
           Don't have an Account? Sign Up.
         </a>
       </form>
@@ -73,6 +72,8 @@
       class="login-page__image"
       [src]="welcomeBackImage"
       alt="Welcome Back"
+      loading="lazy"
+      decoding="async"
     />
   </aside>
-</div>
+</main>

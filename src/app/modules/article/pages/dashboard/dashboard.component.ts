@@ -2,12 +2,9 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PAGINATION_DEFAULTS } from '@app/shared/constants';
-import {
-  Article,
-} from '@modules/article/models/article.model';
+import { Article } from '@modules/article/models/article.model';
 import { PaginationState } from '@modules/article/models/pagination.model';
 import { ArticleService } from '@modules/article/services/article.service';
-import { ApiPaginatedResponse } from '@shared/models/api-paginated-response.model';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
@@ -16,18 +13,17 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-export class DashboardComponent implements OnInit, OnDestroy {
-  private articleService = inject(ArticleService);
-  private route = inject(ActivatedRoute);
-  private router = inject(Router);
-
-  private destroy$ = new Subject<void>();
+  private readonly articleService = inject(ArticleService);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly destroy$ = new Subject<void>();
 
   readonly pageSizeOptions = PAGINATION_DEFAULTS.pageSizeOptions;
 
   articles: Article[] = [];
   isLoading = false;
- 
+  isInvalidParams = false;
+
   pagination: PaginationState = {
     totalItems: 0,
     totalPages: 0,
@@ -36,41 +32,91 @@ export class DashboardComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
+    this.listenToQueryParams();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private listenToQueryParams(): void {
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params) => {
-        const page = Number(params['page']);
-        const size = Number(params['size']);
+        const pageResult = this.resolvePage(params['page']);
+        const sizeResult = this.resolvePageSize(params['size']);
 
-        this.pagination.pageIndex =
-          page > 0 ? page - 1 : PAGINATION_DEFAULTS.pageIndex;
+        if (!pageResult.valid || !sizeResult.valid) {
+          this.isInvalidParams = true;
+          this.articles = [];
+          return;
+        }
 
-        this.pagination.pageSize =
-          size > 0 ? size : PAGINATION_DEFAULTS.pageSize;
+        this.isInvalidParams = false;
 
-        this.loadArticles();
+        this.pagination.pageIndex = pageResult.value - 1;
+        this.pagination.pageSize = sizeResult.value;
+
+        this.fetchArticles();
       });
   }
 
-  private loadArticles(): void {
+  private resolvePage(value?: string): { valid: boolean; value: number } {
+    if (value == null) {
+      return {
+        valid: true,
+        value: PAGINATION_DEFAULTS.pageIndex + 1,
+      };
+    }
+
+    const parsed = Number(value);
+
+    if (!Number.isInteger(parsed) || parsed <= 0) {
+      return { valid: false, value: 0 };
+    }
+
+    return { valid: true, value: parsed };
+  }
+
+  private resolvePageSize(value?: string): { valid: boolean; value: number } {
+    if (value == null) {
+      return {
+        valid: true,
+        value: PAGINATION_DEFAULTS.pageSize,
+      };
+    }
+
+    const parsed = Number(value);
+
+    if (!Number.isInteger(parsed) || parsed <= 0) {
+      return { valid: false, value: 0 };
+    }
+
+    return { valid: true, value: parsed };
+  }
+
+  private fetchArticles(): void {
     this.isLoading = true;
 
     this.articleService
-      .getAll(this.pagination.pageIndex + 1, this.pagination.pageSize)
+      .fetchAllArticles(this.pagination.pageIndex + 1, this.pagination.pageSize)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-      next: (res: ApiPaginatedResponse<Article>) => {
-        this.articles = res.data.data;
-        this.pagination.totalItems = res.data.totalItems;
-          this.pagination.totalPages = res.data.totalPages;
-          this.pagination.pageIndex = res.data.currentPage - 1;
-          this.pagination.pageSize = res.data.pageSize;
-        this.isLoading = false;
-      },
-      error: () => {
-        this.isLoading = false;
-      },
-    });
+        next: (data) => {
+          this.articles = data.data;
+          this.pagination.totalItems = data.totalItems;
+          this.pagination.totalPages = data.totalPages;
+          this.pagination.pageIndex = data.currentPage - 1;
+          this.pagination.pageSize = data.pageSize;
+        },
+        error: () => {
+          this.articles = [];
+        },
+        complete: () => {
+          this.isLoading = false;
+        },
+      });
   }
 
   onPageChange(event: PageEvent): void {
@@ -82,10 +128,5 @@ export class DashboardComponent implements OnInit, OnDestroy {
       },
       queryParamsHandling: 'merge',
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

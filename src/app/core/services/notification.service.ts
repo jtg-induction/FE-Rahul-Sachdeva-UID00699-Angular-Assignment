@@ -21,11 +21,7 @@ export class NotificationService implements OnDestroy {
   private notificationQueue$ = new Subject<AppNotification>();
   private ref: MatSnackBarRef<TextOnlySnackBar> | null = null;
 
-  DEFAULT_SNACKBAR_CONFIG: MatSnackBarConfig = {
-    duration: 5000,
-    horizontalPosition: 'right',
-    verticalPosition: 'bottom',
-  };
+  private readonly DEFAULT_DURATION = 5000;
 
   /**
    * Initializes the notification queue listener.
@@ -38,6 +34,13 @@ export class NotificationService implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+  /**
+   * Cleans up subscriptions and completes subjects when the service is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**
@@ -88,20 +91,16 @@ export class NotificationService implements OnDestroy {
         ? 'snackbar-design-error'
         : 'snackbar-design-success';
 
-    this.ref = this.snackBar.open(notification.message, 'Close', {
-      ...this.DEFAULT_SNACKBAR_CONFIG,
-      ...notification.config,
-      panelClass: [panelClass],
-    });
+    const config = new MatSnackBarConfig();
+
+    config.duration = notification.config?.duration ?? this.DEFAULT_DURATION;
+
+    config.horizontalPosition = 'right';
+    config.verticalPosition = 'bottom';
+    config.panelClass = [panelClass];
+
+    this.ref = this.snackBar.open(notification.message, 'Close', config);
 
     return this.ref.afterDismissed();
-  }
-
-  /**
-   * Cleans up subscriptions and completes subjects when the service is destroyed.
-   */
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

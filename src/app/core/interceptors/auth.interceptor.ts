@@ -1,16 +1,66 @@
-import { HttpInterceptorFn } from '@angular/common/http';
+import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { LoadingService } from '@core/services/loading.service';
+import { environment } from '@environments/environment';
+import { AuthService } from '@modules/auth/services/auth.service';
+import { finalize } from 'rxjs';
 
+/**
+ * 1. Base URL prefix
+ * 2. Add Authorization header (if token exists)
+ * @param req HTTP Request
+ * @returns HTTP Request
+ */
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('token');
+  const authService = inject(AuthService);
+  const loader = inject(LoadingService);
 
-  if (!token) {
-    return next(req);
+  queueMicrotask(() => loader.show());
+
+  const apiRequest = attachBaseUrl(req);
+  const authorizedRequest = attachAuthorizationHeader(apiRequest, authService);
+
+  return next(authorizedRequest).pipe(
+    finalize(() => queueMicrotask(() => loader.hide()))
+  );
+};
+
+/**
+ * Add BaseURL to requst if needed
+ * @param req HTTP Request
+ * @returns HTTP Request
+ */
+function attachBaseUrl(
+  req: Parameters<HttpInterceptorFn>[0]
+): HttpRequest<unknown> {
+  if (req.url.startsWith('http')) {
+    return req;
   }
 
-  const authRequest = req.clone({
+  return req.clone({
+    url: `${environment.baseUrl}${req.url}`,
+  });
+}
+
+/**
+ * Add Authorization header if token exists
+ * @param req HTTP Request
+ * @param authService To check token expiry
+ * @returns HTTP Request
+ */
+function attachAuthorizationHeader(
+  req: Parameters<HttpInterceptorFn>[0],
+  authService: AuthService
+): HttpRequest<unknown> {
+  const token = localStorage.getItem('token');
+
+  if (!token || authService.isTokenExpired()) {
+    return req;
+  }
+
+  return req.clone({
     setHeaders: {
       Authorization: `Bearer ${token}`,
     },
   });
-  return next(authRequest);
-};
+}

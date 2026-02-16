@@ -1,29 +1,30 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { AbstractControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IMAGES } from '@app/shared/constants';
 import { LoginRequest } from '@app/modules/auth/models/auth.model';
+import { APP_ROUTES, IMAGES } from '@app/shared/constants';
 import { VALIDATION_LIMITS } from '@app/shared/constants/validation';
-import { NotificationService } from '@core/services/notification.service';
 import { AuthService } from '@modules/auth/services/auth.service';
 import { ValidatorService } from '@shared/services/validator.service';
 import {
   getPasswordErrorMessage,
   getUsernameErrorMessage,
 } from '@shared/utils/validation.utils';
-import { finalize } from 'rxjs';
+import { finalize, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
-  private notifier = inject(NotificationService);
   private authService = inject(AuthService);
   private router = inject(Router);
   private validatorService = inject(ValidatorService);
+  private readonly destroy$ = new Subject<void>();
+
+  readonly routes = APP_ROUTES;
   welcomeBackImage = IMAGES.AUTH.WELCOME_BACK;
   loading = false;
   hide = true;
@@ -47,6 +48,11 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   get username(): AbstractControl | null {
     return this.form.get('username');
   }
@@ -63,6 +69,7 @@ export class LoginComponent implements OnInit {
     return getPasswordErrorMessage(this.password);
   }
 
+  /** Handles login Submission */
   submit(): void {
     if (this.form.invalid) return;
 

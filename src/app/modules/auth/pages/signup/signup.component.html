@@ -1,6 +1,12 @@
-<div class="signup-page">
+<main class="signup-page">
   <aside class="signup-page__visual-section">
-    <img class="signup-page__image" [src]="welcomeImage" alt="Welcome" />
+    <img
+      class="signup-page__image"
+      [src]="welcomeImage"
+      alt="Welcome"
+      loading="lazy"
+      decoding="async"
+    />
   </aside>
 
   <section class="signup-page__form-section">
@@ -17,6 +23,7 @@
             type="text"
             formControlName="username"
             placeholder="Enter username"
+            autocomplete="username"
           />
           <mat-icon matSuffix>person</mat-icon>
 
@@ -29,9 +36,10 @@
           <mat-label>Email</mat-label>
           <input
             matInput
-            type="text"
+            type="email"
             formControlName="email"
             placeholder="Enter email"
+            autocomplete="email"
           />
           <mat-icon matSuffix>email</mat-icon>
 
@@ -47,14 +55,15 @@
             [type]="hide ? 'password' : 'text'"
             formControlName="password"
             placeholder="Enter password"
+            autocomplete="new-password"
           />
           <button
             type="button"
             mat-icon-button
             matSuffix
             (click)="hide = !hide"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide"
+            [attr.aria-label]="hide ? 'Show password' : 'Hide password'"
+            [attr.aria-pressed]="!hide"
           >
             <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
@@ -71,14 +80,15 @@
             [type]="hide2 ? 'password' : 'text'"
             formControlName="confirmPassword"
             placeholder="Confirm Password"
+            autocomplete="new-password"
           />
           <button
             type="button"
             mat-icon-button
             matSuffix
             (click)="hide2 = !hide2"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hide"
+            [attr.aria-label]="hide2 ? 'Show password' : 'Hide password'"
+            [attr.aria-pressed]="!hide2"
           >
             <mat-icon>{{ hide2 ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
@@ -95,19 +105,16 @@
           [disabled]="form.invalid || loading"
           class="signup-card__button"
         >
-          <ng-container *ngIf="!loading">SUBMIT</ng-container>
-          <ng-container *ngIf="loading">
-            <mat-progress-spinner
-              mode="indeterminate"
-              diameter="30"
-            ></mat-progress-spinner>
-          </ng-container>
+          SUBMIT
         </button>
 
-        <a class="signup-card__link" routerLink="/auth/login">
+        <a
+          class="signup-card__link"
+          [routerLink]="['/', routes.AUTH.BASE, routes.AUTH.LOGIN]"
+        >
           Already have an Account? Login.
         </a>
       </form>
     </mat-card>
   </section>
-</div>
+</main>

@@ -1,7 +1,7 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { IMAGES } from '@app/shared/constants';
+import { APP_ROUTES, IMAGES } from '@app/shared/constants';
 import {
   LoginResponse,
   RegisterRequest,
@@ -18,18 +18,21 @@ import {
   getPasswordErrorMessage,
   getUsernameErrorMessage,
 } from '@shared/utils/validation.utils';
-import { finalize, switchMap } from 'rxjs';
+import { finalize, Subject, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
-export class SignupComponent implements OnInit {
+export class SignupComponent implements OnInit, OnDestroy {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
   private validatorService = inject(ValidatorService);
+  private readonly destroy$ = new Subject<void>();
+
+  readonly routes = APP_ROUTES;
   welcomeImage = IMAGES.AUTH.WELCOME;
   loading = false;
   hide = true;
@@ -52,7 +55,11 @@ export class SignupComponent implements OnInit {
       ],
       password: [
         '',
-        [Validators.required, Validators.pattern(VALIDATION_PATTERNS.PASSWORD)],
+        [
+          Validators.required,
+          Validators.minLength(VALIDATION_LIMITS.PASSWORD_MIN_LENGTH),
+          Validators.pattern(VALIDATION_PATTERNS.PASSWORD),
+        ],
       ],
       confirmPassword: ['', Validators.required],
     },
@@ -74,6 +81,11 @@ export class SignupComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
   get usernameError(): string | null {
     return getUsernameErrorMessage(this.form.get('username'));
   }
@@ -90,6 +102,7 @@ export class SignupComponent implements OnInit {
     return getConfirmPasswordErrorMessage(this.form.get('confirmPassword'));
   }
 
+  /** Handles Signup Submission */
   submit(): void {
     if (this.form.invalid) return;
 

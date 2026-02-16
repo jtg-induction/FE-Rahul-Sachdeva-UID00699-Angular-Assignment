@@ -4,9 +4,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApiPaginatedData } from '@app/shared/models/api-paginated-data.model';
 import { Article } from '@modules/article/models/article.model';
 import { ArticleService } from '@modules/article/services/article.service';
-import { ApiPaginatedResponse } from '@shared/models/api-paginated-response.model';
 import { of } from 'rxjs';
 
 import { DashboardComponent } from './dashboard.component';
@@ -31,24 +31,19 @@ describe('DashboardComponent', () => {
 
   beforeEach(async () => {
     articleService = jasmine.createSpyObj<ArticleService>('ArticleService', [
-      'getAll',
+      'fetchAllArticles',
     ]);
     router = jasmine.createSpyObj<Router>('Router', ['navigate']);
 
-    const mockResponse: ApiPaginatedResponse<Article> = {
-      success: true,
-      message: 'Success',
-      timestamp: 'temp',
-      data: {
-        data: [mockArticle],
-        totalItems: 1,
-        totalPages: 1,
-        currentPage: 1,
-        pageSize: 10,
-      },
+    const mockResponse: ApiPaginatedData<Article> = {
+      data: [mockArticle],
+      totalItems: 1,
+      totalPages: 1,
+      currentPage: 1,
+      pageSize: 10,
     };
 
-    articleService.getAll.and.returnValue(of(mockResponse));
+    articleService.fetchAllArticles.and.returnValue(of(mockResponse));
 
     await TestBed.configureTestingModule({
       imports: [
@@ -80,7 +75,7 @@ describe('DashboardComponent', () => {
   });
 
   it('should load articles on init', (): void => {
-    expect(articleService.getAll).toHaveBeenCalledWith(1, 10);
+    expect(articleService.fetchAllArticles).toHaveBeenCalledWith(1, 10);
     expect(component.articles.length).toBe(1);
   });
 

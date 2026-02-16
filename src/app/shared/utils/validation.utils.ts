@@ -1,4 +1,5 @@
 import { AbstractControl } from '@angular/forms';
+import { VALIDATION_LIMITS } from '@shared/constants';
 
 export function getUsernameErrorMessage(
   control: AbstractControl | null
@@ -8,11 +9,9 @@ export function getUsernameErrorMessage(
   const errors = control.errors;
 
   if (errors['required']) return 'Required';
-  if (errors['minlength'])
-    return `Min ${errors['minlength'].requiredLength} chars`;
-  if (errors['maxlength'])
-    return `Max ${errors['maxlength'].requiredLength} chars`;
-  if (errors['alphaNumeric']) return 'Alphanumeric only';
+  if (errors['minlength'] || errors['maxlength'])
+    return `Only ${VALIDATION_LIMITS.USERNAME_MIN_LENGTH} to ${VALIDATION_LIMITS.USERNAME_MAX_LENGTH} characters allowed`;
+  if (errors['alphaNumeric']) return 'Only alphabets and numbers allowed';
 
   return null;
 }
@@ -38,7 +37,8 @@ export function getPasswordErrorMessage(
   const errors = control.errors;
 
   if (errors['required']) return 'Required';
-  if (errors['pattern']) return 'Min 8 chars, 2 numbers & 2 special chars';
+  if (errors['minlength']) return 'Must be 8+ characters';
+  if (errors['pattern']) return 'Include atleast 2 numbers and 2 symbols';
 
   return null;
 }
@@ -51,7 +51,7 @@ export function getConfirmPasswordErrorMessage(
   const errors = control.errors;
 
   if (errors['required']) return 'Required';
-  if (errors['passwordMismatch']) return 'Passwords must match';
+  if (errors['passwordMismatch']) return 'Passwords do not match';
 
   return null;
 }

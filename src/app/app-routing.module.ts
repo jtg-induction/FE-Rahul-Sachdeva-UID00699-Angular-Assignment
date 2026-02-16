@@ -5,15 +5,20 @@ import { LayoutComponent } from './core/components/layout';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
 import { NoContentComponent } from './shared/components/no-content';
+import { APP_ROUTES } from './shared/constants';
 
 const routes: Routes = [
   {
-    path: '',
+    path: APP_ROUTES.ROOT,
     component: LayoutComponent,
     children: [
-      { path: '', redirectTo: 'articles', pathMatch: 'full' },
       {
-        path: 'articles',
+        path: APP_ROUTES.ROOT,
+        redirectTo: APP_ROUTES.ARTICLES.BASE,
+        pathMatch: 'full',
+      },
+      {
+        path: APP_ROUTES.ARTICLES.BASE,
         canActivate: [authGuard],
         loadChildren: () =>
           import('./modules/article/article.module').then(
@@ -23,13 +28,13 @@ const routes: Routes = [
     ],
   },
   {
-    path: 'auth',
+    path: APP_ROUTES.AUTH.BASE,
     canActivate: [guestGuard],
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: '**',
+    path: APP_ROUTES.NOT_FOUND,
     component: NoContentComponent,
   },
 ];

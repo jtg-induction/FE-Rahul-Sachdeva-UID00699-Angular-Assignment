@@ -8,17 +8,24 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { authInterceptor } from '@app/core/interceptors/auth.interceptor';
+import { environment } from '@environments/environment';
+import { AuthService } from '@modules/auth/services/auth.service';
 
-describe('AuthInterceptor', () => {
+import { authInterceptor } from './auth.interceptor';
+
+describe('authInterceptor', () => {
   let http: HttpClient;
   let httpMock: HttpTestingController;
+  let authService: jasmine.SpyObj<AuthService>;
 
   beforeEach(() => {
-    localStorage.clear();
+    authService = jasmine.createSpyObj<AuthService>('AuthService', [
+      'isTokenExpired',
+    ]);
 
     TestBed.configureTestingModule({
       providers: [
+        { provide: AuthService, useValue: authService },
         provideHttpClient(withInterceptors([authInterceptor])),
         provideHttpClientTesting(),
       ],
@@ -33,21 +40,38 @@ describe('AuthInterceptor', () => {
     localStorage.clear();
   });
 
-  it('adds Authorization header when token exists', () => {
-    localStorage.setItem('token', 'jwt-token');
+  it('should prefix base URL', () => {
+    http.get('/users').subscribe();
 
-    http.get('/api/test').subscribe();
+    const req = httpMock.expectOne(`${environment.baseUrl}/users`);
 
-    const req = httpMock.expectOne('/api/test');
-    expect(req.request.headers.get('Authorization')).toBe('Bearer jwt-token');
+    expect(req.request.method).toBe('GET');
     req.flush({});
   });
 
-  it('does not add Authorization header when token does not exist', () => {
-    http.get('/api/test').subscribe();
+  it('should attach Authorization header when token is valid', () => {
+    localStorage.setItem('token', 'jwt-token');
+    authService.isTokenExpired.and.returnValue(false);
 
-    const req = httpMock.expectOne('/api/test');
+    http.get('/users').subscribe();
+
+    const req = httpMock.expectOne(`${environment.baseUrl}/users`);
+
+    expect(req.request.headers.get('Authorization')).toBe('Bearer jwt-token');
+
+    req.flush({});
+  });
+
+  it('should not attach Authorization header if token expired', () => {
+    localStorage.setItem('token', 'jwt-token');
+    authService.isTokenExpired.and.returnValue(true);
+
+    http.get('/users').subscribe();
+
+    const req = httpMock.expectOne(`${environment.baseUrl}/users`);
+
     expect(req.request.headers.has('Authorization')).toBeFalse();
+
     req.flush({});
   });
 });

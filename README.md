@@ -33,7 +33,7 @@ Rahul Angular Project
 |   │   ├── core/
 |   │   │   ├── components/
 |   │   │   │   ├── layout/
-|   │   │   │   └── snackbar/
+|   │   │   │   └── navbar/
 |   │   │   ├── guards/
 |   │   │   │   ├── auth.guard.ts
 |   │   │   │   └── guest.guard.ts
@@ -46,6 +46,7 @@ Rahul Angular Project
 |   │   │   │   └── notification.model.ts
 |   │   │   └── services/
 |   │   │       └── notification.service.ts
+|   │   │       └── loading.service.ts
 |   │   │
 |   │   ├── modules/
 |   │   │   ├── auth/

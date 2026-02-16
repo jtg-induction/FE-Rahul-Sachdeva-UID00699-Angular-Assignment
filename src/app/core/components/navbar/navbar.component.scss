@@ -14,14 +14,25 @@
     gap: $spacing-lg;
   }
 
-  &__project {
+  &__brand {
     font-size: $font-size-lg;
     font-weight: 600;
     cursor: pointer;
     white-space: nowrap;
+    color: $color-on-primary;
+    text-decoration: none;
   }
 
-  &__links {
+  &__menu {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__link {
     color: $color-on-primary;
     text-decoration: none;
     cursor: pointer;

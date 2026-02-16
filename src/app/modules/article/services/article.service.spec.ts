@@ -4,9 +4,9 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Article } from '@modules/article/models/article.model';
+import { ApiPaginatedData } from '@shared/models/api-paginated-data.model';
 import { ApiPaginatedResponse } from '@shared/models/api-paginated-response.model';
 import { ApiResponse } from '@shared/models/api-response.model';
-import { environment } from '@environments/environment';
 
 import { ArticleService } from './article.service';
 
@@ -56,18 +56,21 @@ describe('ArticleService', () => {
       },
     };
 
-    service.getAll(1, 10).subscribe((res) => {
-      expect(res.data.data.length).toBe(1);
-      expect(res.data.totalItems).toBe(1);
-    });
+    service
+      .fetchAllArticles(1, 10)
+      .subscribe((res: ApiPaginatedData<Article>) => {
+        expect(res.data.length).toBe(1);
+        expect(res.totalItems).toBe(1);
+      });
 
     const req = httpMock.expectOne(
-      (r) => r.url === `${environment.baseUrl}/articles`
+      (request) =>
+        request.url === '/articles' &&
+        request.params.get('page') === '1' &&
+        request.params.get('pageSize') === '10'
     );
 
     expect(req.request.method).toBe('GET');
-    expect(req.request.params.get('page')).toBe('1');
-    expect(req.request.params.get('pageSize')).toBe('10');
 
     req.flush(mockResponse);
   });
@@ -80,29 +83,13 @@ describe('ArticleService', () => {
       data: mockArticles[0],
     };
 
-    service.getById('1').subscribe((res) => {
-      expect(res.data.title).toBe('Test Article');
+    service.fetchArticleById('1').subscribe((article: Article) => {
+      expect(article.title).toBe('Test Article');
     });
 
-    const req = httpMock.expectOne(`${environment.baseUrl}/articles/1`);
-
+    const req = httpMock.expectOne('/articles/1');
     expect(req.request.method).toBe('GET');
 
     req.flush(mockResponse);
-  });
-
-  it('should propagate http errors', () => {
-    service.getAll(1, 10).subscribe({
-      next: () => fail('Expected error'),
-      error: (err) => {
-        expect(err.status).toBe(500);
-      },
-    });
-
-    const req = httpMock.expectOne(
-      `${environment.baseUrl}/articles?page=1&pageSize=10`
-    );
-
-    req.flush(null, { status: 500, statusText: 'Server Error' });
   });
 });

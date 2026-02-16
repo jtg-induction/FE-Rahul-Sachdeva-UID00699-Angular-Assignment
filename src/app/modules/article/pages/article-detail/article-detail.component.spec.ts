@@ -1,81 +1,108 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Article } from '@modules/article/models/article.model';
 import { ArticleService } from '@modules/article/services/article.service';
-import { ApiResponse } from '@shared/models/api-response.model';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 import { ArticleDetailComponent } from './article-detail.component';
 
 describe('ArticleDetailComponent', () => {
   let component: ArticleDetailComponent;
   let fixture: ComponentFixture<ArticleDetailComponent>;
-  let service: jasmine.SpyObj<ArticleService>;
+  let articleService: jasmine.SpyObj<ArticleService>;
 
   const mockArticle: Article = {
     id: '1',
-    title: 'Test',
-    shortDescription: '',
+    title: 'Test Article',
+    shortDescription: 'Short',
     description: 'Full description',
     author: 'Rahul',
-    createdAt: '',
-    updatedAt: '',
-    tags: [],
+    createdAt: '2026-02-11',
+    updatedAt: '2026-02-11',
+    image: '',
+    tags: ['tag1'],
   };
 
+  const createActivatedRouteMock = (
+    id: string | null
+  ): Partial<ActivatedRoute> => ({
+    paramMap: of({
+      get: (key: string): string | null => (key === 'id' ? id : null),
+    } as ParamMap),
+  });
+
   beforeEach(async () => {
-    service = jasmine.createSpyObj('ArticleService', ['getById']);
+    articleService = jasmine.createSpyObj<ArticleService>('ArticleService', [
+      'fetchArticleById',
+    ]);
 
     await TestBed.configureTestingModule({
       declarations: [ArticleDetailComponent],
       providers: [
-        { provide: ArticleService, useValue: service },
+        { provide: ArticleService, useValue: articleService },
         {
           provide: ActivatedRoute,
-          useValue: {
-            snapshot: {
-              paramMap: {
-                get: (): string => '1',
-              },
-            },
-          },
+          useValue: createActivatedRouteMock('1'),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ArticleDetailComponent);
     component = fixture.componentInstance;
   });
 
-  it('should load article on init', () => {
-    const mockResponse: ApiResponse<Article> = {
-      success: true,
-      message: 'Success',
-      timestamp: 'temp',
-      data: mockArticle,
-    };
+  it('should create', (): void => {
+    expect(component).toBeTruthy();
+  });
 
-    service.getById.and.returnValue(of(mockResponse));
+  it('should load article on init', (): void => {
+    articleService.fetchArticleById.and.returnValue(of(mockArticle));
 
     component.ngOnInit();
 
-    expect(component.article?.title).toBe('Test');
-    expect(component.loading).toBeFalse();
+    expect(articleService.fetchArticleById).toHaveBeenCalledWith('1');
+    expect(component.article).toEqual(mockArticle);
     expect(component.error).toBeFalse();
   });
 
-  it('should handle not found', () => {
-    service.getById.and.returnValue(
-      of({
-        success: true,
-        message: '',
-        timestamp: '',
-        data: null as unknown as Article,
-      })
+  it('should handle service error', (): void => {
+    articleService.fetchArticleById.and.returnValue(
+      throwError(() => new Error('Not found'))
     );
 
     component.ngOnInit();
 
+    expect(component.article).toBeUndefined();
     expect(component.error).toBeTrue();
+  });
+
+  it('should handle missing route id', (): void => {
+    TestBed.resetTestingModule();
+
+    articleService = jasmine.createSpyObj<ArticleService>('ArticleService', [
+      'fetchArticleById',
+    ]);
+
+    TestBed.configureTestingModule({
+      declarations: [ArticleDetailComponent],
+      providers: [
+        { provide: ArticleService, useValue: articleService },
+        {
+          provide: ActivatedRoute,
+          useValue: createActivatedRouteMock(null),
+        },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
+
+    const localFixture = TestBed.createComponent(ArticleDetailComponent);
+    const localComponent = localFixture.componentInstance;
+
+    localComponent.ngOnInit();
+
+    expect(articleService.fetchArticleById).not.toHaveBeenCalled();
+    expect(localComponent.error).toBeTrue();
   });
 });
