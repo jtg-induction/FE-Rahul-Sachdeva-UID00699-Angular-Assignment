@@ -1,59 +1,59 @@
 <main class="article-detail">
-  <section *ngIf="loading" class="article-detail__state">
-    <app-loading></app-loading>
-  </section>
-
-  <section *ngIf="!loading && error" class="article-detail__state">
-    <app-no-content
-      title="Article Not Found"
-      message="The requested article doesn't exist"
-      buttonText="Go to all Articles"
-      redirectTo="/"
-    ></app-no-content>
-  </section>
-
-  <article *ngIf="!loading && article" class="article-detail__card">
-    <header>
-      <div class="article-detail__meta">
-        <span>By {{ article.author }}</span>
-        <span>{{ article.createdAt | date: 'mediumDate' }}</span>
-      </div>
-
-      <h1 class="article-detail__title">
-        {{ article.title }}
-      </h1>
-    </header>
-
-    <figure class="article-detail__image-container">
-      <img
-        class="article-detail__image"
-        [src]="article.image || fallbackImage"
-        (error)="onImageError($event)"
-        [alt]="article.title"
-        loading="lazy"
-        decoding="async"
-      />
-    </figure>
-
-    <section class="article-detail__description">
-      <p>{{ article.description }}</p>
+  @if (!loading && error) {
+    <section class="article-detail__state">
+      <app-no-content
+        title="Article Not Found"
+        message="The requested article doesn't exist"
+        buttonText="Go to all Articles"
+        redirectTo="/"
+      ></app-no-content>
     </section>
+  }
 
-    <section class="article-detail__tags" aria-label="Article Tags">
-      <span class="article-detail__tag" *ngFor="let tag of article.tags">
-        {{ tag }}
-      </span>
-    </section>
-
-    <footer>
-      <button
-        type="button"
-        mat-stroked-button
-        color="primary"
-        (click)="goBack()"
-      >
-        Back to Dashboard
-      </button>
-    </footer>
-  </article>
+  @if (!loading && article) {
+    <mat-card class="article-detail__card" appearance="outlined">
+      <mat-card-header>
+        <mat-card-title class="article-detail__title">
+          {{ article.title }}
+        </mat-card-title>
+        <mat-card-subtitle class="article-detail__meta">
+          By {{ article.author }} •
+          {{ article.createdAt | date: 'mediumDate' }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <figure class="article-detail__image-container">
+        <img
+          mat-card-image
+          class="article-detail__image"
+          [src]="article.image || fallbackImage"
+          (error)="onImageError($event)"
+          [alt]="article.title"
+          loading="lazy"
+          decoding="async"
+        />
+      </figure>
+      <mat-card-content>
+        <section class="article-detail__description">
+          <p>{{ article.description }}</p>
+        </section>
+        <mat-chip-set class="article-detail__tags" aria-label="Article Tags">
+          @for (tag of article.tags; track tag) {
+            <mat-chip class="article-detail__tag">
+              {{ tag }}
+            </mat-chip>
+          }
+        </mat-chip-set>
+      </mat-card-content>
+      <mat-card-actions align="end">
+        <button
+          type="button"
+          mat-stroked-button
+          color="primary"
+          (click)="goBack()"
+        >
+          Back to Dashboard
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  }
 </main>

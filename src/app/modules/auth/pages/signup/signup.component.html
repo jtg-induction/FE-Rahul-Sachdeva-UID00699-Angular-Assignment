@@ -27,9 +27,11 @@
           />
           <mat-icon matSuffix>person</mat-icon>
 
-          <mat-error *ngIf="usernameError">
-            {{ usernameError }}
-          </mat-error>
+          @if (usernameError) {
+            <mat-error>
+              {{ usernameError }}
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="signup-card__field">
@@ -43,9 +45,11 @@
           />
           <mat-icon matSuffix>email</mat-icon>
 
-          <mat-error *ngIf="emailError">
-            {{ emailError }}
-          </mat-error>
+          @if (emailError) {
+            <mat-error>
+              {{ emailError }}
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="signup-card__field">
@@ -68,9 +72,11 @@
             <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
 
-          <mat-error *ngIf="passwordError">
-            {{ passwordError }}
-          </mat-error>
+          @if (passwordError) {
+            <mat-error>
+              {{ passwordError }}
+            </mat-error>
+          }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="signup-card__field">
@@ -93,9 +99,11 @@
             <mat-icon>{{ hide2 ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
 
-          <mat-error *ngIf="confirmPasswordError">
-            {{ confirmPasswordError }}
-          </mat-error>
+          @if (confirmPasswordError) {
+            <mat-error>
+              {{ confirmPasswordError }}
+            </mat-error>
+          }
         </mat-form-field>
 
         <button

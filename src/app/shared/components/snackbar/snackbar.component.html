@@ -1,0 +1,15 @@
+<div [ngClass]="'snackbar-component ' + snackBarData.variant">
+  <span class="snackbar-component__message" matSnackBarLabel>
+    {{ snackBarData.message }}
+  </span>
+  <span matSnackBarActions class="snackbar-component__action">
+    <button
+      mat-button
+      matSnackBarAction
+      (click)="snackBarRef.dismissWithAction()"
+      class="snackbar-component__button"
+    >
+      {{ snackBarData.action }}
+    </button>
+  </span>
+</div>

@@ -8,8 +8,8 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { AuthService } from '@core/services/auth.service';
 import { environment } from '@environments/environment';
-import { AuthService } from '@modules/auth/services/auth.service';
 
 import { authInterceptor } from './auth.interceptor';
 

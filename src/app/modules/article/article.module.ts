@@ -6,9 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SharedModule } from '@app/shared/shared.module';
 import { ArticleRoutingModule } from '@modules/article/article-routing.module';
 import { DashboardComponent } from '@modules/article/pages/dashboard/dashboard.component';
+import { SharedModule } from '@shared/shared.module';
 
 import { ArticleDetailComponent } from './pages/article-detail/article-detail.component';
 

@@ -5,7 +5,6 @@ export interface Article {
   description: string;
   author: string;
   createdAt: string;
-  updatedAt: string;
   image?: string;
   tags: string[];
 }

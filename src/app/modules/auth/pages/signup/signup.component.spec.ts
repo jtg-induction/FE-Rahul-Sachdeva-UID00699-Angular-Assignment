@@ -2,8 +2,8 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '@modules/auth/services/auth.service';
-import { ValidatorService } from '@shared/services/validator.service';
+import { AuthService } from '@core/services/auth.service';
+import { ValidatorService } from '@core/services/validator.service';
 import { of } from 'rxjs';
 
 import { SignupComponent } from './signup.component';

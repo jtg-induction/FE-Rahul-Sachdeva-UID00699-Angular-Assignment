@@ -9,7 +9,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
-    "lint": "ng lint --fix && stylelint \"src/**/*.scss\" --fix",
+    "lint": "eslint --fix && stylelint \"src/**/*.scss\" --fix",
     "lint-staged": "npx lint-staged"
   },
   "lint-staged": {

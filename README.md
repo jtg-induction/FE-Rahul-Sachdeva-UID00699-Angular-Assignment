@@ -31,78 +31,45 @@ Rahul Angular Project
 ├── src/
 |   ├── app/
 |   │   ├── core/
-|   │   │   ├── components/
-|   │   │   │   ├── layout/
-|   │   │   │   └── navbar/
 |   │   │   ├── guards/
-|   │   │   │   ├── auth.guard.ts
-|   │   │   │   └── guest.guard.ts
 |   │   │   ├── handlers/
-|   │   │   │   └── global-error.handler.ts
 |   │   │   ├── interceptors/
-|   │   │   │   ├── auth.interceptor.ts
-|   │   │   │   └── error.interceptor.ts
-|   │   │   ├── models/
-|   │   │   │   └── notification.model.ts
 |   │   │   └── services/
-|   │   │       └── notification.service.ts
-|   │   │       └── loading.service.ts
 |   │   │
 |   │   ├── modules/
 |   │   │   ├── auth/
 |   │   │   │   ├── models/
-|   │   │   │   │   ├── auth-user.model.ts
-|   │   │   │   │   └── auth.model.ts
 |   │   │   │   ├── pages/
 |   │   │   │   │   ├── login/
 |   │   │   │   │   │   └── login.component.*
 |   │   │   │   │   └── signup/
 |   │   │   │   │       └── signup.component.*
-|   │   │   │   ├── services/
-|   │   │   │   │   └── auth.service.ts
 |   │   │   │   ├── auth-routing.module.ts
 |   │   │   │   └── auth.module.ts
 |   │   │   │
-|   │   │   ├── article/
-|   │   │   │   ├── models/
-|   │   │   │   │   ├── article.model.ts
-|   │   │   │   │   └── pagination.model.ts
-|   │   │   │   ├── services/
-|   │   │   │   │   └── article.service.ts
-|   │   │   │   ├── pages/
-|   │   │   │   │   ├── dashboard/
-|   │   │   │   │   │   └── dashboard.component.*
-|   │   │   │   │   └── article-detail/
-|   │   │   │   │       └── article-detail.component.*
-|   │   │   │   ├── article-routing.module.ts
-|   │   │   │   └── article.module.ts
-|   │   │   │
-|   │   │   └── not-found/
+|   │   │   └── article/
+|   │   │       ├── models/
+|   │   │       ├── pages/
+|   │   │       │   ├── dashboard/
+|   │   │       │   └── article-detail/
+|   │   │       ├── article-routing.module.ts
+|   │   │       └── article.module.ts
 |   │   │
 |   │   ├── shared/
 |   │   │   ├── components/
 |   │   │   │   ├── article-card/
 |   │   │   │   ├── loading/
 |   │   │   │   ├── navbar/
-|   │   │   │   └── no-content/
+|   │   │   │   |── no-content/
+|   │   │   │   |── layout/
+|   │   │   │   └── snackbar/
 |   │   │   ├── constants/
-|   │   │   │   ├── messages.ts
-|   │   │   │   ├── validation.ts
-|   │   │   │   └── index.ts
 |   │   │   ├── models/
-|   │   │   │   ├── api-response.model.ts
-|   │   │   │   ├── api-paginated-data.model.ts
-|   │   │   │   └── api-paginated-response.model.ts
-|   │   │   ├── pipes/
-|   │   │   │   ├── format-date.pipe.ts
-|   │   │   │   └── slice-tags.pipe.ts
-|   │   │   ├── services/
-|   │   │   │   └── validator.service.ts
-|   │   │   ├── utils/
-|   │   │   │   └── validation.utils.ts
 |   │   │   └── shared.module.ts
 |   │   │
 |   │   ├── app-routing.module.ts
+|   │   ├── app.component.html
+|   │   ├── app.component.spec.ts
 |   │   ├── app.component.ts
 |   │   └── app.module.ts
 |   │
@@ -115,20 +82,8 @@ Rahul Angular Project
 |   │
 |   ├── styles/
 |   │   ├── abstracts/
-|   │   │   ├── _functions.scss
-|   │   │   └── _mixins.scss
 |   │   ├── base/
-|   │   │   ├── _reset.scss
-|   │   │   └── _typography.scss
-|   │   ├── components/
-|   │   │   └── _snackbar.scss
 |   │   ├── constants/
-|   │   │   ├── _colors.scss
-|   │   │   ├── _spacing.scss
-|   │   │   ├── _radius.scss
-|   │   │   ├── _breakpoints.scss
-|   │   │   ├── _fonts.scss
-|   │   │   └── _z-index.scss
 |   │   └── _main.scss
 |   │
 |   ├── index.html

@@ -1,10 +1,10 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PAGINATION_DEFAULTS } from '@app/shared/constants';
+import { ArticleService } from '@core/services/article.service';
 import { Article } from '@modules/article/models/article.model';
 import { PaginationState } from '@modules/article/models/pagination.model';
-import { ArticleService } from '@modules/article/services/article.service';
+import { PAGINATION_DEFAULTS } from '@shared/constants';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({

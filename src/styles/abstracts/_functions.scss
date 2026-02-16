@@ -2,8 +2,8 @@
 
 @function rem($value) {
   @if math.is-unitless($value) {
-    @return math.div($value, 16) * 1rem;
+    @return calc($value / 16) * 1rem;
   }
 
-  @return math.div($value, 16px) * 1rem;
+  @return calc($value / 16px) * 1rem;
 }

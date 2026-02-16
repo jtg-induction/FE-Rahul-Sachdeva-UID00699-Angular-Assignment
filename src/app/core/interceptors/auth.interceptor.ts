@@ -1,8 +1,8 @@
 import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { AuthService } from '@core/services/auth.service';
 import { LoadingService } from '@core/services/loading.service';
 import { environment } from '@environments/environment';
-import { AuthService } from '@modules/auth/services/auth.service';
 import { finalize } from 'rxjs';
 
 /**

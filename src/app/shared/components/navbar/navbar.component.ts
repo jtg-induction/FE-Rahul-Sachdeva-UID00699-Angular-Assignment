@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { APP_ROUTES } from '@app/shared/constants';
-import { AuthService } from '@modules/auth/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
+import { APP_ROUTES } from '@shared/constants';
 
 @Component({
   selector: 'app-navbar',
@@ -15,6 +15,6 @@ export class NavbarComponent {
 
   logout(): void {
     this.authService.logout();
-    this.router.navigate(['/auth/login']);
+    this.router.navigate(['/', APP_ROUTES.AUTH.BASE, APP_ROUTES.AUTH.SIGNUP]);
   }
 }

@@ -26,9 +26,15 @@ html,
 body {
   min-height: 100%;
   overflow: auto;
+  margin: 0;
+  padding: 0;
 }
 
-body {
-  margin: 0;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
+.mat-mdc-snack-bar-container {
+  .mdc-snackbar__surface {
+    padding: 0;
+  }
+  .mdc-snackbar__label {
+    padding: 0;
+  }
 }

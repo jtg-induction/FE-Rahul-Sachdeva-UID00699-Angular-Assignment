@@ -3,9 +3,11 @@
 
 .dashboard {
   padding: $spacing-lg;
+  background-color: $color-background;
 
   &__loading {
     @include flex-center;
+
     padding: $spacing-xl;
   }
 

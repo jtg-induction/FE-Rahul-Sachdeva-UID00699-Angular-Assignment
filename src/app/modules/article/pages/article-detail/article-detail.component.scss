@@ -9,13 +9,14 @@
 
   &__state {
     @include flex-center;
+
     min-height: 60vh;
     flex-direction: column;
   }
 
   &__meta {
-    display: flex;
-    justify-content: space-between;
+    @include flex-between;
+
     flex-wrap: wrap;
     gap: $spacing-sm;
     color: $color-muted;
@@ -55,12 +56,12 @@
   &__description {
     font-size: $font-size-lg;
     text-align: justify;
-    line-height: 1.8;
+    line-height: 1.5;
   }
 
   &__tags {
-    margin-top: $spacing-lg;
     display: flex;
+    margin-top: $spacing-lg;
     gap: $spacing-sm;
     flex-wrap: wrap;
     margin-bottom: $spacing-lg;

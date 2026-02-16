@@ -1,8 +1,8 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ArticleService } from '@core/services/article.service';
 import { Article } from '@modules/article/models/article.model';
-import { ArticleService } from '@modules/article/services/article.service';
 import { of, throwError } from 'rxjs';
 
 import { ArticleDetailComponent } from './article-detail.component';
@@ -19,7 +19,6 @@ describe('ArticleDetailComponent', () => {
     description: 'Full description',
     author: 'Rahul',
     createdAt: '2026-02-11',
-    updatedAt: '2026-02-11',
     image: '',
     tags: ['tag1'],
   };

@@ -38,8 +38,6 @@ describe('AuthService', () => {
           id: '2',
           username: 'hero',
           email: 'hero@gmail.com',
-          createdAt: '2026-02-05 15:58:06',
-          updatedAt: '2026-02-05 15:58:06',
         },
         token: 'jwt-token',
       },

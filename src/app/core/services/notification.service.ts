@@ -4,12 +4,12 @@ import {
   MatSnackBarConfig,
   MatSnackBarDismiss,
   MatSnackBarRef,
-  TextOnlySnackBar,
 } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '@shared/components/snackbar';
 import {
   AppNotification,
   NotificationType,
-} from '@app/core/models/notification.model';
+} from '@shared/models/notification.model';
 import { concatMap, Observable, Subject, takeUntil } from 'rxjs';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class NotificationService implements OnDestroy {
   private snackBar = inject(MatSnackBar);
   private destroy$ = new Subject<void>();
   private notificationQueue$ = new Subject<AppNotification>();
-  private ref: MatSnackBarRef<TextOnlySnackBar> | null = null;
+  private ref?: MatSnackBarRef<SnackbarComponent>;
 
   private readonly DEFAULT_DURATION = 5000;
 
@@ -87,19 +87,20 @@ export class NotificationService implements OnDestroy {
    */
   private open(notification: AppNotification): Observable<MatSnackBarDismiss> {
     const panelClass =
-      notification.type === 'error'
-        ? 'snackbar-design-error'
-        : 'snackbar-design-success';
+      notification.type === 'error' ? 'snackbar-error' : 'snackbar-success';
 
     const config = new MatSnackBarConfig();
 
+    config.data = {
+      message: notification.message,
+      action: 'Close',
+      variant: panelClass,
+    };
     config.duration = notification.config?.duration ?? this.DEFAULT_DURATION;
-
     config.horizontalPosition = 'right';
     config.verticalPosition = 'bottom';
-    config.panelClass = [panelClass];
 
-    this.ref = this.snackBar.open(notification.message, 'Close', config);
+    this.ref = this.snackBar.openFromComponent(SnackbarComponent, config);
 
     return this.ref.afterDismissed();
   }

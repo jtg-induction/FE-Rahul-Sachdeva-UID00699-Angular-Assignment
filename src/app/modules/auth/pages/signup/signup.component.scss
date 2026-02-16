@@ -1,11 +1,6 @@
 @use 'abstracts' as *;
 @use 'constants' as *;
 
-input[type='password']::-ms-reveal,
-input[type='password']::-ms-clear {
-  display: none;
-}
-
 .signup-page {
   display: flex;
   min-height: 100vh;
@@ -26,7 +21,7 @@ input[type='password']::-ms-clear {
   max-height: 85vh;
   object-fit: cover;
   flex: 1;
-  background: white;
+  background: $color-surface;
 }
 
 .signup-page__image {

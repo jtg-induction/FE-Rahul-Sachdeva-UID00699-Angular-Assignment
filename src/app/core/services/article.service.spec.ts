@@ -22,7 +22,6 @@ describe('ArticleService', () => {
       description: 'Full description',
       author: 'Rahul',
       createdAt: '2026-02-10',
-      updatedAt: '2026-02-10',
       image: '',
       tags: ['tag1', 'tag2'],
     },

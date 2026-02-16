@@ -5,8 +5,8 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { APP_ROUTES } from '@app/shared/constants';
-import { AuthService } from '@modules/auth/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
+import { APP_ROUTES } from '@shared/constants';
 
 import { authGuard } from './auth.guard';
 
@@ -54,10 +54,10 @@ describe('authGuard', () => {
       authGuard(mockRoute, mockState)
     );
 
-    expect(router.navigate).toHaveBeenCalledWith([
+    expect(router.createUrlTree).toHaveBeenCalledWith([
       '/',
       APP_ROUTES.AUTH.BASE,
-      APP_ROUTES.AUTH.LOGIN,
+      APP_ROUTES.AUTH.SIGNUP,
     ]);
     expect(result).toBe(mockTree);
   });

@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { LayoutComponent } from './core/components/layout';
 import { authGuard } from './core/guards/auth.guard';
 import { guestGuard } from './core/guards/guest.guard';
+import { LayoutComponent } from './shared/components/layout';
 import { NoContentComponent } from './shared/components/no-content';
 import { APP_ROUTES } from './shared/constants';
 

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
-import { APP_ROUTES } from '@app/shared/constants';
-import { AuthService } from '@modules/auth/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
+import { APP_ROUTES } from '@shared/constants';
 
 import { NavbarComponent } from './navbar.component';
 
@@ -40,7 +40,7 @@ describe('NavbarComponent', () => {
     expect(router.navigate).toHaveBeenCalledWith([
       '/',
       APP_ROUTES.AUTH.BASE,
-      APP_ROUTES.AUTH.LOGIN,
+      APP_ROUTES.AUTH.SIGNUP,
     ]);
   });
 });

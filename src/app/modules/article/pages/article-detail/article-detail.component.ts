@@ -1,8 +1,8 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IMAGES } from '@app/shared/constants';
+import { ArticleService } from '@core/services/article.service';
 import { Article } from '@modules/article/models/article.model';
-import { ArticleService } from '@modules/article/services/article.service';
+import { IMAGES } from '@shared/constants';
 import { EMPTY, finalize, Subject, switchMap, takeUntil } from 'rxjs';
 
 @Component({

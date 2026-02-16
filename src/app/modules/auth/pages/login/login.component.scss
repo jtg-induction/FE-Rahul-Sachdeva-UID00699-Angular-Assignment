@@ -2,11 +2,6 @@
 @use 'constants' as *;
 @use 'sass:color';
 
-input[type='password']::-ms-reveal,
-input[type='password']::-ms-clear {
-  display: none;
-}
-
 .login-page {
   display: flex;
   min-height: 100vh;

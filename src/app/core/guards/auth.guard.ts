@@ -1,6 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '@modules/auth/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
+import { APP_ROUTES } from '@shared/constants';
 
 /**
  * Allows access only to authenticated users.
@@ -13,8 +14,7 @@ export const authGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isAuthenticated()) {
-    return true;
-  }
-  return router.createUrlTree(['/auth/login']);
+  return authService.isAuthenticated()
+    ? true
+    : router.createUrlTree(['/', APP_ROUTES.AUTH.BASE, APP_ROUTES.AUTH.SIGNUP]);
 };

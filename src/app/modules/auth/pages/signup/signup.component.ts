@@ -1,23 +1,18 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { APP_ROUTES, IMAGES } from '@app/shared/constants';
+import { AuthService } from '@core/services/auth.service';
+import { ValidationMessageService } from '@core/services/validation-message.service';
+import { ValidatorService } from '@core/services/validator.service';
 import {
   LoginResponse,
   RegisterRequest,
 } from '@modules/auth/models/auth.model';
-import { AuthService } from '@modules/auth/services/auth.service';
+import { APP_ROUTES, IMAGES } from '@shared/constants';
 import {
   VALIDATION_LIMITS,
   VALIDATION_PATTERNS,
 } from '@shared/constants/validation';
-import { ValidatorService } from '@shared/services/validator.service';
-import {
-  getConfirmPasswordErrorMessage,
-  getEmailErrorMessage,
-  getPasswordErrorMessage,
-  getUsernameErrorMessage,
-} from '@shared/utils/validation.utils';
 import { finalize, Subject, switchMap } from 'rxjs';
 
 @Component({
@@ -31,6 +26,7 @@ export class SignupComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private validatorService = inject(ValidatorService);
   private readonly destroy$ = new Subject<void>();
+  private readonly validationMessageService = inject(ValidationMessageService);
 
   readonly routes = APP_ROUTES;
   welcomeImage = IMAGES.AUTH.WELCOME;
@@ -87,19 +83,27 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
 
   get usernameError(): string | null {
-    return getUsernameErrorMessage(this.form.get('username'));
+    return this.validationMessageService.getUsernameMessage(
+      this.form.get('username')
+    );
   }
 
   get emailError(): string | null {
-    return getEmailErrorMessage(this.form.get('email'));
+    return this.validationMessageService.getEmailMessage(
+      this.form.get('email')
+    );
   }
 
   get passwordError(): string | null {
-    return getPasswordErrorMessage(this.form.get('password'));
+    return this.validationMessageService.getPasswordMessage(
+      this.form.get('password')
+    );
   }
 
   get confirmPasswordError(): string | null {
-    return getConfirmPasswordErrorMessage(this.form.get('confirmPassword'));
+    return this.validationMessageService.getConfirmPasswordMessage(
+      this.form.get('confirmPassword')
+    );
   }
 
   /** Handles Signup Submission */

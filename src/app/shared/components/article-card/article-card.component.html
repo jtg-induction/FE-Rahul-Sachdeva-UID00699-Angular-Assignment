@@ -2,19 +2,19 @@
   class="article-card"
   [routerLink]="['/', routes.ARTICLES.BASE, article.id]"
 >
-  <div class="article-card__header">
+  <header class="article-card__header">
     <div class="article-card__meta">
       <span class="article-card__author"> By {{ article.author }} </span>
 
-      <div class="article-card__date" [attr.datetime]="article.createdAt">
+      <time class="article-card__date" [attr.datetime]="article.createdAt">
         {{ article.createdAt | date: 'mediumDate' }}
-      </div>
+      </time>
     </div>
 
     <h3 class="article-card__title">
       {{ article.title }}
     </h3>
-  </div>
+  </header>
 
   <div class="article-card__content">
     <div class="article-card__body">
@@ -22,11 +22,12 @@
         {{ article.shortDescription }}
       </p>
 
-      <div class="article-card__footer">
-        <div class="article-card__tags">
+      <footer class="article-card__footer">
+        <div class="article-card__tags" aria-label="Article Tags">
           <span class="article-card__tag" *ngFor="let tag of visibleTags">
             {{ tag }}
           </span>
+
           <span
             class="article-card__tag article-card__tag--more"
             *ngIf="remainingTagCount > 0"
@@ -34,10 +35,10 @@
             +{{ remainingTagCount }}
           </span>
         </div>
-      </div>
+      </footer>
     </div>
 
-    <div class="article-card__image-wrapper">
+    <figure class="article-card__image-wrapper">
       <img
         class="article-card__image"
         [src]="article.image || fallbackImage"
@@ -46,6 +47,6 @@
         loading="lazy"
         decoding="async"
       />
-    </div>
+    </figure>
   </div>
 </article>

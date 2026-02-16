@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthService } from '@modules/auth/services/auth.service';
+import { AuthService } from '@core/services/auth.service';
 import { of } from 'rxjs';
 
 import { LoginComponent } from './login.component';

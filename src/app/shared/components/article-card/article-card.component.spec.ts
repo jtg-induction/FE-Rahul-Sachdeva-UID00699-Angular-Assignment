@@ -16,7 +16,6 @@ describe('ArticleCardComponent', () => {
     description: 'Full Description',
     author: 'John Doe',
     createdAt: '2026-01-01',
-    updatedAt: '2026-01-01',
     image: '',
     tags: ['angular', 'testing', 'unit', 'spec', 'extra'],
   };

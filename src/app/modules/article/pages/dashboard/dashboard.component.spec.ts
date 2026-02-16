@@ -4,9 +4,9 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiPaginatedData } from '@app/shared/models/api-paginated-data.model';
+import { ArticleService } from '@core/services/article.service';
 import { Article } from '@modules/article/models/article.model';
-import { ArticleService } from '@modules/article/services/article.service';
+import { ApiPaginatedData } from '@shared/models/api-paginated-data.model';
 import { of } from 'rxjs';
 
 import { DashboardComponent } from './dashboard.component';
@@ -24,7 +24,6 @@ describe('DashboardComponent', () => {
     description: 'Full',
     author: 'Rahul',
     createdAt: '2026-02-11',
-    updatedAt: '2026-02-11',
     tags: ['tag1'],
     image: '',
   };

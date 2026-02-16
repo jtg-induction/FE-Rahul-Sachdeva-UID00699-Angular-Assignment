@@ -1,16 +1,13 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginRequest } from '@app/modules/auth/models/auth.model';
-import { APP_ROUTES, IMAGES } from '@app/shared/constants';
-import { VALIDATION_LIMITS } from '@app/shared/constants/validation';
-import { AuthService } from '@modules/auth/services/auth.service';
-import { ValidatorService } from '@shared/services/validator.service';
-import {
-  getPasswordErrorMessage,
-  getUsernameErrorMessage,
-} from '@shared/utils/validation.utils';
-import { finalize, Subject } from 'rxjs';
+import { AuthService } from '@core/services/auth.service';
+import { ValidationMessageService } from '@core/services/validation-message.service';
+import { ValidatorService } from '@core/services/validator.service';
+import { LoginRequest } from '@modules/auth/models/auth.model';
+import { APP_ROUTES, IMAGES } from '@shared/constants';
+import { VALIDATION_LIMITS } from '@shared/constants/validation';
+import { finalize, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +15,16 @@ import { finalize, Subject } from 'rxjs';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
-  private router = inject(Router);
-  private validatorService = inject(ValidatorService);
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+  private readonly validatorService = inject(ValidatorService);
+  private readonly validationMessageService = inject(ValidationMessageService);
   private readonly destroy$ = new Subject<void>();
 
   readonly routes = APP_ROUTES;
   welcomeBackImage = IMAGES.AUTH.WELCOME_BACK;
+
   loading = false;
   hide = true;
 
@@ -43,9 +42,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   });
 
   ngOnInit(): void {
-    this.form.get('password')?.valueChanges.subscribe(() => {
-      this.hide = true;
-    });
+    this.form
+      .get('password')
+      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.hide = true;
+      });
   }
 
   ngOnDestroy(): void {
@@ -62,14 +64,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   get usernameError(): string | null {
-    return getUsernameErrorMessage(this.username);
+    return this.validationMessageService.getUsernameMessage(this.username);
   }
 
   get passwordError(): string | null {
-    return getPasswordErrorMessage(this.password);
+    return this.validationMessageService.getPasswordMessage(this.password);
   }
 
-  /** Handles login Submission */
   submit(): void {
     if (this.form.invalid) return;
 
@@ -79,7 +80,10 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this.authService
       .login(payload)
-      .pipe(finalize(() => (this.loading = false)))
+      .pipe(
+        takeUntil(this.destroy$),
+        finalize(() => (this.loading = false))
+      )
       .subscribe(() => {
         this.router.navigate(['/']);
       });
