@@ -10,22 +10,13 @@ export class ImageConverterService {
     if (image.startsWith('http') || image.startsWith('data:')) {
       return image;
     }
+    let mime = 'image/png';
 
-    return `data:image/png;base64,${image}`;
-  }
+    if (image.startsWith('/9j/')) mime = 'image/jpeg';
+    else if (image.startsWith('UklGR')) mime = 'image/webp';
+    else if (image.startsWith('PHN2Zy')) mime = 'image/svg+xml';
 
-  base64ToBlob(base64: string): Blob {
-    const byteString = atob(base64.split(',')[1]);
-    const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
-
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const intArray = new Uint8Array(arrayBuffer);
-
-    for (let i = 0; i < byteString.length; i++) {
-      intArray[i] = byteString.charCodeAt(i);
-    }
-
-    return new Blob([arrayBuffer], { type: mimeString });
+    return `data:${mime};base64,${image}`;
   }
 
   fileToBase64(file: File): Promise<string> {

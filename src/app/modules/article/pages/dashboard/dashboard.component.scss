@@ -2,6 +2,7 @@
 @use 'constants' as *;
 
 .dashboard {
+  margin-top: $spacing-sm;
   padding: $spacing-lg;
   background-color: $color-background;
 
@@ -18,14 +19,26 @@
 
     @include media-down($breakpoint-lg) {
       grid-template-columns: repeat(2, 1fr);
+      gap: $spacing-md;
     }
 
-    @include media-down($breakpoint-sm) {
+    @include media-down($breakpoint-md) {
       grid-template-columns: repeat(1, 1fr);
+      gap: $spacing-md;
     }
   }
 
   &__paginator {
     margin-top: $spacing-lg;
+  }
+
+  @include media-down($breakpoint-lg) {
+    padding: $spacing-sm;
+    padding-right: 0;
+  }
+
+  @include media-down($breakpoint-sm) {
+    padding: $spacing-sm;
+    padding-right: 0;
   }
 }

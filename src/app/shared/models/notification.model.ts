@@ -10,3 +10,9 @@ export interface AppNotification {
   type: NotificationType;
   config?: MatSnackBarConfig;
 }
+
+export interface SnackBarDataModel {
+  message: string;
+  action: string;
+  variant: string;
+}

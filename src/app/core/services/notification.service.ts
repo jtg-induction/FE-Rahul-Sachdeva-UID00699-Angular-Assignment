@@ -73,7 +73,7 @@ export class NotificationService implements OnDestroy {
    * @private
    */
   private enqueue(notification: AppNotification): void {
-    this.ref?._dismissAfter(1);
+    this.ref?.dismiss();
     this.notificationQueue$.next(notification);
   }
 

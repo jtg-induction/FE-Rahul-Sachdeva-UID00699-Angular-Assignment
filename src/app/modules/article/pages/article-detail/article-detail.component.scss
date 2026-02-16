@@ -68,6 +68,9 @@
   }
 
   &__tag {
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
     padding: $spacing-xs $spacing-sm;
     background: $color-background;
     border-radius: $border-radius-sm;

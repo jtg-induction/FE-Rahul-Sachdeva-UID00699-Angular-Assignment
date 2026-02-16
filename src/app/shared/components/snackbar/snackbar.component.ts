@@ -3,6 +3,7 @@ import {
   MAT_SNACK_BAR_DATA,
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
+import { SnackBarDataModel } from '@app/shared/models/notification.model';
 
 @Component({
   selector: 'app-snackbar',
@@ -12,9 +13,5 @@ import {
 export class SnackbarComponent {
   snackBarData: { message: string; action: string; variant: string } =
     inject(MAT_SNACK_BAR_DATA);
-  snackBarRef: MatSnackBarRef<{
-    message: string;
-    action: string;
-    variant: string;
-  }> = inject(MatSnackBarRef);
+  snackBarRef: MatSnackBarRef<SnackBarDataModel> = inject(MatSnackBarRef);
 }

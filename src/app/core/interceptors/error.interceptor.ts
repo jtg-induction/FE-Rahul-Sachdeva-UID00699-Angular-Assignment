@@ -41,7 +41,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
  */
 function resolveErrorMessage(error: HttpErrorResponse): string {
   const errorResponse = error.error;
-  console.log(errorResponse);
   if (typeof errorResponse.error === 'string') {
     return errorResponse.error;
   } else if (

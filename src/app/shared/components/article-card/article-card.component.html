@@ -21,21 +21,6 @@
       <p class="article-card__description">
         {{ article.shortDescription }}
       </p>
-
-      <footer class="article-card__footer">
-        <div class="article-card__tags" aria-label="Article Tags">
-          <span class="article-card__tag" *ngFor="let tag of visibleTags">
-            {{ tag }}
-          </span>
-
-          <span
-            class="article-card__tag article-card__tag--more"
-            *ngIf="remainingTagCount > 0"
-          >
-            +{{ remainingTagCount }}
-          </span>
-        </div>
-      </footer>
     </div>
 
     <figure class="article-card__image-wrapper">
@@ -49,4 +34,18 @@
       />
     </figure>
   </div>
+  <footer class="article-card__footer">
+    <div class="article-card__tags" aria-label="Article Tags">
+      <span class="article-card__tag" *ngFor="let tag of visibleTags">
+        {{ tag }}
+      </span>
+
+      <span
+        class="article-card__tag article-card__tag--more"
+        *ngIf="remainingTagCount > 0"
+      >
+        +{{ remainingTagCount }}
+      </span>
+    </div>
+  </footer>
 </article>
