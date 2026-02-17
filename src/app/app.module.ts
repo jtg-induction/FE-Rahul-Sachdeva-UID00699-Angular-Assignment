@@ -8,13 +8,14 @@ import { SharedModule } from '@shared/shared.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, AppRoutingModule, SharedModule],
   providers: [
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([errorInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
     {
       provide: ErrorHandler,
       useClass: GlobalErrorHandler,

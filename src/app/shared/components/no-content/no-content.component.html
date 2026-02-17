@@ -1,0 +1,19 @@
+<main class="no-content" role="main">
+  <header>
+    <h1 class="no-content__code">{{ code }}</h1>
+    <h2 class="no-content__title">{{ title }}</h2>
+  </header>
+
+  <p class="no-content__description">
+    {{ message }}
+  </p>
+
+  <button
+    mat-raised-button
+    color="primary"
+    class="no-content__action"
+    (click)="navigate()"
+  >
+    {{ buttonText }}
+  </button>
+</main>

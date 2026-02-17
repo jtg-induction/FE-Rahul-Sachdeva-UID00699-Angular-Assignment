@@ -1,5 +1,5 @@
-@use '../abstracts' as *;
-@use '../constants/' as *;
+@use 'abstracts' as *;
+@use 'constants' as *;
 
 body {
   font-family: $font-family-base;

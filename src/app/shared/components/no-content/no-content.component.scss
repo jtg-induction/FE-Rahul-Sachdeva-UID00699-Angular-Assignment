@@ -1,0 +1,38 @@
+@use 'constants' as *;
+@use 'abstracts' as *;
+
+.no-content {
+  @include flex-center;
+
+  min-height: 100%;
+  padding: $spacing-lg;
+  background-color: $color-background;
+  text-align: center;
+  flex-direction: column;
+
+  &__code {
+    margin: 0;
+    font-size: rem(96px);
+    color: $color-primary;
+
+    @include media-down($breakpoint-sm) {
+      font-size: rem(64px);
+    }
+  }
+
+  &__title {
+    margin: $spacing-sm 0;
+    font-size: $font-size-lg;
+    color: $color-text;
+  }
+
+  &__description {
+    margin-bottom: $spacing-lg;
+    font-size: $font-size-md;
+    color: $color-muted;
+  }
+
+  &__action {
+    min-width: rem(160px);
+  }
+}

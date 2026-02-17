@@ -1,0 +1,90 @@
+@use 'abstracts' as *;
+@use 'constants' as *;
+
+.signup-page {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+
+  &__form-section {
+    @include flex-center;
+
+    overflow: auto;
+    flex: 0 0 40%;
+    background-color: $color-background;
+
+    @include media-down($breakpoint-md) {
+      flex: 1;
+    }
+  }
+
+  &__visual-section {
+    @include flex-center;
+
+    max-height: 85vh;
+    object-fit: cover;
+    flex: 1;
+    background: $color-surface;
+
+    @include media-down($breakpoint-md) {
+      display: none;
+    }
+  }
+
+  &__image {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  @include media-down($breakpoint-md) {
+    flex-direction: column;
+  }
+}
+.signup-card {
+  width: 75%;
+  padding: $spacing-xl;
+  border-radius: $border-radius-lg;
+  border: 1px solid $color-border;
+  background-color: $color-surface;
+
+  &__header {
+    margin-bottom: $spacing-lg;
+    justify-content: center;
+  }
+
+  &__title {
+    font-size: rem(32px);
+    font-weight: 700;
+    color: $color-text;
+  }
+
+  &__form {
+    @include flex-column($spacing-md);
+  }
+
+  &__field {
+    width: 100%;
+  }
+
+  &__button {
+    margin-top: $spacing-md;
+    padding: $spacing-sm;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+
+  &__link {
+    margin: $spacing-sm auto 0;
+    color: $color-primary;
+    text-decoration: none;
+    font-size: $font-size-sm;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  @include media-down($breakpoint-md) {
+    width: 90%;
+    padding: $spacing-lg;
+  }
+}

@@ -1,0 +1,84 @@
+@use 'abstracts' as *;
+@use 'constants' as *;
+@use 'sass:color';
+
+.article-detail {
+  max-width: rem(900px);
+  margin: 0 auto;
+  padding: $spacing-xl;
+
+  &__state {
+    @include flex-center;
+
+    min-height: 60vh;
+    flex-direction: column;
+  }
+
+  &__meta {
+    @include flex-between;
+
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    color: $color-muted;
+    font-size: $font-size-sm;
+  }
+
+  &__title {
+    margin: $spacing-md 0;
+    font-size: $font-size-xl;
+    color: $color-text;
+  }
+
+  &__image-container {
+    width: 100%;
+    height: rem(400px);
+    margin: $spacing-xl 0;
+    border-radius: $border-radius-md;
+    overflow: hidden;
+    background: color.adjust($color-background, $lightness: 5%);
+
+    @include media-down($breakpoint-md) {
+      height: rem(250px);
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  &__description {
+    font-size: $font-size-lg;
+    text-align: justify;
+    line-height: 1.5;
+  }
+
+  &__tags {
+    display: flex;
+    margin-top: $spacing-lg;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__tag {
+    max-width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: $spacing-xs $spacing-sm;
+    background: $color-background;
+    border-radius: $border-radius-sm;
+    border: 2px solid $color-primary;
+    font-size: $font-size-xs;
+
+    &:hover {
+      background: $color-surface;
+    }
+  }
+}

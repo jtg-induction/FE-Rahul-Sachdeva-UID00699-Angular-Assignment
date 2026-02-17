@@ -7,13 +7,9 @@
 # Dependencies
 /node_modules
 
-# Lock files
-package-lock.json
-
 # IDE files
 .vscode
 
 # Other
-.DS_Store
 *.min.js
 *.min.css

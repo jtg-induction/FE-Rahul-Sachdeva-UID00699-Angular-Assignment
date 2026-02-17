@@ -1,1 +1,33 @@
-<p>Home Page!</p>
+<main class="dashboard">
+  @if (!isLoading && articles.length === 0) {
+    <section>
+      <app-no-content
+        title="No Articles Found"
+        message="No articles available for this page."
+        buttonText="Go Home"
+        redirectTo="/"
+      ></app-no-content>
+    </section>
+  }
+
+  @if (!isLoading && articles.length > 0) {
+    <section class="dashboard__grid" aria-label="Articles List">
+      @for (article of articles; track article) {
+        <app-article-card [article]="article"></app-article-card>
+      }
+    </section>
+  }
+
+  @if (!isLoading && articles.length > 0) {
+    <section class="dashboard__paginator">
+      <mat-paginator
+        [length]="pagination.totalItems"
+        [pageSize]="pagination.pageSize"
+        [pageIndex]="pagination.pageIndex"
+        [pageSizeOptions]="pageSizeOptions"
+        (page)="onPageChange($event)"
+      >
+      </mat-paginator>
+    </section>
+  }
+</main>

@@ -8,8 +8,8 @@ import {
   provideHttpClientTesting,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { ERROR_MESSAGES } from '@app/shared/constants';
 import { NotificationService } from '@core/services/notification.service';
+import { ERROR_MESSAGES } from '@shared/constants';
 
 import { errorInterceptor } from './error.interceptor';
 

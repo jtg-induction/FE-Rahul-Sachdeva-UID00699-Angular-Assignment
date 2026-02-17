@@ -21,45 +21,93 @@ The project is designed to be maintainable, extensible, and team-friendly.
 ## 📁 Project Structure
 
 ```
-src/
-├── app/
-│   ├── core/
-│   │   ├── errors/
-│   │   ├── guards/
-│   │   ├── interceptors/
-│   │   └── services/
-│   │
-│   ├── modules/
-│   │   ├── auth/
-│   │   │   ├── components/
-│   │   │   ├── services/
-│   │   │   ├── auth-routing.module.ts
-│   │   │   └── auth.module.ts
-│   │   │
-│   │   └── article/
-│   │       ├── pages/
-│   │       │   └── dashboard/
-│   │       ├── article-routing.module.ts
-│   │       └── article.module.ts
-│   │
-│   ├── shared/
-│   │   ├── components/
-│   │   │   ├── navbar/
-│   │   │   └── not-found/
-│   │   ├── constants/
-│   │   ├── directives/
-│   │   ├── pipes/
-│   │   ├── services/
-│   │   └── shared.module.ts
-│   │
-│   ├── app-routing.module.ts
-│   ├── app.component.ts
-│   └── app.module.ts │
-├── assets/
-├── environments/
-├── index.html
-├── main.ts
-└── styles.scss
+Rahul Angular Project
+├── .angular/
+├── .github/
+├── .husky/
+├── .vscode/
+├── dist/
+├── node_modules/
+├── src/
+|   ├── app/
+|   │   ├── core/
+|   │   │   ├── guards/
+|   │   │   ├── handlers/
+|   │   │   ├── interceptors/
+|   │   │   └── services/
+|   │   │
+|   │   ├── modules/
+|   │   │   ├── auth/
+|   │   │   │   ├── models/
+|   │   │   │   ├── pages/
+|   │   │   │   │   ├── login/
+|   │   │   │   │   │   └── login.component.*
+|   │   │   │   │   └── signup/
+|   │   │   │   │       └── signup.component.*
+|   │   │   │   ├── auth-routing.module.ts
+|   │   │   │   └── auth.module.ts
+|   │   │   │
+|   │   │   └── article/
+|   │   │       ├── models/
+|   │   │       ├── pages/
+|   │   │       │   ├── dashboard/
+|   │   │       │   └── article-detail/
+|   │   │       ├── article-routing.module.ts
+|   │   │       └── article.module.ts
+|   │   │
+|   │   ├── shared/
+|   │   │   ├── components/
+|   │   │   │   ├── article-card/
+|   │   │   │   ├── loading/
+|   │   │   │   ├── navbar/
+|   │   │   │   |── no-content/
+|   │   │   │   |── layout/
+|   │   │   │   └── snackbar/
+|   │   │   ├── constants/
+|   │   │   ├── models/
+|   │   │   └── shared.module.ts
+|   │   │
+|   │   ├── app-routing.module.ts
+|   │   ├── app.component.html
+|   │   ├── app.component.spec.ts
+|   │   ├── app.component.ts
+|   │   └── app.module.ts
+|   │
+|   ├── assets/
+|   │   └── images/
+|   │
+|   ├── environments/
+|   │   ├── environment.ts
+|   │   └── environment.development.ts
+|   │
+|   ├── styles/
+|   │   ├── abstracts/
+|   │   ├── base/
+|   │   ├── constants/
+|   │   └── _main.scss
+|   │
+|   ├── index.html
+|   ├── main.ts
+|   └── styles.scss
+├── .browserslistrc
+├── .editorconfig
+├── .gitignore
+├── .npmrc
+├── .nvmrc
+├── .prettierignore
+├── .prettierrc.json
+├── .stylelintrc.json
+│
+├── angular.json
+├── eslint.config.js
+├── package.json
+├── package-lock.json
+├── README.md
+│
+├── tsconfig.json
+├── tsconfig.app.json
+└── tsconfig.spec.json
+
 ```
 
 # Rahul Angular Project
@@ -115,8 +163,4 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 ## Build
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-```
-
-```
-
 ```

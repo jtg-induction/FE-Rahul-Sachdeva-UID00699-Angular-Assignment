@@ -33,7 +33,7 @@ export default defineConfig([
       '@typescript-eslint/no-restricted-imports': [
         'error',
         {
-          patterns: ['..*'],
+          patterns: ['../*'],
         },
       ],
 
@@ -67,13 +67,5 @@ export default defineConfig([
         },
       ],
     },
-  },
-  {
-    files: ['**/*.html'],
-    extends: [
-      angular.configs.templateRecommended,
-      angular.configs.templateAccessibility,
-    ],
-    rules: {},
   },
 ]);

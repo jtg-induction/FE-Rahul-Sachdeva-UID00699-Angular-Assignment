@@ -1,0 +1,11 @@
+@use 'abstracts' as *;
+@use 'constants' as *;
+
+.global-loader {
+  @include flex-center;
+
+  position: fixed;
+  inset: 0;
+  background: rgba($color-surface, 0.7);
+  z-index: $z-loader;
+}

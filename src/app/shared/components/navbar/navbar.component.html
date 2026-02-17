@@ -1,0 +1,25 @@
+<nav class="navbar" aria-label="Main Navigation">
+  <div class="navbar__left-panel">
+    <a class="navbar__brand" [routerLink]="['/', routes.ARTICLES.BASE]">
+      Article Hub
+    </a>
+
+    <ul class="navbar__menu">
+      <li>
+        <a class="navbar__link" [routerLink]="['/', routes.ARTICLES.BASE]">
+          Dashboard
+        </a>
+      </li>
+
+      <li>
+        <a class="navbar__link" [routerLink]="['/', routes.NOT_FOUND]">
+          Not Found
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <button type="button" class="navbar__button" (click)="logout()">
+    Logout
+  </button>
+</nav>

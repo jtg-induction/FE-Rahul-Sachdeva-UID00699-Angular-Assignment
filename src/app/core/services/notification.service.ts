@@ -3,11 +3,13 @@ import {
   MatSnackBar,
   MatSnackBarConfig,
   MatSnackBarDismiss,
+  MatSnackBarRef,
 } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '@shared/components/snackbar';
 import {
   AppNotification,
   NotificationType,
-} from '@core/models/notificaiton.model';
+} from '@shared/models/notification.model';
 import { concatMap, Observable, Subject, takeUntil } from 'rxjs';
 
 @Injectable({
@@ -15,16 +17,16 @@ import { concatMap, Observable, Subject, takeUntil } from 'rxjs';
 })
 export class NotificationService implements OnDestroy {
   private snackBar = inject(MatSnackBar);
-
   private destroy$ = new Subject<void>();
   private notificationQueue$ = new Subject<AppNotification>();
+  private ref?: MatSnackBarRef<SnackbarComponent>;
 
-  DEFAULT_SNACKBAR_CONFIG: MatSnackBarConfig = {
-    duration: 5000,
-    horizontalPosition: 'right',
-    verticalPosition: 'bottom',
-  };
+  private readonly DEFAULT_DURATION = 5000;
 
+  /**
+   * Initializes the notification queue listener.
+   * Uses concatMap to ensure notifications wait for the previous one to dismiss.
+   */
   constructor() {
     this.notificationQueue$
       .pipe(
@@ -32,6 +34,13 @@ export class NotificationService implements OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe();
+  }
+  /**
+   * Cleans up subscriptions and completes subjects when the service is destroyed.
+   */
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /**
@@ -64,6 +73,7 @@ export class NotificationService implements OnDestroy {
    * @private
    */
   private enqueue(notification: AppNotification): void {
+    this.ref?.dismiss();
     this.notificationQueue$.next(notification);
   }
 
@@ -77,21 +87,21 @@ export class NotificationService implements OnDestroy {
    */
   private open(notification: AppNotification): Observable<MatSnackBarDismiss> {
     const panelClass =
-      notification.type === 'error'
-        ? 'snackbar-design-error'
-        : 'snackbar-design-success';
+      notification.type === 'error' ? 'snackbar-error' : 'snackbar-success';
 
-    const ref = this.snackBar.open(notification.message, 'Close', {
-      ...this.DEFAULT_SNACKBAR_CONFIG,
-      ...notification.config,
-      panelClass: [panelClass],
-    });
+    const config = new MatSnackBarConfig();
 
-    return ref.afterDismissed();
-  }
+    config.data = {
+      message: notification.message,
+      action: 'Close',
+      variant: panelClass,
+    };
+    config.duration = notification.config?.duration ?? this.DEFAULT_DURATION;
+    config.horizontalPosition = 'right';
+    config.verticalPosition = 'bottom';
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.ref = this.snackBar.openFromComponent(SnackbarComponent, config);
+
+    return this.ref.afterDismissed();
   }
 }

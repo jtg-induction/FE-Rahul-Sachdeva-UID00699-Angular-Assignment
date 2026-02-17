@@ -1,0 +1,26 @@
+@use 'abstracts' as *;
+@use 'constants' as *;
+
+.snackbar-component {
+  @include flex-between;
+
+  padding: rem(10px);
+  min-width: rem(250px);
+  font-size: $font-size-md;
+
+  &__message {
+    font-weight: bold;
+  }
+
+  &__button {
+    color: $color-on-warn;
+  }
+
+  &.snackbar-error {
+    background: $color-warn;
+  }
+
+  &.snackbar-success {
+    background: $color-success;
+  }
+}
