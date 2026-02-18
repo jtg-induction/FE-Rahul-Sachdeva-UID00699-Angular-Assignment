@@ -3,7 +3,7 @@ import {
   MAT_SNACK_BAR_DATA,
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
-import { SnackBarDataModel } from '@app/shared/models/notification.model';
+import { SnackBarDataModel } from '@shared/models/notification.model';
 
 @Component({
   selector: 'app-snackbar',

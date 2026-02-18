@@ -1,5 +1,5 @@
 @use 'abstracts' as *;
-@use 'constants' as *;
+@use 'variables' as *;
 @use 'sass:color';
 
 .article-detail {
@@ -24,6 +24,7 @@
   }
 
   &__title {
+    line-height: 1.5;
     margin: $spacing-md 0;
     font-size: $font-size-xl;
     color: $color-text;
@@ -74,7 +75,7 @@
     padding: $spacing-xs $spacing-sm;
     background: $color-background;
     border-radius: $border-radius-sm;
-    border: 2px solid $color-primary;
+    border: 0.125rem solid $color-primary;
     font-size: $font-size-xs;
 
     &:hover {

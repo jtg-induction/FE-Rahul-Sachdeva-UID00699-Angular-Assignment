@@ -36,7 +36,7 @@ describe('LoginComponent', () => {
           token: 'jwt-token',
         },
         timestamp: 'temp',
-      })
+      }),
     );
 
     await TestBed.configureTestingModule({

@@ -1,22 +1,22 @@
 import { ApiResponse } from '@shared/models/api-response.model';
 
-import { AuthUser } from './auth-user.model';
+import { IAuthUser } from './auth-user.model';
 
-export interface LoginRequest {
+export interface ILoginRequest {
   username: string;
   password: string;
 }
 
-export interface RegisterRequest {
+export interface IRegisterRequest {
   username: string;
   email: string;
   password: string;
 }
 
-export interface LoginResponseData {
-  user: AuthUser;
+export interface ILoginResponseData {
+  user: IAuthUser;
   token: string;
 }
 
-export type LoginResponse = ApiResponse<LoginResponseData>;
-export type RegisterResponse = ApiResponse<AuthUser>;
+export type LoginResponse = ApiResponse<ILoginResponseData>;
+export type RegisterResponse = ApiResponse<IAuthUser>;

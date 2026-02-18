@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import {
-  VALIDATION_ERRORS,
-  VALIDATION_PATTERNS,
-} from '@shared/constants/validation';
+import { VALIDATION_ERRORS, VALIDATION_PATTERNS } from '@shared/constants';
 
 @Injectable({
   providedIn: 'root',

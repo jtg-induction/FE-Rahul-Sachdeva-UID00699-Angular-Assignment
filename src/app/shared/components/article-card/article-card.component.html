@@ -6,8 +6,8 @@
     <div class="article-card__meta">
       <span class="article-card__author"> By {{ article.author }} </span>
 
-      <time class="article-card__date" [attr.datetime]="article.createdAt">
-        {{ article.createdAt | date: 'mediumDate' }}
+      <time class="article-card__date" [attr.datetime]="article.updatedAt">
+        {{ article.updatedAt | date: 'mediumDate' }}
       </time>
     </div>
 

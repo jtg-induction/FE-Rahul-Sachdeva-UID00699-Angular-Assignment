@@ -18,13 +18,13 @@ describe('ArticleDetailComponent', () => {
     shortDescription: 'Short',
     description: 'Full description',
     author: 'Rahul',
-    createdAt: '2026-02-11',
+    updatedAt: '2026-02-11',
     image: '',
     tags: ['tag1'],
   };
 
   const createActivatedRouteMock = (
-    id: string | null
+    id: string | null,
   ): Partial<ActivatedRoute> => ({
     paramMap: of({
       get: (key: string): string | null => (key === 'id' ? id : null),
@@ -68,7 +68,7 @@ describe('ArticleDetailComponent', () => {
 
   it('should handle service error', (): void => {
     articleService.fetchArticleById.and.returnValue(
-      throwError(() => new Error('Not found'))
+      throwError(() => new Error('Not found')),
     );
 
     component.ngOnInit();

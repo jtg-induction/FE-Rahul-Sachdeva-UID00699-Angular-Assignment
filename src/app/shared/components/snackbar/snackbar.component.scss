@@ -1,5 +1,5 @@
 @use 'abstracts' as *;
-@use 'constants' as *;
+@use 'variables' as *;
 
 .snackbar-component {
   @include flex-between;

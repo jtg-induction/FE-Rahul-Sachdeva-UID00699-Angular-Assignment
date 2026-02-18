@@ -1,26 +1,26 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ValidationMessageService } from '@core/services/validation-message.service';
 import { ValidatorService } from '@core/services/validator.service';
-import { LoginRequest } from '@modules/auth/models/auth.model';
-import { APP_ROUTES, IMAGES } from '@shared/constants';
-import { VALIDATION_LIMITS } from '@shared/constants/validation';
-import { finalize, Subject, takeUntil } from 'rxjs';
+import { ILoginRequest } from '@modules/auth/models/auth.model';
+import { APP_ROUTES, IMAGES, VALIDATION_LIMITS } from '@shared/constants';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly validatorService = inject(ValidatorService);
   private readonly validationMessageService = inject(ValidationMessageService);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly routes = APP_ROUTES;
   welcomeBackImage = IMAGES.AUTH.WELCOME_BACK;
@@ -41,18 +41,17 @@ export class LoginComponent implements OnInit, OnDestroy {
     password: ['', [Validators.required]],
   });
 
-  ngOnInit(): void {
+  constructor() {
+    this.initializeFormListeners();
+  }
+
+  private initializeFormListeners(): void {
     this.form
       .get('password')
-      ?.valueChanges.pipe(takeUntil(this.destroy$))
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
         this.hide = true;
       });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   get username(): AbstractControl | null {
@@ -74,15 +73,15 @@ export class LoginComponent implements OnInit, OnDestroy {
   submit(): void {
     if (this.form.invalid) return;
 
-    const payload = this.form.value as LoginRequest;
+    const payload = this.form.value as ILoginRequest;
 
     this.loading = true;
 
     this.authService
       .login(payload)
       .pipe(
-        takeUntil(this.destroy$),
-        finalize(() => (this.loading = false))
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => (this.loading = false)),
       )
       .subscribe(() => {
         this.router.navigate(['/']);

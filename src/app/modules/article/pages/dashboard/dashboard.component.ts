@@ -1,22 +1,22 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PageEvent } from '@angular/material/paginator';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleService } from '@core/services/article.service';
 import { Article } from '@modules/article/models/article.model';
 import { PaginationState } from '@modules/article/models/pagination.model';
 import { PAGINATION_DEFAULTS } from '@shared/constants';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss',
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit {
   private readonly articleService = inject(ArticleService);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly pageSizeOptions = PAGINATION_DEFAULTS.pageSizeOptions;
 
@@ -35,14 +35,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.listenToQueryParams();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   private listenToQueryParams(): void {
     this.route.queryParams
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((params) => {
         const pageResult = this.resolvePage(params['page']);
         const sizeResult = this.resolvePageSize(params['size']);
@@ -101,7 +96,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     this.articleService
       .fetchAllArticles(this.pagination.pageIndex + 1, this.pagination.pageSize)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (data) => {
           this.articles = data.data;

@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
-  LoginRequest,
+  ILoginRequest,
+  IRegisterRequest,
   LoginResponse,
-  RegisterRequest,
   RegisterResponse,
 } from '@modules/auth/models/auth.model';
 import { JwtPayload } from '@modules/auth/models/jwt-payload.model';
@@ -61,7 +61,7 @@ export class AuthService {
    *
    * @returns Observable<LoginResponse> - Emits the login response from API.
    */
-  login(payload: LoginRequest): Observable<LoginResponse> {
+  login(payload: ILoginRequest): Observable<LoginResponse> {
     return this.http
       .post<LoginResponse>('/users/login', payload)
       .pipe(tap((res) => localStorage.setItem('token', res.data.token)));
@@ -74,7 +74,7 @@ export class AuthService {
    *
    * @returns Observable<RegisterResponse> - Emits the register response from API.
    */
-  register(payload: RegisterRequest): Observable<RegisterResponse> {
+  register(payload: IRegisterRequest): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>('/users/register', payload);
   }
 

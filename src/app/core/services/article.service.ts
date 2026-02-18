@@ -17,7 +17,7 @@ export class ArticleService {
 
   fetchAllArticles(
     page = 1,
-    pageSize = 10
+    pageSize = 10,
   ): Observable<ApiPaginatedData<Article>> {
     const params = new HttpParams({
       fromObject: {
@@ -32,9 +32,9 @@ export class ArticleService {
         map((response) => ({
           ...response.data,
           data: response.data.data.map((article) =>
-            this.normalizeArticle(article)
+            this.normalizeArticle(article),
           ),
-        }))
+        })),
       );
   }
 

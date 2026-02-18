@@ -14,7 +14,7 @@ describe('NotificationService', () => {
     snackBarRef = jasmine.createSpyObj('MatSnackBarRef', ['afterDismissed']);
 
     snackBarRef.afterDismissed.and.returnValue(
-      of({ dismissedByAction: false })
+      of({ dismissedByAction: false }),
     );
 
     snackBar = jasmine.createSpyObj('MatSnackBar', ['openFromComponent']);

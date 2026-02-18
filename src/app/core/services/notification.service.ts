@@ -1,4 +1,5 @@
-import { inject, Injectable, OnDestroy } from '@angular/core';
+import { DestroyRef, inject, Injectable } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   MatSnackBar,
   MatSnackBarConfig,
@@ -10,16 +11,16 @@ import {
   AppNotification,
   NotificationType,
 } from '@shared/models/notification.model';
-import { concatMap, Observable, Subject, takeUntil } from 'rxjs';
+import { concatMap, Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class NotificationService implements OnDestroy {
+export class NotificationService {
   private snackBar = inject(MatSnackBar);
-  private destroy$ = new Subject<void>();
   private notificationQueue$ = new Subject<AppNotification>();
   private ref?: MatSnackBarRef<SnackbarComponent>;
+  private readonly destroyRef = inject(DestroyRef);
 
   private readonly DEFAULT_DURATION = 5000;
 
@@ -31,16 +32,9 @@ export class NotificationService implements OnDestroy {
     this.notificationQueue$
       .pipe(
         concatMap((notification) => this.open(notification)),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe();
-  }
-  /**
-   * Cleans up subscriptions and completes subjects when the service is destroyed.
-   */
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 
   /**

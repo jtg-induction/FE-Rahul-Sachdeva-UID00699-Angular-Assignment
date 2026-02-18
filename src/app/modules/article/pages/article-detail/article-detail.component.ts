@@ -1,20 +1,21 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ArticleService } from '@core/services/article.service';
 import { Article } from '@modules/article/models/article.model';
 import { IMAGES } from '@shared/constants';
-import { EMPTY, finalize, Subject, switchMap, takeUntil } from 'rxjs';
+import { EMPTY, finalize, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-article-detail',
   templateUrl: './article-detail.component.html',
   styleUrl: './article-detail.component.scss',
 })
-export class ArticleDetailComponent implements OnInit, OnDestroy {
+export class ArticleDetailComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly articleService = inject(ArticleService);
-  private readonly destroy$ = new Subject<void>();
+  private readonly destroyRef = inject(DestroyRef);
 
   article?: Article;
   loading = false;
@@ -25,18 +26,13 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
     this.initializeArticleStream();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
-
   /**
    * Subscribes to route params and fetches article.
    */
   private initializeArticleStream(): void {
     this.route.paramMap
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntilDestroyed(this.destroyRef),
         switchMap((params) => {
           const id = params.get('id');
 
@@ -51,7 +47,7 @@ export class ArticleDetailComponent implements OnInit, OnDestroy {
           return this.articleService
             .fetchArticleById(id)
             .pipe(finalize(() => (this.loading = false)));
-        })
+        }),
       )
       .subscribe({
         next: (article) => {

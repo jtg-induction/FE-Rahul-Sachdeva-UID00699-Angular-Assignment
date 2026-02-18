@@ -11,7 +11,7 @@ describe('GlobalErrorHandler', () => {
   beforeEach(() => {
     notifier = jasmine.createSpyObj<NotificationService>(
       'NotificationService',
-      ['showError']
+      ['showError'],
     );
 
     TestBed.configureTestingModule({
