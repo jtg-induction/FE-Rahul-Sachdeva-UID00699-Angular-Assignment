@@ -1,14 +1,14 @@
 @use 'abstracts' as *;
-@use 'constants' as *;
+@use 'variables' as *;
 
 .article-card {
   @include flex-column($spacing-md);
 
   min-width: 0;
-  max-width: calc(100% - 12px);
+  max-width: calc(100vw - 0.75rem);
   padding: $spacing-lg;
   border-radius: $border-radius-md;
-  border: 1px solid $color-border;
+  border: rem(1px) solid $color-border;
   background-color: $color-surface;
   height: 100%;
   transition:
@@ -139,7 +139,7 @@
     border-radius: $border-radius-sm;
     background-color: $color-background;
     color: $color-primary;
-    border: 1px solid $color-primary;
+    border: rem(1px) solid $color-primary;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

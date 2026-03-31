@@ -25,11 +25,11 @@ export class ImageConverterService {
 
       reader.readAsDataURL(file);
 
-      reader.onload = () => {
+      reader.onload = (): void => {
         resolve(reader.result as string);
       };
 
-      reader.onerror = (error) => {
+      reader.onerror = (error): void => {
         reject(error);
       };
     });

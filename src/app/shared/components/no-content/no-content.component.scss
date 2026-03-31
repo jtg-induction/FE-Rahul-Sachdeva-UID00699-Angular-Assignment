@@ -1,38 +1,39 @@
-@use 'constants' as *;
+@use 'variables' as *;
 @use 'abstracts' as *;
 
 .no-content {
   @include flex-center;
 
-  min-height: 100%;
+  min-height: 80vh;
   padding: $spacing-lg;
   background-color: $color-background;
   text-align: center;
   flex-direction: column;
+  box-sizing: border-box;
+  gap: $spacing-md;
+}
 
-  &__code {
-    margin: 0;
-    font-size: rem(96px);
-    color: $color-primary;
+.no-content__code {
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 6rem);
+  color: $color-primary;
+  line-height: 1.1;
+}
 
-    @include media-down($breakpoint-sm) {
-      font-size: rem(64px);
-    }
-  }
+.no-content__title {
+  margin: $spacing-sm 0;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  color: $color-text;
+}
 
-  &__title {
-    margin: $spacing-sm 0;
-    font-size: $font-size-lg;
-    color: $color-text;
-  }
+.no-content__description {
+  margin-bottom: $spacing-lg;
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  color: $color-muted;
+  max-width: 40rem;
+}
 
-  &__description {
-    margin-bottom: $spacing-lg;
-    font-size: $font-size-md;
-    color: $color-muted;
-  }
-
-  &__action {
-    min-width: rem(160px);
-  }
+.no-content__action {
+  min-width: 10rem;
+  max-width: 100%;
 }

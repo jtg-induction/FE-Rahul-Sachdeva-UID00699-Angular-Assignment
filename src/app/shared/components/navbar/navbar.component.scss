@@ -1,8 +1,11 @@
 @use 'abstracts' as *;
-@use 'constants' as *;
+@use 'variables' as *;
 
 .navbar {
   @include flex-between;
+
+  flex-wrap: wrap;
+  gap: $spacing-sm;
 
   padding: $spacing-sm $spacing-lg;
   background-color: $color-primary;
@@ -12,15 +15,18 @@
     display: flex;
     align-items: center;
     gap: $spacing-lg;
+    flex-wrap: wrap;
+    min-width: 0;
   }
 
   &__brand {
-    font-size: $font-size-lg;
+    font-size: clamp(1rem, 2vw, $font-size-lg);
     font-weight: 600;
     cursor: pointer;
-    white-space: nowrap;
     color: $color-on-primary;
     text-decoration: none;
+
+    white-space: normal;
   }
 
   &__menu {
@@ -30,13 +36,17 @@
     list-style: none;
     margin: 0;
     padding: 0;
+
+    flex-wrap: wrap;
+    min-width: 0;
   }
 
   &__link {
     color: $color-on-primary;
     text-decoration: none;
     cursor: pointer;
-    white-space: nowrap;
+
+    white-space: normal;
 
     &:hover {
       text-decoration: underline;
@@ -54,6 +64,8 @@
     background-color: $color-warn;
     color: $color-on-warn;
     cursor: pointer;
+
+    white-space: normal;
 
     &:hover {
       background-color: $color-warn-dark;

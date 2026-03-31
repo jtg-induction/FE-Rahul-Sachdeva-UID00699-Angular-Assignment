@@ -15,7 +15,7 @@ describe('ArticleCardComponent', () => {
     shortDescription: 'Short Description',
     description: 'Full Description',
     author: 'John Doe',
-    createdAt: '2026-01-01',
+    updatedAt: '2026-01-01',
     image: '',
     tags: ['angular', 'testing', 'unit', 'spec', 'extra'],
   };
@@ -38,7 +38,7 @@ describe('ArticleCardComponent', () => {
 
   it('should display author', () => {
     const author = fixture.debugElement.query(
-      By.css('.article-card__author')
+      By.css('.article-card__author'),
     ).nativeElement;
 
     expect(author.textContent).toContain('John Doe');
@@ -46,7 +46,7 @@ describe('ArticleCardComponent', () => {
 
   it('should display title', () => {
     const title = fixture.debugElement.query(
-      By.css('.article-card__title')
+      By.css('.article-card__title'),
     ).nativeElement;
 
     expect(title.textContent).toContain('Test Title');
@@ -60,7 +60,7 @@ describe('ArticleCardComponent', () => {
 
   it('should show +more correctly', () => {
     const moreTag = fixture.debugElement.query(
-      By.css('.article-card__tag--more')
+      By.css('.article-card__tag--more'),
     ).nativeElement;
 
     expect(moreTag.textContent).toContain('+2');

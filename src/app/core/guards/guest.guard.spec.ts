@@ -37,7 +37,7 @@ describe('guestGuard', () => {
     authService.isAuthenticated.and.returnValue(false);
 
     const result = TestBed.runInInjectionContext(() =>
-      guestGuard(mockRoute, mockState)
+      guestGuard(mockRoute, mockState),
     );
 
     expect(result).toBeTrue();
@@ -50,7 +50,7 @@ describe('guestGuard', () => {
     router.createUrlTree.and.returnValue(mockTree);
 
     const result = TestBed.runInInjectionContext(() =>
-      guestGuard(mockRoute, mockState)
+      guestGuard(mockRoute, mockState),
     );
 
     expect(router.createUrlTree).toHaveBeenCalledWith(['/']);

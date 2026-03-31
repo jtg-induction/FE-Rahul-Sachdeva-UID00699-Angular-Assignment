@@ -1,10 +1,13 @@
 @use 'abstracts' as *;
-@use 'constants' as *;
+@use 'variables' as *;
 
 .dashboard {
+  max-width: 100%;
+  overflow: scroll;
   margin-top: $spacing-sm;
   padding: $spacing-lg;
   background-color: $color-background;
+  padding-bottom: $spacing-xxl;
 
   &__loading {
     @include flex-center;
@@ -30,6 +33,12 @@
 
   &__paginator {
     margin-top: $spacing-lg;
+    position: fixed;
+    z-index: $z-overlay;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border: rem(2px) solid $color-primary;
   }
 
   @include media-down($breakpoint-lg) {

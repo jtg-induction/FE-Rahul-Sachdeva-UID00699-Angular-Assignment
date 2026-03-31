@@ -1,32 +1,31 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '@core/services/auth.service';
 import { ValidationMessageService } from '@core/services/validation-message.service';
 import { ValidatorService } from '@core/services/validator.service';
+import { IRegisterRequest } from '@modules/auth/models/auth.model';
 import {
-  LoginResponse,
-  RegisterRequest,
-} from '@modules/auth/models/auth.model';
-import { APP_ROUTES, IMAGES } from '@shared/constants';
-import {
+  APP_ROUTES,
+  IMAGES,
   VALIDATION_LIMITS,
   VALIDATION_PATTERNS,
-} from '@shared/constants/validation';
-import { finalize, Subject, switchMap } from 'rxjs';
+} from '@shared/constants';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrl: './signup.component.scss',
 })
-export class SignupComponent implements OnInit, OnDestroy {
+export class SignupComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
   private validatorService = inject(ValidatorService);
-  private readonly destroy$ = new Subject<void>();
   private readonly validationMessageService = inject(ValidationMessageService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly routes = APP_ROUTES;
   welcomeImage = IMAGES.AUTH.WELCOME;
@@ -62,68 +61,77 @@ export class SignupComponent implements OnInit, OnDestroy {
     {
       validators: this.validatorService.passwordMatch(
         'password',
-        'confirmPassword'
+        'confirmPassword',
       ),
-    }
+    },
   );
 
-  ngOnInit(): void {
-    this.form.get('password')?.valueChanges.subscribe(() => {
-      this.hide = true;
-    });
-
-    this.form.get('confirmPassword')?.valueChanges.subscribe(() => {
-      this.hide2 = true;
-    });
+  constructor() {
+    this.initializeFormListeners();
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+  private initializeFormListeners(): void {
+    this.form
+      .get('password')
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.hide = true;
+      });
+    this.form
+      .get('confirmPassword')
+      ?.valueChanges.pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.hide2 = true;
+      });
   }
 
   get usernameError(): string | null {
     return this.validationMessageService.getUsernameMessage(
-      this.form.get('username')
+      this.form.get('username'),
     );
   }
 
   get emailError(): string | null {
     return this.validationMessageService.getEmailMessage(
-      this.form.get('email')
+      this.form.get('email'),
     );
   }
 
   get passwordError(): string | null {
     return this.validationMessageService.getPasswordMessage(
-      this.form.get('password')
+      this.form.get('password'),
     );
   }
 
   get confirmPasswordError(): string | null {
     return this.validationMessageService.getConfirmPasswordMessage(
-      this.form.get('confirmPassword')
+      this.form.get('confirmPassword'),
     );
   }
 
   /** Handles Signup Submission */
   submit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      return;
+    }
 
-    const payload: RegisterRequest = this.form.value as RegisterRequest;
+    const payload: IRegisterRequest = this.form.value as IRegisterRequest;
 
     this.loading = true;
 
     this.authService
       .register(payload)
       .pipe(
-        switchMap(() => this.authService.login(payload)),
-        finalize(() => (this.loading = false))
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => (this.loading = false)),
       )
       .subscribe({
-        next: (response: LoginResponse) => {
-          localStorage.setItem('token', response.data.token);
-          this.router.navigate(['/']);
+        next: (): void => {
+          this.router.navigate([
+            '/',
+            APP_ROUTES.AUTH.BASE,
+            APP_ROUTES.AUTH.LOGIN,
+          ]);
         },
       });
   }

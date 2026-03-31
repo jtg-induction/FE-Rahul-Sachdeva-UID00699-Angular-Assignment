@@ -38,7 +38,7 @@ describe('authGuard', () => {
     authService.isAuthenticated.and.returnValue(true);
 
     const result = TestBed.runInInjectionContext(() =>
-      authGuard(mockRoute, mockState)
+      authGuard(mockRoute, mockState),
     );
 
     expect(result).toBeTrue();
@@ -51,7 +51,7 @@ describe('authGuard', () => {
     router.createUrlTree.and.returnValue(mockTree);
 
     const result = TestBed.runInInjectionContext(() =>
-      authGuard(mockRoute, mockState)
+      authGuard(mockRoute, mockState),
     );
 
     expect(router.createUrlTree).toHaveBeenCalledWith([

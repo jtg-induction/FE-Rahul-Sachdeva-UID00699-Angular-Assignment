@@ -21,7 +21,7 @@ describe('ArticleService', () => {
       shortDescription: 'Short',
       description: 'Full description',
       author: 'Rahul',
-      createdAt: '2026-02-10',
+      updatedAt: '2026-02-10',
       image: '',
       tags: ['tag1', 'tag2'],
     },
@@ -66,7 +66,7 @@ describe('ArticleService', () => {
       (request) =>
         request.url === '/articles' &&
         request.params.get('page') === '1' &&
-        request.params.get('pageSize') === '10'
+        request.params.get('pageSize') === '10',
     );
 
     expect(req.request.method).toBe('GET');

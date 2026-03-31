@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { LoginRequest, LoginResponse } from '@modules/auth/models/auth.model';
+import { ILoginRequest, LoginResponse } from '@modules/auth/models/auth.model';
 
 import { AuthService } from './auth.service';
 
@@ -25,7 +25,7 @@ describe('AuthService', () => {
   });
 
   it('logs in and stores token', () => {
-    const payload: LoginRequest = {
+    const payload: ILoginRequest = {
       username: 'test@test.com',
       password: '123456@@11',
     };
@@ -65,7 +65,7 @@ describe('AuthService', () => {
     expect(service.isAuthenticated()).toBeFalse();
     localStorage.setItem(
       'token',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiaGVybyIsImlhdCI6MTc3MDg3Njc4MiwiZXhwIjoxNzcxNDgxNTgyLCJpc3MiOiJhcnRpY2xlLXNlcnZpY2UifQ.mwhotYXlfmLY6riRWUNxqKpjLpTmF9rEvb-h2h5em7E'
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInVzZXJuYW1lIjoiaGVybyIsImlhdCI6MTc3MDg3Njc4MiwiZXhwIjoxNzcxNDgxNTgyLCJpc3MiOiJhcnRpY2xlLXNlcnZpY2UifQ.mwhotYXlfmLY6riRWUNxqKpjLpTmF9rEvb-h2h5em7E',
     );
     expect(service.isAuthenticated()).toBeTrue();
   });

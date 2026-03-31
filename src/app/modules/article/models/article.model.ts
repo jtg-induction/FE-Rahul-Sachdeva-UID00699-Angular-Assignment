@@ -4,7 +4,7 @@ export interface Article {
   shortDescription: string;
   description: string;
   author: string;
-  createdAt: string;
+  updatedAt: string;
   image?: string;
   tags: string[];
 }

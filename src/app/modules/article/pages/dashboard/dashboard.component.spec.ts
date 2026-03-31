@@ -23,7 +23,7 @@ describe('DashboardComponent', () => {
     shortDescription: 'Short',
     description: 'Full',
     author: 'Rahul',
-    createdAt: '2026-02-11',
+    updatedAt: '2026-02-11',
     tags: ['tag1'],
     image: '',
   };
